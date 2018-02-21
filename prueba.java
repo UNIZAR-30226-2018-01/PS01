@@ -1,6 +1,7 @@
 public class clase {
 	private int x;
 	private int y;
+	private int z;
 
 	public static void main(String[] args){
 		x=1;
