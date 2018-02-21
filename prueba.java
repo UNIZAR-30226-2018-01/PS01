@@ -1,4 +1,4 @@
-public class Prueba {
+public class clase {
 	private int x;
 	private int y;
 
