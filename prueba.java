@@ -1,4 +1,4 @@
-public class  {
+public class clase {
 	private int x;
 	private int y;
 	private int z;
