@@ -4,6 +4,7 @@ public class clase {
 	private int z;
 	private int a;
 	private int b;
+	private int c;
 
 	public static void main(String[] args){
 		x=1;
