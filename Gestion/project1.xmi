@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_4_9i0B4dEei-hv-_wlmbbA" name="project1">
+  <eAnnotations xmi:id="_4_9i0R4dEei-hv-_wlmbbA" source="Objing">
+    <contents xmi:type="uml:Property" xmi:id="_4_9i0h4dEei-hv-_wlmbbA" name="exporterVersion">
+      <defaultValue xmi:type="uml:LiteralString" xmi:id="_4_9i0x4dEei-hv-_wlmbbA" value="3.0.0"/>
+    </contents>
+  </eAnnotations>
+  <packagedElement xmi:type="uml:Class" xmi:id="_4_9i1B4dEei-hv-_wlmbbA" name="Usuario">
+    <ownedAttribute xmi:id="_4_9i1R4dEei-hv-_wlmbbA" name="Nombre" visibility="public" isUnique="false">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_4_9i1h4dEei-hv-_wlmbbA" name="Edad" visibility="public" isUnique="false">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_4_9i1x4dEei-hv-_wlmbbA" name="Musica">
+    <ownedAttribute xmi:id="_4_9i2B4dEei-hv-_wlmbbA" name="Titulo" visibility="public" isUnique="false">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_4_9i2R4dEei-hv-_wlmbbA" name="Artista" visibility="public" isUnique="false">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_4_9i2h4dEei-hv-_wlmbbA" name="Genero" visibility="public" isUnique="false">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedOperation xmi:id="_4_9i2x4dEei-hv-_wlmbbA" name="Reproducir" visibility="public"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_4_9i3B4dEei-hv-_wlmbbA" name="Aplicacion">
+    <ownedAttribute xmi:id="_4_9i3R4dEei-hv-_wlmbbA" name="usuario" visibility="public" type="_4_9i1B4dEei-hv-_wlmbbA" association="_4_9i8R4dEei-hv-_wlmbbA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_4_9i3h4dEei-hv-_wlmbbA" value="*"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_4_9i3x4dEei-hv-_wlmbbA"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_4_9i4B4dEei-hv-_wlmbbA" name="base de datos" visibility="public" type="_4_9i9h4dEei-hv-_wlmbbA" association="_4_9i9B4dEei-hv-_wlmbbA"/>
+    <ownedOperation xmi:id="_4_9i4R4dEei-hv-_wlmbbA" name="Reproducir" visibility="public">
+      <ownedParameter xmi:id="_4_9i4h4dEei-hv-_wlmbbA" name="cancion" isUnique="false">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_4_9i4x4dEei-hv-_wlmbbA" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_4_9i5B4dEei-hv-_wlmbbA" value="1"/>
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_4_9i5R4dEei-hv-_wlmbbA" value=""/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:id="_4_9i5h4dEei-hv-_wlmbbA" name="Pausar" visibility="public">
+      <ownedParameter xmi:id="_4_9i5x4dEei-hv-_wlmbbA" name="cancion" type="_4_9i1x4dEei-hv-_wlmbbA" isUnique="false">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_4_9i6B4dEei-hv-_wlmbbA" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_4_9i6R4dEei-hv-_wlmbbA" value="1"/>
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_4_9i6h4dEei-hv-_wlmbbA" value=""/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:id="_4_9i6x4dEei-hv-_wlmbbA" name="Listar" visibility="public"/>
+    <ownedOperation xmi:id="_4_9i7B4dEei-hv-_wlmbbA" name="Seguir" visibility="public">
+      <ownedParameter xmi:id="_4_9i7R4dEei-hv-_wlmbbA" name="persona" type="_4_9i1B4dEei-hv-_wlmbbA" isUnique="false">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_4_9i7h4dEei-hv-_wlmbbA" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_4_9i7x4dEei-hv-_wlmbbA" value="1"/>
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_4_9i8B4dEei-hv-_wlmbbA" value=""/>
+      </ownedParameter>
+    </ownedOperation>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_4_9i8R4dEei-hv-_wlmbbA" memberEnd="_4_9i3R4dEei-hv-_wlmbbA _4_9i8h4dEei-hv-_wlmbbA">
+    <ownedEnd xmi:id="_4_9i8h4dEei-hv-_wlmbbA" visibility="public" type="_4_9i3B4dEei-hv-_wlmbbA" association="_4_9i8R4dEei-hv-_wlmbbA">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_4_9i8x4dEei-hv-_wlmbbA"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_4_9i9B4dEei-hv-_wlmbbA" memberEnd="_4_9i4B4dEei-hv-_wlmbbA _4_9i9R4dEei-hv-_wlmbbA">
+    <ownedEnd xmi:id="_4_9i9R4dEei-hv-_wlmbbA" visibility="public" type="_4_9i3B4dEei-hv-_wlmbbA" association="_4_9i9B4dEei-hv-_wlmbbA"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_4_9i9h4dEei-hv-_wlmbbA" name="Base de datos">
+    <ownedOperation xmi:id="_4_9i9x4dEei-hv-_wlmbbA" name="insert" visibility="public"/>
+    <ownedOperation xmi:id="_4_9i-B4dEei-hv-_wlmbbA" name="query" visibility="public"/>
+    <ownedOperation xmi:id="_4_9i-R4dEei-hv-_wlmbbA" name="update" visibility="public"/>
+    <ownedOperation xmi:id="_4_9i-h4dEei-hv-_wlmbbA" name="delete" visibility="public"/>
+  </packagedElement>
+</uml:Model>
