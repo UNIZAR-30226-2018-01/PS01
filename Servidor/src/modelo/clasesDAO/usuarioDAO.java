@@ -16,7 +16,6 @@ public class usuarioDAO {
 			
 			PreparedStatement preparedStatement = 
 	                connection.prepareStatement(comprobacion);
-	            preparedStatement.setString(1, usuario.verNombre());
 	            
 	        /* Execute query. */                    
 	        int busquedaComp = preparedStatement.executeUpdate();
