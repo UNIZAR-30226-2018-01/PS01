@@ -11,7 +11,7 @@ CREATE TABLE Cancion(
 	nombreAlbum varchar(32),
 	genero varchar(32) default 'Desconocido',
 	uploader varchar(32) REFERENCES Usuario(nombre),
-	PRIMARY KEY (titulo, nombreArtista, nombreAlbum),
+	PRIMARY KEY (titulo, nombreArtista, nombreAlbum, uploader),
 	FOREIGN KEY (nombreArtista, nombreAlbum) REFERENCES ArtistaAlbum(nombreArtista, nombreAlbum)
 );
 
