@@ -42,7 +42,8 @@ CREATE TABLE Escuchar(
 	nombreLista varchar(32),
 	nombreCreador varchar(32),
 	nombreListener varchar(32),
-	PRIMARY KEY (nombreLista, nombreCreador, nombreListener),
+	fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (nombreLista, nombreCreador, nombreListener, fecha),
 	FOREIGN KEY (nombreCreador) REFERENCES Usuario(nombre),
 	FOREIGN KEY (nombreListener) REFERENCES Usuario(nombre)
 );

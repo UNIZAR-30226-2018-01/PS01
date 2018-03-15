@@ -8,21 +8,16 @@ import modelo.clasesVO.listaReproduccionVO;
 public class listaReproduccionDAO {
 	public void anyadirLista(listaReproduccionVO lista, Connection connection) throws Exception {
 		try {
-			String comprobacion = "SELECT * FROM ListaReproduccion"
-					+ " WHERE ListaReproduccion.nombre = " + lista.obtenerNombreLista()
-					+ " AND ListaReproduccion.nombreUsuario = " + lista.obtenerNombreUsuario() + ";";
-			String queryString = "INSERT INTO ListaReproduccion(nombre, nombreUsuario) "
-					+ "VALUES (?,?);";
-			
-			PreparedStatement preparedStatement = 
-	                connection.prepareStatement(comprobacion);
-			
-			int busquedaComp = preparedStatement.executeUpdate();
-	        	if (busquedaComp != 0) {
-	        		throw new Exception("La lista de reproducción " + lista.obtenerNombreLista() + " ya existe.");
-	        	}
-	        	else {
-	        		preparedStatement = connection.prepareStatement(queryString);
+			if (existeLista(lista, connection)) {
+				throw new Exception("La lista de reproducción " + lista.obtenerNombreLista() + "del"
+						+ " usuario " + lista.obtenerNombreUsuario() + " ya existe.");
+			}
+			else {
+				String queryString = "INSERT INTO ListaReproduccion(nombre, nombreUsuario) "
+						+ "VALUES (?,?);";
+				
+				PreparedStatement preparedStatement = 
+		                connection.prepareStatement(queryString);
 	        		
 	        		preparedStatement.setString(1, lista.obtenerNombreLista());
 	    			preparedStatement.setString(2, lista.obtenerNombreUsuario());
@@ -41,8 +36,8 @@ public class listaReproduccionDAO {
 				throw new Exception("La lista " + lista.obtenerNombreLista() + "no existe.");
 			}
 			else {
-				String queryString = "DELETE FROM TABLE ListaReproduccion"
-						+ "WHERE nombre = " + lista.obtenerNombreLista()
+				String queryString = "DELETE FROM ListaReproduccion"
+						+ " WHERE nombre = " + lista.obtenerNombreLista()
 						+ " AND nombreUsuario = " + lista.obtenerNombreUsuario()
 						+ "; ";
 				
@@ -59,8 +54,8 @@ public class listaReproduccionDAO {
 	
 	public boolean existeLista(listaReproduccionVO lista, Connection connection) throws Exception{
 		try {
-			String comprobacion = "SELECT nombre "
-					+ "FROM Usuario"
+			String comprobacion = "SELECT *"
+					+ " FROM ListaReproduccion"
 					+ " WHERE nombre = " + lista.obtenerNombreLista()
 					+ " AND nombreUsuario = " + lista.obtenerNombreUsuario() 
 					+ ";";
