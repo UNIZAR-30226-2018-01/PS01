@@ -1,8 +1,12 @@
 package modelo.clasesDAO;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
-import modelo.clasesVO.usuarioVO;
+import modelo.clasesVO.*;
+import modelo.excepcion.*;
+import java.sql.SQLException;
 
 public class usuarioDAO {
 	public void insertarUsuario(usuarioVO usuario, Connection connection) throws Exception {
@@ -45,6 +49,35 @@ public class usuarioDAO {
 	        return (busquedaComp != 0);
 		}
 		catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	/*
+	 * Pre: ---
+	 * Post: Si el usuario u no existe en la base de datos, lanza una excepción
+	 * 		 'LoginInexistente'. En caso contrario, no hace nada.
+	 */
+	public void iniciarSesion(usuarioVO u, Connection c) throws LoginInexistente,
+																SQLException{
+		try {
+			// Preparamos la consulta
+			String q = new String();
+			q = q + "SELECT * FROM USUARIO ";
+			q = q + "WHERE nombre = ? AND hashPass = ?";
+			PreparedStatement preparedStatement = c.prepareStatement(q);
+			preparedStatement.setString(1, u.verNombre());
+			preparedStatement.setString(1, u.verHashPass());
+			
+			// Hacemos la consulta
+			ResultSet r = preparedStatement.executeQuery(q);
+			
+			// Comprobamos si ha devuelto algo
+			if(!r.next()) {
+				throw new LoginInexistente("El usuario no existe");
+			}
+		}
+		catch(Exception e) {
 			throw e;
 		}
 	}
