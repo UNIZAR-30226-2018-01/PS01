@@ -1,6 +1,7 @@
 package modelo.servlets;
 
 import java.io.*;
+import java.util.HashMap;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +14,7 @@ public class ServletBase extends HttpServlet {
 	public void doPost (HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException{
 	// Variable para guardar los errores
+	HashMap<String, String> errors = new HashMap <String, String>();
 
 	// Recuperamos los parámetros
 
