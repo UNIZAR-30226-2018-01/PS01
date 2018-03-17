@@ -4,11 +4,21 @@
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-simple-sidebar/blob/master/LICENSE)
  */
 
-body {
-  overflow-x: hidden;
+ html {
+   height: 100%;
+ }
+ body {
+   min-height: 100%;
+ }
+
+.main-content {
+  position: relative;
+  height: 2000px;
+  min-height: 100%;
 }
 
 #wrapper {
+  position: relative;
   padding-left: 0;
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
@@ -27,7 +37,6 @@ body {
   width: 0;
   height: 100%;
   margin-left: -250px;
-  margin-top: 70px;
   overflow-y: auto;
   background: #000;
   -webkit-transition: all 0.5s ease;
@@ -37,8 +46,7 @@ body {
 }
 
 #wrapper.toggled #sidebar-wrapper {
-  width: 250px;
-  margin-top: 70px;
+  width: 300px;
 }
 
 #page-content-wrapper {
@@ -58,14 +66,10 @@ body {
   top: 40px;
 }
 
-.sb-search {
-  position: absolute;
-  right: 43px;
-}
 
 .sb-search {
    position: absolute;
-  right:180px;
+  right:145px;
   width: 0%;
   min-width:30px;
   height:55px;
@@ -137,7 +141,8 @@ body {
 }
 /* Open state */
 .sb-search.sb-search-open,.no-js .sb-search {
-  width:45%;
+  width:38%;
+  margin-top: 15px;
 }
 .sb-search.sb-search-open .sb-icon-search,.no-js .sb-search .sb-icon-search {
   background: url('../img/search.png') no-repeat 23px 20px;
@@ -160,7 +165,7 @@ body {
 #cancion {
   position: relative;
   top: 40px;
-  left: 25px;
+  left: 45px;
 }
 
 #autor {
@@ -201,7 +206,7 @@ body {
   top: 20px;
   position: relative;
   float: left;
-  left: 65px;
+  left: 90px;
 }
 #opcionesrepr li:hover{
   background-color: initial;
@@ -260,6 +265,74 @@ body {
   background: none;
 }
 
+.navegacion ul{
+    position: fixed;
+    list-style-type: none;
+    margin: 0;
+    padding: 0.5%;
+    padding-top: 0px;
+    width: 22%;
+    background-color: #f1f1f1;
+    font-size: 1.177vw;
+}
+
+.navegacion li {
+    float: left;
+    display : inline;
+    text-align: center;
+    text-decoration: none;
+    color: #333333;
+    height: 100%;
+    margin-top: 15%;
+    vertical-align: middle;
+}
+
+
+#header-section {
+  height: 80px;
+  width: 100%;
+  position: fixed;
+}
+
+#sidebar-wrapper {
+  margin-top: 70px;
+}
+
+.navegacion {
+  z-index:1;
+  margin: 0;
+  margin-bottom: 10%;
+  width: 15.5%;
+  height: 100%;
+  top:0;
+  position: fixed;
+}
+
+#bar{
+     max-height: 100%;
+     max-width: 30%;
+     float : left;
+     padding:0%;
+     z-index:1;
+     margin-top: 0;
+     margin-bottom: 20px;
+ }
+
+
+ li a {
+     text-decoration: none;
+     color: #333333;
+     font-size: 14px;
+ }
+
+
+ li a:hover:not(.active) {
+     text-decoration: none;
+     color: #333333;
+ }
+
+
+
 @media(min-width:768px) {
   #wrapper {
     padding-left: 0;
@@ -297,7 +370,7 @@ body {
      position: absolute;
     left:15%;
     width: 0%;
-    min-width:70px;
+    max-width:350px;
     height:65px;
     float: right;
     overflow: hidden;
@@ -307,7 +380,7 @@ body {
     -webkit-backface-visibility: hidden;
     z-index: 999;
     border-left: 1px solid #000;
-      top:0%;
+      margin-top: 15px;
   }
   .sb-search-input {
     position: absolute;
@@ -443,4 +516,71 @@ body {
     text-indent: 30px;
     line-height: 40px;
   }
+
+  .navegacion ul{
+      position: fixed;
+      list-style-type: none;
+      margin: 0;
+      padding: 0.5%;
+      padding-top: 0px;
+      width: 15%;
+      background-color: #f1f1f1;
+      font-size: 1.177vw;
+  }
+
+  .navegacion li {
+      float: left;
+      display : inline;
+      text-align: center;
+      text-decoration: none;
+      color: #333333;
+      height: 100%;
+      margin-top: 15%;
+      vertical-align: middle;
+  }
+
+
+  #header-section {
+    height: 80px;
+    width: 100%;
+    position: fixed;
+  }
+
+  #sidebar-wrapper {
+    margin-top: 70px;
+  }
+
+  .navegacion {
+    z-index:1;
+    margin: 0;
+    margin-bottom: 10%;
+    width: 15.5%;
+    height: 100%;
+    top:0;
+    position: fixed;
+  }
+
+  #bar{
+       max-height: 100%;
+       max-width: 30%;
+       float : left;
+       padding:0%;
+       z-index:1;
+       margin-top: 0;
+       margin-left: 15%;
+       margin-bottom: 20px;
+   }
+
+
+   li a {
+       text-decoration: none;
+       color: #333333;
+   }
+
+
+   li a:hover:not(.active) {
+       text-decoration: none;
+       color: #333333;
+   }
+
 }
