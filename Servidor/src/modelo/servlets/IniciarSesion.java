@@ -1,6 +1,7 @@
 package modelo.servlets;
 
 import java.io.*;
+import java.sql.SQLException;
 import java.util.HashMap;
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -8,11 +9,20 @@ import modelo.ImplementacionFachada;
 import modelo.excepcion.LoginInexistente;
 import javax.servlet.annotation.WebServlet;
 
-
-@WebServlet("/ServletInicioSesion")
-public class ServletInicioSesion extends HttpServlet {
+/*
+ * Servlet que se utiliza para autentificar al usuario en el servidor, es decir,
+ * para iniciar sesión. Los parametros que ha de recibir en el request son
+ * "nombre", que se corresponde con el nombre de usuario, y hashPass, que se
+ * corresponde con el hash de la contraseña del usuario. Si ha ido mal, puede
+ * devolverá en el request el siguiente parámetro:
+ *   -UsuarioInexistente, lo cual significa que ningún usuario se corresponde
+ *   con el nombre y contraseña proporcionados
+ */
+@WebServlet("/IniciarSesion")
+public class IniciarSesion extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String PAGINA = "inicio.jsp";
+	private static final String PAGINA_ACTUAL = "inicio.jsp";
+	private static final String PAGINA_SIG = "inicio.jsp";
 	
 	/*
 	 * Pre: ---
@@ -34,12 +44,12 @@ public class ServletInicioSesion extends HttpServlet {
 		// Comprobamos los parámetros recibidos
 		if ((nombre == null) || (nombre.trim().equals("")) || (hashPass == null)
 			|| (hashPass.trim().equals(""))) {
-			errors.put("inicioSesion", "Parámetros incorrectos");
+			errors.put("LoginIncorrecto", "Parámetros incorrectos");
 		}
 		
 		if(!errors.isEmpty()){ // Los parámetros eran incorrectos
 			request.setAttribute("errores", errors);
-			RequestDispatcher dispatcher=request.getRequestDispatcher(PAGINA);
+			RequestDispatcher dispatcher=request.getRequestDispatcher(PAGINA_ACTUAL);
 			dispatcher.forward(request, response);
 		}
 		else{ // Los parámetros estaban bien
@@ -49,17 +59,15 @@ public class ServletInicioSesion extends HttpServlet {
 				Cookie cookieClave = new Cookie ("idSesion", crearIdSesion());
 				response.addCookie(cookieLogin);
 				response.addCookie(cookieClave);
-				response.sendRedirect("inicio.jsp");
+				response.sendRedirect(PAGINA_SIG);
 			}
 			catch(LoginInexistente e) {
-				request.setAttribute("errores", e.toString());
-				RequestDispatcher dispatcher=request.getRequestDispatcher(PAGINA);
+				request.setAttribute("LoginIncorrecto", e.toString());
+				RequestDispatcher dispatcher=request.getRequestDispatcher(PAGINA_ACTUAL);
 				dispatcher.forward(request, response);
 			}
-			catch(Exception e){
-				errors.put("Fallo", e.toString());
-				request.setAttribute("errores", errors);
-				RequestDispatcher dispatcher=request.getRequestDispatcher(PAGINA);
+			catch(SQLException e){
+				RequestDispatcher dispatcher=request.getRequestDispatcher(PAGINA_ACTUAL);
 				dispatcher.forward(request, response);
 			}
 		}

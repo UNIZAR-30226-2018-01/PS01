@@ -9,7 +9,7 @@ import java.sql.SQLException;
  */
 public interface InterfazFachada {
 	/*
-	 * Pre:  'nombreUsuario' es el nombre del usuario y 'hashPass' el nombre de
+	 * Pre:  'nombreUsuario' es el nombre del usuario y 'hashPass' el hash de
 	 * 		 su contraseña
 	 * Post: Dado el nombre de un usuario y el hash de su contraseña, comprueba
 	 * 		 si existe una entrada en la base de datos con ese nombre de usuario
@@ -17,4 +17,15 @@ public interface InterfazFachada {
 	 */
 	public void iniciarSesion(String nombreUsuario, String hashPass) 
 			throws LoginInexistente, SQLException;
+	
+	/*
+	 * Pre: 'nombreUsuario' es el nombre del usuario y 'hashPass' el hash de
+	 * 		 su contraseña
+	 * Post: Dado el nombre de un usuario y el hash de la contraseña, lo ha
+	 * 		 registrado en la base de datos. En caso de que ya existiera un
+	 * 		 usuario con ese nombre, lanza una excepción 'UsuarioYaRegistrado'
+	 */
+	public void registrarUsuario(String nombreUsuario, String hashPass) 
+			throws UsuarioYaRegistrado, SQLException;
+
 }

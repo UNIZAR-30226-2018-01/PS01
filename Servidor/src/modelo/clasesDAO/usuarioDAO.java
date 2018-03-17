@@ -3,16 +3,23 @@ package modelo.clasesDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
 import modelo.clasesVO.*;
 import modelo.excepcion.*;
 import java.sql.SQLException;
 
 public class usuarioDAO {
-	public void insertarUsuario(usuarioVO usuario, Connection connection) throws Exception {
+	/*
+	 * Pre: ---
+	 * Post: Ha insertado el usuario 'usuario' en la tabla Usuario de la BD.
+	 * 		 Si ya existía un usuario con ese nombre, lanza una excepción
+	 * 		 'UsuarioYaRegistrado'
+	 */
+	public void insertarUsuario(usuarioVO usuario, Connection connection)
+			throws UsuarioYaRegistrado, SQLException {
 		try {
 			if (existeUsuario(usuario.verNombre(), connection)) {
-				throw new Exception("Usuario "+usuario.verNombre()+" ya existente.");
+				throw new UsuarioYaRegistrado("El usuario \"" +
+						usuario.verNombre() + "\" ya existe");
 			}
 			else {
 				String queryString = "INSERT INTO Usuario " +
@@ -22,12 +29,10 @@ public class usuarioDAO {
 				PreparedStatement preparedStatement = 
 		                connection.prepareStatement(queryString);
 				
-	        		preparedStatement = connection.prepareStatement(queryString);
-	        		
-	        		preparedStatement.setString(1, usuario.verNombre());
-	        		preparedStatement.setString(2, usuario.verHashPass());
-	        		
-	        		preparedStatement.executeUpdate();
+	        	preparedStatement = connection.prepareStatement(queryString);
+	        	preparedStatement.setString(1, usuario.verNombre());
+	        	preparedStatement.setString(2, usuario.verHashPass());
+	        	preparedStatement.executeUpdate();
 	        }
 		}
 		catch (Exception e) {
@@ -35,7 +40,13 @@ public class usuarioDAO {
 		}
 	}
 	
-	public boolean existeUsuario(String usuario, Connection connection) throws Exception{
+	/*
+	 * Pre:
+	 * Post: Devuelve verdad si existe un usuario con el nombre 'usuario' en
+	 * 		 la tabla 'Usuario' de la BD.
+	 */
+	public boolean existeUsuario(String usuario, Connection connection)
+			throws SQLException{
 		try {
 			String comprobacion = "SELECT nombre "
 					+ "FROM Usuario "
@@ -74,7 +85,9 @@ public class usuarioDAO {
 			
 			// Comprobamos si ha devuelto algo
 			if(!r.next()) {
-				throw new LoginInexistente("El usuario no existe");
+				// Si no ha devuelto significa que no el usuario no existe
+				throw new LoginInexistente("El usuario \"" + u.verNombre() +
+						"\" no existe");
 			}
 		}
 		catch(Exception e) {
