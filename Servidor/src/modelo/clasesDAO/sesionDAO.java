@@ -2,14 +2,17 @@ package modelo.clasesDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import modelo.clasesVO.sesionVO;
+import modelo.excepcion.UsuarioSinLoguear;
+import modelo.excepcion.UsuarioYaLogueado;
 
 public class sesionDAO {
-	public void insertarSesion(sesionVO sesion, Connection connection) throws Exception {
+	public void insertarSesion(sesionVO sesion, Connection connection) throws UsuarioYaLogueado, SQLException {
 		try {
 			if (existeSesion(sesion.verNombreUsuario(), connection)) {
-				throw new Exception("El usuario " + sesion.verNombreUsuario() + " ya está logueado.");
+				throw new UsuarioYaLogueado("El usuario " + sesion.verNombreUsuario() + " ya está logueado.");
 			}
 			else {
 				String queryString = "INSERT INTO Sesion " +
@@ -32,7 +35,8 @@ public class sesionDAO {
 		}
 	}
 	
-	public void cerrarSesion(sesionVO sesion, Connection connection) throws Exception {
+	public void cerrarSesion(sesionVO sesion, Connection connection)
+			throws UsuarioSinLoguear, SQLException {
 		try {
 			if (existeSesion(sesion.verNombreUsuario(), connection)) {
 				String queryString = "DELETE FROM Sesion "
@@ -45,7 +49,7 @@ public class sesionDAO {
 		        preparedStatement.executeUpdate();				
 			}
 			else {
-				throw new Exception("El usuario " + sesion.verNombreUsuario() + "no está logueado.");
+				throw new UsuarioSinLoguear("El usuario " + sesion.verNombreUsuario() + "no está logueado.");
 			}
 		}
 		catch (Exception e) {

@@ -2,14 +2,18 @@ package modelo.clasesDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import modelo.clasesVO.cancionVO;
+import modelo.excepcion.CancionNoExiste;
+import modelo.excepcion.CancionYaExiste;
 
 public class cancionDAO {
-	public void anyadirCancion(cancionVO cancion, Connection connection) throws Exception {
+	public void anyadirCancion(cancionVO cancion, Connection connection)
+			throws CancionYaExiste, SQLException {
 		try {
 			if (existeCancion(cancion, connection)) {
-				throw new Exception("La cancion " + cancion.verTitulo() + " perteneciente al álbum"
+				throw new CancionYaExiste("La cancion " + cancion.verTitulo() + " perteneciente al álbum"
 						+ " " + cancion.verNombreAlbum() + " subida por el usuario "
 						+ cancion.verUploader() + " ya existe.");
 			}
@@ -34,10 +38,11 @@ public class cancionDAO {
 		}
 	}
 	
-	public void quitarCancion(cancionVO cancion, Connection connection) throws Exception {
+	public void quitarCancion(cancionVO cancion, Connection connection)
+			throws Exception, SQLException {
 		try {
 			if (!existeCancion(cancion, connection)) {
-				throw new Exception("La cancion " + cancion.verTitulo() + " perteneciente al álbum"
+				throw new CancionNoExiste("La cancion " + cancion.verTitulo() + " perteneciente al álbum"
 						+ " " + cancion.verNombreAlbum() + " subida por el usuario "
 						+ cancion.verUploader() + " no existe.");
 			}
@@ -60,7 +65,7 @@ public class cancionDAO {
 		}
 	}
 	
-	public boolean existeCancion(cancionVO cancion, Connection connection) throws Exception{
+	public boolean existeCancion(cancionVO cancion, Connection connection) throws Exception {
 		try {
 			String comprobacion = "SELECT *"
 					+ " FROM Cancion"

@@ -2,14 +2,18 @@ package modelo.clasesDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import modelo.clasesVO.listaReproduccionVO;
+import modelo.excepcion.ListaNoExiste;
+import modelo.excepcion.ListaYaExiste;
 
 public class listaReproduccionDAO {
-	public void anyadirLista(listaReproduccionVO lista, Connection connection) throws Exception {
+	public void anyadirLista(listaReproduccionVO lista, Connection connection)
+			throws ListaYaExiste, SQLException {
 		try {
 			if (existeLista(lista, connection)) {
-				throw new Exception("La lista de reproducción " + lista.obtenerNombreLista() + "del"
+				throw new ListaYaExiste("La lista de reproducción " + lista.obtenerNombreLista() + "del"
 						+ " usuario " + lista.obtenerNombreUsuario() + " ya existe.");
 			}
 			else {
@@ -30,10 +34,11 @@ public class listaReproduccionDAO {
 		}
 	}
 	
-	public void quitarLista(listaReproduccionVO lista, Connection connection) throws Exception {
+	public void quitarLista(listaReproduccionVO lista, Connection connection)
+			throws ListaNoExiste, SQLException {
 		try {
 			if (!existeLista(lista, connection)) {
-				throw new Exception("La lista " + lista.obtenerNombreLista() + "no existe.");
+				throw new ListaNoExiste("La lista " + lista.obtenerNombreLista() + "no existe.");
 			}
 			else {
 				String queryString = "DELETE FROM ListaReproduccion"

@@ -2,11 +2,13 @@ package modelo.clasesDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-
+import java.sql.SQLException;
 import modelo.clasesVO.reproducirVO;
+import modelo.excepcion.ErrorFavorita;
 
 public class reproducirDAO {
-	public void anyadirReproduccion (reproducirVO repro, Connection connection) throws Exception {
+	public void anyadirReproduccion (reproducirVO repro, Connection connection)
+			throws ErrorFavorita, SQLException {
 		try {
 			String queryString = "INSERT INTO Reproducir(nombreUsuario, titulo, nombreAlbum, nombreArtista) "
 					+ "VALUES (?,?,?,?);";
@@ -21,7 +23,7 @@ public class reproducirDAO {
 			
 			int busquedaComp = preparedStatement.executeUpdate();
 	        if (busquedaComp != 0) {
-	        		throw new Exception("Error al marcar la canción " + repro.verTituloCancion() + " como favorita"
+	        		throw new ErrorFavorita("Error al marcar la canción " + repro.verTituloCancion() + " como favorita"
 	        				+ "para el usuario" + repro.verNombreUsuario() + ".");
 	        }
 		}

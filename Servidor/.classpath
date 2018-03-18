@@ -6,7 +6,7 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="javax.servlet-api-3.0.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="mysql-connector-java-5.1.46.jar"/>
+	<classpathentry kind="lib" path="/Users/albertomurrodrigo/Documents/dg/PS01/Servidor/javax.servlet-api-3.0.1.jar"/>
+	<classpathentry kind="lib" path="/Users/albertomurrodrigo/Documents/dg/PS01/Servidor/mysql-connector-java-5.1.46.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

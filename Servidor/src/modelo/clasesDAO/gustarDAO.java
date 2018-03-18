@@ -2,11 +2,15 @@ package modelo.clasesDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import modelo.clasesVO.gustarVO;
+import modelo.excepcion.ErrorAnyadirMegusta;
+import modelo.excepcion.ErrorQuitarMegusta;
 
 public class gustarDAO {
-	public void megusta(gustarVO gustar, Connection connection) throws Exception {
+	public void megusta(gustarVO gustar, Connection connection)
+			throws ErrorAnyadirMegusta, SQLException {
 		try {
 			String queryString = "INSERT INTO Gustar(nombreUsuario, titulo, nombreAlbum, nombreArtista) "
 					+ "VALUES (?,?,?,?);";
@@ -21,7 +25,7 @@ public class gustarDAO {
 			
 			int busquedaComp = preparedStatement.executeUpdate();
 	        if (busquedaComp != 0) {
-	        		throw new Exception("Error al marcar la canción " + gustar.verTitulo() + " como favorita"
+	        		throw new ErrorAnyadirMegusta("Error al marcar la canción " + gustar.verTitulo() + " como favorita"
 	        				+ "para el usuario" + gustar.verNombreUsuario() + ".");
 	        }
 		}
@@ -30,7 +34,8 @@ public class gustarDAO {
 		}
 	}
 	
-	public void yanomegusta(gustarVO gustar, Connection connection) throws Exception {
+	public void yanomegusta(gustarVO gustar, Connection connection)
+			throws Exception, SQLException {
 		try {
 			String queryString = "DELETE FROM TABLE Gustar"
 					+ " WHERE Gustar.nombreUsuario = " + gustar.verNombreUsuario()
@@ -43,7 +48,7 @@ public class gustarDAO {
 			
 			int busquedaComp = preparedStatement.executeUpdate();
 	        if (busquedaComp != 0) {
-	        		throw new Exception("Error al quitar la canción " + gustar.verTitulo() + " como favorita"
+	        		throw new ErrorQuitarMegusta("Error al quitar la canción " + gustar.verTitulo() + " como favorita"
 	        				+ "para el usuario" + gustar.verNombreUsuario() + ".");
 	        }
 		}

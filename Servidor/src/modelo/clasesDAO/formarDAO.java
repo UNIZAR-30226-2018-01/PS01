@@ -2,14 +2,18 @@ package modelo.clasesDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import modelo.clasesVO.formarVO;
+import modelo.excepcion.CancionExisteEnLista;
+import modelo.excepcion.CancionNoExisteEnLista;
 
 public class formarDAO {
-	public void anyadirCancionALista(formarVO f, Connection connection) throws Exception {
+	public void anyadirCancionALista(formarVO f, Connection connection)
+			throws CancionExisteEnLista, SQLException {
 		try {
 			if (existeCancionEnLista(f, connection)) {
-				throw new Exception("La canción " + f.verTituloCancion() + "ya existe"
+				throw new CancionExisteEnLista("La canción " + f.verTituloCancion() + "ya existe"
 						+ " en la lista" + f.verNombreLista() + ".");
 			}
 			else {
@@ -32,10 +36,11 @@ public class formarDAO {
 		}
 	}
 	
-	public void quitarCancionDeLista(formarVO f, Connection connection) throws Exception {
+	public void quitarCancionDeLista(formarVO f, Connection connection)
+			throws CancionNoExisteEnLista, SQLException {
 		try {
 			if (!existeCancionEnLista(f, connection)) {
-				throw new Exception("La canción " + f.verTituloCancion() + "no existe"
+				throw new CancionNoExisteEnLista("La canción " + f.verTituloCancion() + "no existe"
 						+ " en la lista" + f.verNombreLista() + ".");
 			}
 			else {

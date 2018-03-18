@@ -2,14 +2,17 @@ package modelo.clasesDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-
+import modelo.clasesVO.*;
+import modelo.excepcion.*;
+import java.sql.SQLException;
 import modelo.clasesVO.artistaAlbumVO;
 
 public class artistaAlbumDAO {
-	public void anyadirArtistaAlbum(artistaAlbumVO aa, Connection connection) throws Exception {
+	public void anyadirArtistaAlbum(artistaAlbumVO aa, Connection connection)
+			throws ArtistaAlbumExiste, SQLException {
 		try {
 			if (existeArtistaAlbum(aa, connection)) {
-				throw new Exception("El álbum " + aa.verNombreAlbum()
+				throw new ArtistaAlbumExiste("El álbum " + aa.verNombreAlbum()
 				+ " del artista " + aa.verNombreArtista() + "ya existe.");
 			}
 			else {
@@ -31,10 +34,11 @@ public class artistaAlbumDAO {
 		}
 	}
 	
-	public void quitarArtistaAlbum(artistaAlbumVO aa, Connection connection) throws Exception {
+	public void quitarArtistaAlbum(artistaAlbumVO aa, Connection connection)
+			throws ArtistaAlbumNoExiste, SQLException {
 		try {
 			if (!existeArtistaAlbum(aa, connection)) {
-				throw new Exception("El álbum " + aa.verNombreAlbum()
+				throw new ArtistaAlbumNoExiste("El álbum " + aa.verNombreAlbum()
 						+ " del artista " + aa.verNombreArtista() + "no existe.");
 			}
 			else {
@@ -54,7 +58,7 @@ public class artistaAlbumDAO {
 		}
 	}
 	
-	public boolean existeArtistaAlbum(artistaAlbumVO aa, Connection connection) throws Exception{
+	public boolean existeArtistaAlbum(artistaAlbumVO aa, Connection connection) throws Exception {
 		try {
 			String comprobacion = "SELECT *"
 					+ " FROM ArtistaAlbum"

@@ -2,14 +2,17 @@ package modelo.clasesDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import modelo.clasesVO.escucharVO;
+import modelo.excepcion.ExcepcionEscuchar;
 
 public class escucharDAO {
-	public void anyadir(escucharVO a, Connection connection) throws Exception {
+	public void anyadir(escucharVO a, Connection connection) throws ExcepcionEscuchar, SQLException {
 		try {
 			if (existeEscuchar(a, connection)) {
-				throw new Exception("");
+				throw new ExcepcionEscuchar("Error al registrar la reproducción por parte"
+						+ "del usuario " + a.verNombreListener());
 			}
 			else {
 				String queryString = "INSERT INTO Escuchar(nombreLista, nombreCreador, nombreListener) "
@@ -30,7 +33,7 @@ public class escucharDAO {
 		}
 	}
 	
-	public boolean existeEscuchar(escucharVO a, Connection connection) throws Exception{
+	public boolean existeEscuchar(escucharVO a, Connection connection) throws Exception {
 		try {
 			String comprobacion = "SELECT *"
 					+ " FROM Escuchar"
