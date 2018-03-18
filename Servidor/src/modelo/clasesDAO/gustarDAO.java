@@ -9,6 +9,11 @@ import modelo.excepcion.ErrorAnyadirMegusta;
 import modelo.excepcion.ErrorQuitarMegusta;
 
 public class gustarDAO {
+	/*
+	 * Pre: ---
+	 * Post: Ha registrado que un usuario ha marcado como favorita una canción.
+	 * 		 Si se produce algún error entonces lanza una excepción 'ErrorAnyadirMegusta'.
+	 */
 	public void megusta(gustarVO gustar, Connection connection)
 			throws ErrorAnyadirMegusta, SQLException {
 		try {
@@ -34,6 +39,11 @@ public class gustarDAO {
 		}
 	}
 	
+	/*
+	 * Pre: ---
+	 * Post: Ha registrado que una canción ya no es favorita de un usuario.
+	 * 		 Si se produce algún error entonces lanza una excepción 'ErrorQuitarMegusta'.
+	 */
 	public void yanomegusta(gustarVO gustar, Connection connection)
 			throws Exception, SQLException {
 		try {

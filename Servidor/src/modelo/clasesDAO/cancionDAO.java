@@ -9,6 +9,12 @@ import modelo.excepcion.CancionNoExiste;
 import modelo.excepcion.CancionYaExiste;
 
 public class cancionDAO {
+	/*
+	 * Pre: ---
+	 * Post: Ha insertado la canción 'cancion' en la tabla Cancion de la BD.
+	 * 		 Si ya existía una cancion con el mismo nombre, perteneciente al mismo álbum/artista,
+	 * 		 y subida por el mismo 'uploader', entonces lanza una excepción 'CancionYaExiste'
+	 */
 	public void anyadirCancion(cancionVO cancion, Connection connection)
 			throws CancionYaExiste, SQLException {
 		try {
@@ -38,6 +44,12 @@ public class cancionDAO {
 		}
 	}
 	
+	/*
+	 * Pre: ---
+	 * Post: Ha eliminado la canción 'cancion' de la tabla Cancion de la BD.
+	 * 		 Si no existía ninguna cancion con el mismo nombre, perteneciente al mismo álbum/artista,
+	 * 		 y subida por el mismo 'uploader', entonces lanza una excepción 'CancionNoExiste'
+	 */
 	public void quitarCancion(cancionVO cancion, Connection connection)
 			throws Exception, SQLException {
 		try {
@@ -65,6 +77,11 @@ public class cancionDAO {
 		}
 	}
 	
+	/*
+	 * Pre: ---
+	 * Post: Devuelve verdad si y solo si existe en la tabla Cancion una canción igual
+	 * 		 a 'cancion'.
+	 */
 	public boolean existeCancion(cancionVO cancion, Connection connection) throws Exception {
 		try {
 			String comprobacion = "SELECT *"
