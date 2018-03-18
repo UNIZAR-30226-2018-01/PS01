@@ -4,11 +4,17 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import modelo.clasesVO.reproducirVO;
-import modelo.excepcion.ErrorFavorita;
+import modelo.excepcion.ExcepcionReproduccion;
 
 public class reproducirDAO {
+	/*
+	 * Pre: ---
+	 * Post: Ha marcado una determinada canción como reproducida para un usuario.
+	 * 		 Si y solo si se produce algún problema al registrar la audición, entonces
+	 * 		 lanza una excepción ExcepcionReproduccion.
+	 */
 	public void anyadirReproduccion (reproducirVO repro, Connection connection)
-			throws ErrorFavorita, SQLException {
+			throws ExcepcionReproduccion, SQLException {
 		try {
 			String queryString = "INSERT INTO Reproducir(nombreUsuario, titulo, nombreAlbum, nombreArtista) "
 					+ "VALUES (?,?,?,?);";
@@ -23,7 +29,7 @@ public class reproducirDAO {
 			
 			int busquedaComp = preparedStatement.executeUpdate();
 	        if (busquedaComp != 0) {
-	        		throw new ErrorFavorita("Error al marcar la canción " + repro.verTituloCancion() + " como favorita"
+	        		throw new ExcepcionReproduccion("Error al marcar la canción " + repro.verTituloCancion() + " como reproducida "
 	        				+ "para el usuario" + repro.verNombreUsuario() + ".");
 	        }
 		}

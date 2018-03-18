@@ -8,6 +8,14 @@ import modelo.clasesVO.escucharVO;
 import modelo.excepcion.ExcepcionEscuchar;
 
 public class escucharDAO {
+	
+	/*
+	 * Pre: ---
+	 * Post: Registra en la tabla Escuchar de la BD que un usuario ha escuchado una lista de reproducción en una
+	 * 		 determinada fecha.
+	 * 		 Si y solo si por algún motivo se intenta registrar 2 o más veces la 'audición' de una lista de reproducción
+	 * 		 en el mismo instante de tiempo, entonces y solo entonces se lanza una excepción ExcepcionEscuchar.
+	 */
 	public void anyadir(escucharVO a, Connection connection) throws ExcepcionEscuchar, SQLException {
 		try {
 			if (existeEscuchar(a, connection)) {
@@ -33,6 +41,11 @@ public class escucharDAO {
 		}
 	}
 	
+	/*
+	 * Pre:
+	 * Post: Devuelve verdad si y solo si un usuario ya ha escuchado una lista de reproducción
+	 * 		 en una fecha determinada.
+	 */
 	public boolean existeEscuchar(escucharVO a, Connection connection) throws Exception {
 		try {
 			String comprobacion = "SELECT *"

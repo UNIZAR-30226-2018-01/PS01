@@ -8,6 +8,12 @@ import java.sql.SQLException;
 import modelo.clasesVO.artistaAlbumVO;
 
 public class artistaAlbumDAO {
+	/*
+	 * Pre: ---
+	 * Post: Ha insertado el álbum correspondiente a un artista en la tabla ArtistaAlbum de la BD.
+	 * 		 Si ya existía un álbum con el mismo nombre y del mismo artista, lanza una excepción
+	 * 		 'ArtistaAlbumExiste'
+	 */
 	public void anyadirArtistaAlbum(artistaAlbumVO aa, Connection connection)
 			throws ArtistaAlbumExiste, SQLException {
 		try {
@@ -34,6 +40,12 @@ public class artistaAlbumDAO {
 		}
 	}
 	
+	/*
+	 * Pre: ---
+	 * Post: Ha eliminado el álbum correspondiente a un artista de la tabla ArtistaAlbum de la BD.
+	 * 		 Si no existía ningún álbum con el mismo nombre y del mismo artista, lanza una excepción
+	 * 		 'ArtistaAlbumNoExiste'
+	 */
 	public void quitarArtistaAlbum(artistaAlbumVO aa, Connection connection)
 			throws ArtistaAlbumNoExiste, SQLException {
 		try {
@@ -58,6 +70,11 @@ public class artistaAlbumDAO {
 		}
 	}
 	
+	/*
+	 * Pre:
+	 * Post: Devuelve verdad si y solo si existe un álbum con el mismo nombre
+	 * 		 y del mismo artista que 'aa' en la tabla 'ArtistaAlbum' de la BD.
+	 */
 	public boolean existeArtistaAlbum(artistaAlbumVO aa, Connection connection) throws Exception {
 		try {
 			String comprobacion = "SELECT *"

@@ -9,6 +9,13 @@ import modelo.excepcion.CancionExisteEnLista;
 import modelo.excepcion.CancionNoExisteEnLista;
 
 public class formarDAO {
+	
+	/*
+	 * Pre: ---
+	 * Post: Registra en la tabla Formar de la BD que un usuario ha añadido una canción a una lista de reproducción.
+	 * 		 Si el usuario ya había insertado antes esa canción en la lista de reproducción entonces salta una
+	 * 		 excepción 'CancionExisteEnLista'.
+	 */
 	public void anyadirCancionALista(formarVO f, Connection connection)
 			throws CancionExisteEnLista, SQLException {
 		try {
@@ -36,6 +43,13 @@ public class formarDAO {
 		}
 	}
 	
+	/*
+	 * Pre: ---
+	 * Post: Elimina de la tabla Formar de la BD una canción previamente añadida a una lista de reproducción
+	 * 		 por parte de un usuario.
+	 * 		 Si por algún motivo se intenta eliminar 2 o más veces una canción de la misma lista de reproducción
+	 * 		 del mismo usuario, sala una excepción 'CancionNoExisteEnLista'.
+	 */
 	public void quitarCancionDeLista(formarVO f, Connection connection)
 			throws CancionNoExisteEnLista, SQLException {
 		try {
@@ -63,6 +77,11 @@ public class formarDAO {
 		}
 	}
 	
+	/*
+	 * Pre:
+	 * Post: Devuelve verdad si y solo si una canción ya existe dentro de una cierta lista de un
+	 * 		 determinado usuario.
+	 */
 	public boolean existeCancionEnLista(formarVO f, Connection connection) throws Exception {
 		try {
 			String comprobacion = "SELECT *"
