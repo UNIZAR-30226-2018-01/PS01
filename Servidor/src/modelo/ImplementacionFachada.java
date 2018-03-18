@@ -41,4 +41,27 @@ public class ImplementacionFachada implements InterfazFachada {
 		}
 	}
 
+	@Override
+	public void cerrarSesion(String nombreUsuario)
+			throws UsuarioSinLoguear, SQLException {
+		try {
+			new sesionDAO().cerrarSesion(nombreUsuario,
+					obtenerConexion());
+		}
+		catch (Exception e) {
+			throw e;
+		}
+		
+	}
+	
+	public void crearListaDeReproduccion(listaReproduccionVO l)
+			throws ListaYaExiste, SQLException {
+		try {
+			new listaReproduccionDAO().anyadirLista(l,
+					obtenerConexion());
+		}
+		catch (Exception e) {
+			
+		}
+	}
 }

@@ -1,5 +1,6 @@
 package modelo;
 
+import modelo.clasesVO.*;
 import modelo.excepcion.*;
 import java.sql.SQLException;
 
@@ -27,5 +28,10 @@ public interface InterfazFachada {
 	 */
 	public void registrarUsuario(String nombreUsuario, String hashPass) 
 			throws UsuarioYaRegistrado, SQLException;
+	
+	public void cerrarSesion(String nombreusuario)
+			throws UsuarioSinLoguear, SQLException;
 
+	public void crearListaDeReproduccion(listaReproduccionVO l)
+			throws ListaYaExiste, SQLException; 
 }

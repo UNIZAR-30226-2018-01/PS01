@@ -29,10 +29,10 @@ public class usuarioDAO {
 				PreparedStatement preparedStatement = 
 		                connection.prepareStatement(queryString);
 				
-	        	preparedStatement = connection.prepareStatement(queryString);
-	        	preparedStatement.setString(1, usuario.verNombre());
-	        	preparedStatement.setString(2, usuario.verHashPass());
-	        	preparedStatement.executeUpdate();
+		        	preparedStatement = connection.prepareStatement(queryString);
+		        	preparedStatement.setString(1, usuario.verNombre());
+		        	preparedStatement.setString(2, usuario.verHashPass());
+		        	preparedStatement.executeUpdate();
 	        }
 		}
 		catch (Exception e) {
