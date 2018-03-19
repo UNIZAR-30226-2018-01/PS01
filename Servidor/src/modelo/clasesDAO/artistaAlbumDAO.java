@@ -17,7 +17,7 @@ public class artistaAlbumDAO {
 	 * 		 'ArtistaAlbumExiste'
 	 */
 	public void anyadirArtistaAlbum(artistaAlbumVO aa, Connection connection)
-			throws ArtistaAlbumExiste, SQLException {
+			throws ArtistaAlbumExiste, SQLException, Exception {
 		try {
 			if (!existeArtistaAlbum(aa, connection)) {
 				throw new ArtistaAlbumExiste("El álbum " + aa.verNombreAlbum()
@@ -49,7 +49,7 @@ public class artistaAlbumDAO {
 	 * 		 'ArtistaAlbumNoExiste'
 	 */
 	public void quitarArtistaAlbum(artistaAlbumVO aa, Connection connection)
-			throws ArtistaAlbumNoExiste, SQLException {
+			throws ArtistaAlbumNoExiste, SQLException, Exception {
 		try {
 			if (!existeArtistaAlbum(aa, connection)) {
 				throw new ArtistaAlbumNoExiste("El álbum " + aa.verNombreAlbum()

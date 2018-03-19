@@ -16,7 +16,7 @@ public class listaReproduccionDAO {
 	 * 		 mismo usuario, entonces y solo entonces lanza una excepción 'ListaYaExiste'.
 	 */
 	public void anyadirLista(listaReproduccionVO lista, Connection connection)
-			throws ListaYaExiste, SQLException {
+			throws ListaYaExiste, SQLException, Exception {
 		try {
 			if (existeLista(lista, connection)) {
 				throw new ListaYaExiste("La lista de reproducción " + lista.obtenerNombreLista() + "del"
@@ -47,7 +47,7 @@ public class listaReproduccionDAO {
 	 * 		 mismo usuario, entonces y solo entonces lanza una excepción 'ListaNoExiste'.
 	 */
 	public void quitarLista(listaReproduccionVO lista, Connection connection)
-			throws ListaNoExiste, SQLException {
+			throws ListaNoExiste, SQLException, Exception {
 		try {
 			if (!existeLista(lista, connection)) {
 				throw new ListaNoExiste("La lista " + lista.obtenerNombreLista() + "no existe.");

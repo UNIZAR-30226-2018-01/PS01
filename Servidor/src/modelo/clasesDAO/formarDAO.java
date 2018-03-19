@@ -17,7 +17,7 @@ public class formarDAO {
 	 * 		 excepción 'CancionExisteEnLista'.
 	 */
 	public void anyadirCancionALista(formarVO f, Connection connection)
-			throws CancionExisteEnLista, SQLException {
+			throws CancionExisteEnLista, SQLException, Exception {
 		try {
 			if (existeCancionEnLista(f, connection)) {
 				throw new CancionExisteEnLista("La canción " + f.verTituloCancion() + "ya existe"
@@ -51,7 +51,7 @@ public class formarDAO {
 	 * 		 del mismo usuario, sala una excepción 'CancionNoExisteEnLista'.
 	 */
 	public void quitarCancionDeLista(formarVO f, Connection connection)
-			throws CancionNoExisteEnLista, SQLException {
+			throws CancionNoExisteEnLista, SQLException, Exception {
 		try {
 			if (!existeCancionEnLista(f, connection)) {
 				throw new CancionNoExisteEnLista("La canción " + f.verTituloCancion() + "no existe"

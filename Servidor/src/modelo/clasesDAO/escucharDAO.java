@@ -16,7 +16,7 @@ public class escucharDAO {
 	 * 		 Si y solo si por algún motivo se intenta registrar 2 o más veces la 'audición' de una lista de reproducción
 	 * 		 en el mismo instante de tiempo, entonces y solo entonces se lanza una excepción ExcepcionEscuchar.
 	 */
-	public void anyadir(escucharVO a, Connection connection) throws ExcepcionEscuchar, SQLException {
+	public void anyadir(escucharVO a, Connection connection) throws ExcepcionEscuchar, SQLException, Exception {
 		try {
 			if (existeEscuchar(a, connection)) {
 				throw new ExcepcionEscuchar("Error al registrar la reproducción por parte"

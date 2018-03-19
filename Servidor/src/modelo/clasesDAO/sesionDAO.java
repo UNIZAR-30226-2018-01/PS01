@@ -16,7 +16,7 @@ public class sesionDAO {
 	 * 		 saltaría una excepción 'UsuarioYaLogueado'.
 	 */
 	public void insertarSesion(sesionVO sesion, Connection connection)
-			throws UsuarioYaLogueado, SQLException {
+			throws UsuarioYaLogueado, SQLException, Exception {
 		try {
 			if (existeSesion(sesion.verNombreUsuario(), connection)) {
 				throw new UsuarioYaLogueado("El usuario " + sesion.verNombreUsuario() + " ya está logueado.");
@@ -48,7 +48,7 @@ public class sesionDAO {
 	 * 		 saltaría una excepción 'UsuarioYaLogueado'.
 	 */
 	public void cerrarSesion(String nombreUsuario, Connection connection)
-			throws UsuarioSinLoguear, SQLException {
+			throws UsuarioSinLoguear, SQLException, Exception {
 		try {
 			if (existeSesion(nombreUsuario, connection)) {
 				String queryString = "DELETE FROM Sesion "
