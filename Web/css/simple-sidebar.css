@@ -60,18 +60,16 @@
 
 #menu-music {
   position: absolute;
-  right:0px;
+  right:23%;
   top: 40px;
 }
 
 
 .sb-search {
    position: absolute;
-  right:145px;
   width: 0%;
   min-width:30px;
   height:55px;
-  float: right;
   overflow: hidden;
   -webkit-transition: width 0.3s;
   -moz-transition: width 0.3s;
@@ -156,7 +154,7 @@
   text-decoration: none;
   color: #333333;
   position: absolute;
-  right:40px;
+  right:32%;
   top: 25px;
 }
 
@@ -310,6 +308,7 @@
   width: 100%;
   position: fixed;
   z-index: 2;
+  margin-left: 22%;
 }
 
 #sidebar-wrapper {
@@ -382,22 +381,19 @@
   }
   #menu-music {
     position: absolute;
-    right:0px;
     top: 40px;
+    right:16%;
   }
 
   .sb-search {
 		position: absolute;
-		right: 43px;
 	}
 
   .sb-search {
      position: absolute;
-    left:15%;
     width: 0%;
     max-width:350px;
     height:65px;
-    float: right;
     overflow: hidden;
     -webkit-transition: width 0.3s;
     -moz-transition: width 0.3s;
@@ -483,7 +479,7 @@
     text-decoration: none;
     color: #333333;
     position: absolute;
-    right:150px;
+    right:25%;
     top: 30px;
   }
 
@@ -575,6 +571,7 @@
     height: 80px;
     width: 100%;
     position: fixed;
+    margin-left: 15.5%;
   }
 
   #sidebar-wrapper {
