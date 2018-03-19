@@ -47,13 +47,12 @@ public class sesionDAO {
 	 * 		 Si el usuario no estuviera logueado y se ejecutase esta función, entonces y solo entonces
 	 * 		 saltaría una excepción 'UsuarioYaLogueado'.
 	 */
-	public void cerrarSesion(sesionVO sesion, Connection connection)
+	public void cerrarSesion(String nombreUsuario, Connection connection)
 			throws UsuarioSinLoguear, SQLException {
 		try {
-			if (existeSesion(sesion.verNombreUsuario(), connection)) {
+			if (existeSesion(nombreUsuario, connection)) {
 				String queryString = "DELETE FROM Sesion "
-									+ "WHERE hashSesion = " + sesion.verHashSesion() + " "
-									+ "AND nombreUsuario = " + sesion.verNombreUsuario() + ";";
+									+ "WHERE nombreUsuario = " + nombreUsuario + ";";
 				PreparedStatement preparedStatement = 
 		                connection.prepareStatement(queryString);
 		            
@@ -61,7 +60,7 @@ public class sesionDAO {
 		        preparedStatement.executeUpdate();				
 			}
 			else {
-				throw new UsuarioSinLoguear("El usuario " + sesion.verNombreUsuario() + "no está logueado.");
+				throw new UsuarioSinLoguear("El usuario " + nombreUsuario + "no está logueado.");
 			}
 		}
 		catch (Exception e) {

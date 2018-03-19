@@ -1,11 +1,13 @@
 package modelo.clasesDAO;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import modelo.clasesVO.*;
+import modelo.clasesVO.artistaAlbumVO;
 import modelo.excepcion.*;
 import java.sql.SQLException;
-import modelo.clasesVO.artistaAlbumVO;
+
+import javax.servlet.ServletException;
 
 public class artistaAlbumDAO {
 	/*
@@ -17,7 +19,7 @@ public class artistaAlbumDAO {
 	public void anyadirArtistaAlbum(artistaAlbumVO aa, Connection connection)
 			throws ArtistaAlbumExiste, SQLException {
 		try {
-			if (existeArtistaAlbum(aa, connection)) {
+			if (!existeArtistaAlbum(aa, connection)) {
 				throw new ArtistaAlbumExiste("El álbum " + aa.verNombreAlbum()
 				+ " del artista " + aa.verNombreArtista() + "ya existe.");
 			}
