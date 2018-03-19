@@ -11,12 +11,13 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import modelo.ImplementacionFachada;
 import modelo.clasesVO.listaReproduccionVO;
-import modelo.excepcion.*;
+import modelo.excepcion.ListaNoExiste;
 
-@WebServlet("/CrearListaDeReproduccion")
-public class CrearListaDeReproduccion extends HttpServlet {
+@WebServlet("/BorrarListaDeReproduccion")
+public class BorrarListaDeReproduccion extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String PAGINA_ACTUAL = "inicio.jsp";
 	private static final String PAGINA_SIG = "inicio.jsp";
@@ -52,10 +53,10 @@ public class CrearListaDeReproduccion extends HttpServlet {
 		}
 		else {
 			try {
-				new ImplementacionFachada().crearListaDeReproduccion(new listaReproduccionVO(nombreLista, nombreUsuario));
+				new ImplementacionFachada().borrarListaDeReproduccion(new listaReproduccionVO(nombreLista, nombreUsuario));
 			}
-			catch (ListaYaExiste l) {
-				request.setAttribute("ListaYaExiste", l.toString());
+			catch (ListaNoExiste l) {
+				request.setAttribute("LoginIncorrecto", l.toString());
 				RequestDispatcher dispatcher=request.getRequestDispatcher(PAGINA_ACTUAL);
 				dispatcher.forward(request, response);
 			}
