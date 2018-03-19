@@ -16,7 +16,7 @@ public class cancionDAO {
 	 * 		 y subida por el mismo 'uploader', entonces lanza una excepción 'CancionYaExiste'
 	 */
 	public void anyadirCancion(cancionVO cancion, Connection connection)
-			throws CancionYaExiste, SQLException {
+			throws CancionYaExiste, SQLException, Exception {
 		try {
 			if (existeCancion(cancion, connection)) {
 				throw new CancionYaExiste("La cancion " + cancion.verTitulo() + " perteneciente al álbum"
@@ -51,7 +51,7 @@ public class cancionDAO {
 	 * 		 y subida por el mismo 'uploader', entonces lanza una excepción 'CancionNoExiste'
 	 */
 	public void quitarCancion(cancionVO cancion, Connection connection)
-			throws Exception, SQLException {
+			throws Exception, SQLException, Exception {
 		try {
 			if (!existeCancion(cancion, connection)) {
 				throw new CancionNoExiste("La cancion " + cancion.verTitulo() + " perteneciente al álbum"
