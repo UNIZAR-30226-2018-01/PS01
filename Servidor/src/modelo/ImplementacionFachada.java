@@ -113,4 +113,40 @@ public class ImplementacionFachada implements InterfazFachada {
 			throw e;
 		}
 	}
+
+	@Override
+	public void anyadirCancionALista(formarVO f)
+			throws CancionExisteEnLista, SQLException {
+		try {
+			new formarDAO().anyadirCancionALista(f,
+					obtenerConexion());
+		}
+		catch (Exception e) {
+			throw e;
+		}
+	}
+
+	@Override
+	public void quitarCancionDeLista(formarVO f)
+			throws CancionNoExisteEnLista, SQLException {
+		try {
+			new formarDAO().quitarCancionDeLista(f,
+					obtenerConexion());
+		}
+		catch (Exception e) {
+			throw e;
+		}
+	}
+
+	@Override
+	public void anyadirAudicionLista(escucharVO e)
+			throws ExcepcionEscuchar, SQLException {
+		try {
+			new escucharDAO().anyadir(e,
+					obtenerConexion());
+		}
+		catch (Exception ex) {
+			throw ex;
+		}
+	}
 }

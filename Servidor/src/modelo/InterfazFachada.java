@@ -46,4 +46,13 @@ public interface InterfazFachada {
 	
 	public void anyadirReproduccion(reproducirVO r)
 			throws ExcepcionReproduccion, SQLException;
+	
+	public void anyadirCancionALista(formarVO f)
+			throws CancionExisteEnLista, SQLException;
+	
+	public void quitarCancionDeLista(formarVO f)
+			throws CancionNoExisteEnLista, SQLException;
+	
+	public void anyadirAudicionLista(escucharVO e)
+			throws ExcepcionEscuchar, SQLException;
 }
