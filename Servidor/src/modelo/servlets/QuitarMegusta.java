@@ -11,12 +11,14 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import modelo.ImplementacionFachada;
-import modelo.clasesVO.listaReproduccionVO;
-import modelo.excepcion.*;
 
-@WebServlet("/CrearListaDeReproduccion")
-public class CrearListaDeReproduccion extends HttpServlet {
+import modelo.ImplementacionFachada;
+import modelo.clasesVO.gustarVO;
+import modelo.excepcion.ErrorAnyadirMegusta;
+import modelo.excepcion.ErrorQuitarMegusta;
+
+@WebServlet("/QuitarMegusta")
+public class QuitarMegusta extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String PAGINA_ACTUAL = "inicio.jsp";
 	private static final String PAGINA_SIG = "inicio.jsp";
@@ -28,7 +30,9 @@ public class CrearListaDeReproduccion extends HttpServlet {
 		
 		// Recuperamos los parámetros y las cookies
 		String nombreUsuario = new String();
-		String nombreLista = request.getParameter("nombreLista");
+		String tituloCancion = request.getParameter("tituloCancion");
+		String nombreAlbum = request.getParameter("nombreAlbum");
+		String nombreArtista = request.getParameter("nombreArtista");
 		Cookie[] cookies = request.getCookies();
 		
 		if(cookies != null){
@@ -52,9 +56,9 @@ public class CrearListaDeReproduccion extends HttpServlet {
 		}
 		else {
 			try {
-				new ImplementacionFachada().crearListaDeReproduccion(new listaReproduccionVO(nombreLista, nombreUsuario));
+				new ImplementacionFachada().yanomegusta(new gustarVO(nombreUsuario, tituloCancion, nombreAlbum, nombreArtista));
 			}
-			catch (ListaYaExiste l) {
+			catch (ErrorQuitarMegusta l) {
 				request.setAttribute("ListaYaExiste", l.toString());
 				RequestDispatcher dispatcher=request.getRequestDispatcher(PAGINA_ACTUAL);
 				dispatcher.forward(request, response);

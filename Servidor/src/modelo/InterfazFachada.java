@@ -33,5 +33,17 @@ public interface InterfazFachada {
 			throws UsuarioSinLoguear, SQLException;
 
 	public void crearListaDeReproduccion(listaReproduccionVO l)
-			throws ListaYaExiste, SQLException; 
+			throws ListaYaExiste, SQLException;
+	
+	public void borrarListaDeReproduccion(listaReproduccionVO l)
+			throws ListaNoExiste, SQLException;
+	
+	public void megusta(gustarVO g)
+			throws ErrorAnyadirMegusta, SQLException;
+	
+	public void yanomegusta(gustarVO g)
+			throws ErrorQuitarMegusta, SQLException;
+	
+	public void anyadirReproduccion(reproducirVO r)
+			throws ExcepcionReproduccion, SQLException;
 }

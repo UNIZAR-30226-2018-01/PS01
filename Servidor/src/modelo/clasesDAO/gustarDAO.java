@@ -45,7 +45,7 @@ public class gustarDAO {
 	 * 		 Si se produce algún error entonces lanza una excepción 'ErrorQuitarMegusta'.
 	 */
 	public void yanomegusta(gustarVO gustar, Connection connection)
-			throws Exception, SQLException {
+			throws ErrorQuitarMegusta, SQLException {
 		try {
 			String queryString = "DELETE FROM TABLE Gustar"
 					+ " WHERE Gustar.nombreUsuario = " + gustar.verNombreUsuario()

@@ -54,6 +54,7 @@ public class ImplementacionFachada implements InterfazFachada {
 		
 	}
 	
+	@Override
 	public void crearListaDeReproduccion(listaReproduccionVO l)
 			throws ListaYaExiste, SQLException {
 		try {
@@ -61,7 +62,55 @@ public class ImplementacionFachada implements InterfazFachada {
 					obtenerConexion());
 		}
 		catch (Exception e) {
-			
+			throw e;
+		}
+	}
+
+	@Override
+	public void borrarListaDeReproduccion(listaReproduccionVO l)
+			throws ListaNoExiste, SQLException {
+		try {
+			new listaReproduccionDAO().quitarLista(l,
+					obtenerConexion());
+		}
+		catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	@Override
+	public void megusta(gustarVO g)
+			throws ErrorAnyadirMegusta, SQLException {
+		try {
+			new gustarDAO().megusta(g,
+					obtenerConexion());
+		}
+		catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	@Override
+	public void yanomegusta(gustarVO g)
+			throws ErrorQuitarMegusta, SQLException {
+		try {
+			new gustarDAO().yanomegusta(g,
+					obtenerConexion());
+		}
+		catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	@Override
+	public void anyadirReproduccion(reproducirVO r)
+			throws ExcepcionReproduccion, SQLException {
+		try {
+			new reproducirDAO().anyadirReproduccion(r,
+					obtenerConexion());
+		}
+		catch (Exception e) {
+			throw e;
 		}
 	}
 }
