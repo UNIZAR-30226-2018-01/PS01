@@ -23,7 +23,7 @@ public class InicioApp extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 if (validar(txtUsername.getText().toString(), txtPass.getText().toString())){
-                    Intent Main = new Intent(getApplicationContext(), Main.class);
+                    Intent Main = new Intent(getApplicationContext(), SongList.class);
                     startActivity(Main);
                 }
             }

@@ -1,4 +1,4 @@
-package SongFounder;
+package SongManager;
 
 import android.os.Environment;
 
@@ -14,7 +14,7 @@ public class SongManager {
 
     final String MEDIA_PATH = Environment.getExternalStorageDirectory()+"";
 
-
+    private static ArrayList<HashMap<String,String>> fileList;
     // Constructor
     public void SongManager(){
 
@@ -24,17 +24,15 @@ public class SongManager {
      * Function to read all mp3 files from sdcard
      * and store the details in ArrayList
      * */
-    public static ArrayList<HashMap<String,String>> getPlayList(String rootPath) {
-        ArrayList<HashMap<String,String>> fileList = new ArrayList<>();
-
-
-        try {
+    public static ArrayList<HashMap<String,String>> refreshPlaylist(String rootPath) {
+        fileList = new ArrayList<>();
+        try{
             File rootFolder = new File(rootPath);
             File[] files = rootFolder.listFiles(); //here you will get NPE if directory doesn't contains  any file,handle it like this.
             for (File file : files) {
                 if (file.isDirectory()) {
-                    if (getPlayList(file.getAbsolutePath()) != null) {
-                        fileList.addAll(getPlayList(file.getAbsolutePath()));
+                    if (refreshPlaylist(file.getAbsolutePath()) != null) {
+                        fileList.addAll(refreshPlaylist(file.getAbsolutePath()));
                     } else {
                         break;
                     }
@@ -51,4 +49,7 @@ public class SongManager {
         }
     }
 
+    public static  ArrayList<HashMap<String,String>> getPlaylist() {
+        return fileList;
+    }
 }
