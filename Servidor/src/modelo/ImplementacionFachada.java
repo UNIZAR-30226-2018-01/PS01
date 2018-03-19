@@ -43,7 +43,7 @@ public class ImplementacionFachada implements InterfazFachada {
 
 	@Override
 	public void cerrarSesion(String nombreUsuario)
-			throws UsuarioSinLoguear, SQLException, Exception {
+			throws UsuarioSinLoguear, SQLException {
 		try {
 			new sesionDAO().cerrarSesion(nombreUsuario,
 					obtenerConexion());
@@ -56,7 +56,7 @@ public class ImplementacionFachada implements InterfazFachada {
 	
 	@Override
 	public void crearListaDeReproduccion(listaReproduccionVO l)
-			throws ListaYaExiste, SQLException, Exception {
+			throws ListaYaExiste, SQLException {
 		try {
 			new listaReproduccionDAO().anyadirLista(l,
 					obtenerConexion());
@@ -80,7 +80,7 @@ public class ImplementacionFachada implements InterfazFachada {
 	
 	@Override
 	public void megusta(gustarVO g)
-			throws ErrorAnyadirMegusta, SQLException, Exception {
+			throws ErrorAnyadirMegusta, SQLException {
 		try {
 			new gustarDAO().megusta(g,
 					obtenerConexion());
@@ -92,7 +92,7 @@ public class ImplementacionFachada implements InterfazFachada {
 	
 	@Override
 	public void yanomegusta(gustarVO g)
-			throws ErrorQuitarMegusta, SQLException, Exception {
+			throws ErrorQuitarMegusta, SQLException {
 		try {
 			new gustarDAO().yanomegusta(g,
 					obtenerConexion());
@@ -104,7 +104,7 @@ public class ImplementacionFachada implements InterfazFachada {
 	
 	@Override
 	public void anyadirReproduccion(reproducirVO r)
-			throws ExcepcionReproduccion, SQLException, Exception {
+			throws ExcepcionReproduccion, SQLException {
 		try {
 			new reproducirDAO().anyadirReproduccion(r,
 					obtenerConexion());

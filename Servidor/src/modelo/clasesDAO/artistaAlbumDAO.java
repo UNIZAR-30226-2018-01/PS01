@@ -1,13 +1,10 @@
 package modelo.clasesDAO;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import modelo.clasesVO.artistaAlbumVO;
 import modelo.excepcion.*;
 import java.sql.SQLException;
-
-import javax.servlet.ServletException;
 
 public class artistaAlbumDAO {
 	/*
@@ -17,7 +14,7 @@ public class artistaAlbumDAO {
 	 * 		 'ArtistaAlbumExiste'
 	 */
 	public void anyadirArtistaAlbum(artistaAlbumVO aa, Connection connection)
-			throws ArtistaAlbumExiste, SQLException, Exception {
+			throws ArtistaAlbumExiste, SQLException {
 		try {
 			if (!existeArtistaAlbum(aa, connection)) {
 				throw new ArtistaAlbumExiste("El álbum " + aa.verNombreAlbum()
@@ -49,7 +46,7 @@ public class artistaAlbumDAO {
 	 * 		 'ArtistaAlbumNoExiste'
 	 */
 	public void quitarArtistaAlbum(artistaAlbumVO aa, Connection connection)
-			throws ArtistaAlbumNoExiste, SQLException, Exception {
+			throws ArtistaAlbumNoExiste, SQLException {
 		try {
 			if (!existeArtistaAlbum(aa, connection)) {
 				throw new ArtistaAlbumNoExiste("El álbum " + aa.verNombreAlbum()
@@ -77,7 +74,7 @@ public class artistaAlbumDAO {
 	 * Post: Devuelve verdad si y solo si existe un álbum con el mismo nombre
 	 * 		 y del mismo artista que 'aa' en la tabla 'ArtistaAlbum' de la BD.
 	 */
-	public boolean existeArtistaAlbum(artistaAlbumVO aa, Connection connection) throws Exception {
+	public boolean existeArtistaAlbum(artistaAlbumVO aa, Connection connection) throws SQLException {
 		try {
 			String comprobacion = "SELECT *"
 					+ " FROM ArtistaAlbum"

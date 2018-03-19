@@ -16,7 +16,7 @@ public class listaReproduccionDAO {
 	 * 		 mismo usuario, entonces y solo entonces lanza una excepción 'ListaYaExiste'.
 	 */
 	public void anyadirLista(listaReproduccionVO lista, Connection connection)
-			throws ListaYaExiste, SQLException, Exception {
+			throws ListaYaExiste, SQLException {
 		try {
 			if (existeLista(lista, connection)) {
 				throw new ListaYaExiste("La lista de reproducción " + lista.obtenerNombreLista() + "del"
@@ -35,7 +35,7 @@ public class listaReproduccionDAO {
 	    			preparedStatement.executeUpdate();
 	        	}
 		}
-		catch (Exception e) {
+		catch (SQLException e) {
 			throw e;
 		}
 	}
@@ -47,7 +47,7 @@ public class listaReproduccionDAO {
 	 * 		 mismo usuario, entonces y solo entonces lanza una excepción 'ListaNoExiste'.
 	 */
 	public void quitarLista(listaReproduccionVO lista, Connection connection)
-			throws ListaNoExiste, SQLException, Exception {
+			throws ListaNoExiste, SQLException {
 		try {
 			if (!existeLista(lista, connection)) {
 				throw new ListaNoExiste("La lista " + lista.obtenerNombreLista() + "no existe.");
@@ -64,7 +64,7 @@ public class listaReproduccionDAO {
 				preparedStatement.executeUpdate();
 			}
 		}
-		catch (Exception e) {
+		catch (SQLException e) {
 			throw e;
 		}
 	}
@@ -74,7 +74,7 @@ public class listaReproduccionDAO {
 	 * Post: Devuelve verdad si un usuario nunca antes ha creado una lista de reproducción
 	 * 		 con el mismo nombre.
 	 */
-	public boolean existeLista(listaReproduccionVO lista, Connection connection) throws Exception{
+	public boolean existeLista(listaReproduccionVO lista, Connection connection) throws SQLException{
 		try {
 			String comprobacion = "SELECT *"
 					+ " FROM ListaReproduccion"

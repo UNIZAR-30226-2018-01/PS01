@@ -17,7 +17,7 @@ public class formarDAO {
 	 * 		 excepción 'CancionExisteEnLista'.
 	 */
 	public void anyadirCancionALista(formarVO f, Connection connection)
-			throws CancionExisteEnLista, SQLException, Exception {
+			throws CancionExisteEnLista, SQLException {
 		try {
 			if (existeCancionEnLista(f, connection)) {
 				throw new CancionExisteEnLista("La canción " + f.verTituloCancion() + "ya existe"
@@ -38,7 +38,7 @@ public class formarDAO {
 				preparedStatement.executeUpdate();
 			}
 		}
-		catch (Exception e) {
+		catch (SQLException e) {
 			throw e;
 		}
 	}
@@ -51,7 +51,7 @@ public class formarDAO {
 	 * 		 del mismo usuario, sala una excepción 'CancionNoExisteEnLista'.
 	 */
 	public void quitarCancionDeLista(formarVO f, Connection connection)
-			throws CancionNoExisteEnLista, SQLException, Exception {
+			throws CancionNoExisteEnLista, SQLException {
 		try {
 			if (!existeCancionEnLista(f, connection)) {
 				throw new CancionNoExisteEnLista("La canción " + f.verTituloCancion() + "no existe"
@@ -72,7 +72,7 @@ public class formarDAO {
 				preparedStatement.executeUpdate();
 			}
 		}
-		catch (Exception e) {
+		catch (SQLException e) {
 			throw e;
 		}
 	}
@@ -82,7 +82,7 @@ public class formarDAO {
 	 * Post: Devuelve verdad si y solo si una canción ya existe dentro de una cierta lista de un
 	 * 		 determinado usuario.
 	 */
-	public boolean existeCancionEnLista(formarVO f, Connection connection) throws Exception {
+	public boolean existeCancionEnLista(formarVO f, Connection connection) throws SQLException {
 		try {
 			String comprobacion = "SELECT *"
 					+ " FROM Formar"

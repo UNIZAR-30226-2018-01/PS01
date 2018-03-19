@@ -16,7 +16,7 @@ public class sesionDAO {
 	 * 		 saltaría una excepción 'UsuarioYaLogueado'.
 	 */
 	public void insertarSesion(sesionVO sesion, Connection connection)
-			throws UsuarioYaLogueado, SQLException, Exception {
+			throws UsuarioYaLogueado, SQLException {
 		try {
 			if (existeSesion(sesion.verNombreUsuario(), connection)) {
 				throw new UsuarioYaLogueado("El usuario " + sesion.verNombreUsuario() + " ya está logueado.");
@@ -35,7 +35,7 @@ public class sesionDAO {
 	        		preparedStatement.executeUpdate();
 			}	        
 		}
-		catch (Exception e) {
+		catch (SQLException e) {
 			throw e;
 		}
 	}
@@ -48,7 +48,7 @@ public class sesionDAO {
 	 * 		 saltaría una excepción 'UsuarioYaLogueado'.
 	 */
 	public void cerrarSesion(String nombreUsuario, Connection connection)
-			throws UsuarioSinLoguear, SQLException, Exception {
+			throws UsuarioSinLoguear, SQLException {
 		try {
 			if (existeSesion(nombreUsuario, connection)) {
 				String queryString = "DELETE FROM Sesion "
@@ -63,7 +63,7 @@ public class sesionDAO {
 				throw new UsuarioSinLoguear("El usuario " + nombreUsuario + "no está logueado.");
 			}
 		}
-		catch (Exception e) {
+		catch (SQLException e) {
 			throw e;
 		}
 	}
@@ -73,7 +73,7 @@ public class sesionDAO {
 	 * Post: Devuelve verdad si y solo si existe una sesión
 	 * 		 registrada para un determinado usuario.
 	 */
-	public boolean existeSesion(String usuario, Connection connection) throws Exception {
+	public boolean existeSesion(String usuario, Connection connection) throws SQLException {
 		try {
 			String comprobacion = "SELECT nombre "
 								+ "FROM Sesion "

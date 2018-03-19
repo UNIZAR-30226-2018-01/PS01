@@ -16,7 +16,7 @@ public class escucharDAO {
 	 * 		 Si y solo si por algún motivo se intenta registrar 2 o más veces la 'audición' de una lista de reproducción
 	 * 		 en el mismo instante de tiempo, entonces y solo entonces se lanza una excepción ExcepcionEscuchar.
 	 */
-	public void anyadir(escucharVO a, Connection connection) throws ExcepcionEscuchar, SQLException, Exception {
+	public void anyadir(escucharVO a, Connection connection) throws ExcepcionEscuchar, SQLException {
 		try {
 			if (existeEscuchar(a, connection)) {
 				throw new ExcepcionEscuchar("Error al registrar la reproducción por parte"
@@ -36,7 +36,7 @@ public class escucharDAO {
 				preparedStatement.executeUpdate();
 			}
 		}
-		catch (Exception e) {
+		catch (SQLException e) {
 			throw e;
 		}
 	}
@@ -46,7 +46,7 @@ public class escucharDAO {
 	 * Post: Devuelve verdad si y solo si un usuario ya ha escuchado una lista de reproducción
 	 * 		 en una fecha determinada.
 	 */
-	public boolean existeEscuchar(escucharVO a, Connection connection) throws Exception {
+	public boolean existeEscuchar(escucharVO a, Connection connection) throws SQLException {
 		try {
 			String comprobacion = "SELECT *"
 					+ " FROM Escuchar"

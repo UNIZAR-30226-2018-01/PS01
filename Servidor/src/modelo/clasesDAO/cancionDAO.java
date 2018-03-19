@@ -16,7 +16,7 @@ public class cancionDAO {
 	 * 		 y subida por el mismo 'uploader', entonces lanza una excepción 'CancionYaExiste'
 	 */
 	public void anyadirCancion(cancionVO cancion, Connection connection)
-			throws CancionYaExiste, SQLException, Exception {
+			throws CancionYaExiste, SQLException {
 		try {
 			if (existeCancion(cancion, connection)) {
 				throw new CancionYaExiste("La cancion " + cancion.verTitulo() + " perteneciente al álbum"
@@ -39,7 +39,7 @@ public class cancionDAO {
 	    			preparedStatement.executeUpdate();
 	        	}
 		}
-		catch (Exception e) {
+		catch (SQLException e) {
 			throw e;
 		}
 	}
@@ -51,7 +51,7 @@ public class cancionDAO {
 	 * 		 y subida por el mismo 'uploader', entonces lanza una excepción 'CancionNoExiste'
 	 */
 	public void quitarCancion(cancionVO cancion, Connection connection)
-			throws Exception, SQLException, Exception {
+			throws CancionNoExiste, SQLException {
 		try {
 			if (!existeCancion(cancion, connection)) {
 				throw new CancionNoExiste("La cancion " + cancion.verTitulo() + " perteneciente al álbum"
@@ -72,7 +72,7 @@ public class cancionDAO {
 				preparedStatement.executeUpdate();
 			}
 		}
-		catch (Exception e) {
+		catch (SQLException e) {
 			throw e;
 		}
 	}
@@ -82,7 +82,7 @@ public class cancionDAO {
 	 * Post: Devuelve verdad si y solo si existe en la tabla Cancion una canción igual
 	 * 		 a 'cancion'.
 	 */
-	public boolean existeCancion(cancionVO cancion, Connection connection) throws Exception {
+	public boolean existeCancion(cancionVO cancion, Connection connection) throws SQLException {
 		try {
 			String comprobacion = "SELECT *"
 					+ " FROM Cancion"
