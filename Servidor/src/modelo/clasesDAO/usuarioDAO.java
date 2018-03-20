@@ -69,8 +69,8 @@ public class usuarioDAO {
 	 * Post: Si el usuario u no existe en la base de datos, lanza una excepción
 	 * 		 'LoginInexistente'. En caso contrario, no hace nada.
 	 */
-	public void iniciarSesion(usuarioVO u, Connection c) throws LoginInexistente,
-																SQLException{
+	public void iniciarSesion(usuarioVO u, Connection c)
+			throws LoginInexistente, SQLException{
 		try {
 			// Preparamos la consulta
 			String q = new String();
