@@ -149,4 +149,52 @@ public class ImplementacionFachada implements InterfazFachada {
 			throw ex;
 		}
 	}
+
+	@Override
+	public void anyadirCancionUsuario(cancionVO c)
+			throws CancionYaExiste, SQLException {
+		try {
+			new cancionDAO().anyadirCancion(c,
+					obtenerConexion());
+		}
+		catch (Exception e) {
+			throw e;
+		}
+	}
+
+	@Override
+	public void quitarCancionUsuario(cancionVO c)
+			throws CancionNoExiste, SQLException {
+		try {
+			new cancionDAO().quitarCancion(c,
+					obtenerConexion());
+		}
+		catch (Exception e) {
+			throw e;
+		}
+	}
+
+	@Override
+	public void anyadirArtistaAlbum(artistaAlbumVO a)
+			throws ArtistaAlbumExiste, SQLException {
+		try {
+			new artistaAlbumDAO().anyadirArtistaAlbum(a,
+					obtenerConexion());
+		}
+		catch (Exception e) {
+			throw e;
+		}
+	}
+
+	@Override
+	public void quitarArtistaAlbum(artistaAlbumVO a)
+			throws ArtistaAlbumNoExiste, SQLException {
+		try {
+			new artistaAlbumDAO().quitarArtistaAlbum(a,
+					obtenerConexion());
+		}
+		catch (Exception e) {
+			throw e;
+		}
+	}
 }

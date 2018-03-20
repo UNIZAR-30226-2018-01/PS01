@@ -55,4 +55,16 @@ public interface InterfazFachada {
 	
 	public void anyadirAudicionLista(escucharVO e)
 			throws ExcepcionEscuchar, SQLException;
+	
+	public void anyadirCancionUsuario(cancionVO c)
+			throws CancionYaExiste, SQLException;
+	
+	public void quitarCancionUsuario(cancionVO c)
+			throws CancionNoExiste, SQLException;
+	
+	public void anyadirArtistaAlbum(artistaAlbumVO a)
+			throws ArtistaAlbumExiste, SQLException;
+	
+	public void quitarArtistaAlbum(artistaAlbumVO a)
+			throws ArtistaAlbumNoExiste, SQLException;
 }
