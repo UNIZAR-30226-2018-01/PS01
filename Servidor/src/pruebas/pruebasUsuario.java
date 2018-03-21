@@ -3,6 +3,7 @@ package pruebas;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import modelo.GestorDeConexionesBD;
 import modelo.clasesDAO.*;
 import modelo.clasesVO.*;
 import modelo.excepcion.*;
@@ -11,6 +12,10 @@ public class pruebasUsuario {
 	private usuarioDAO uDAO = new usuarioDAO();
 	private usuarioVO uVO = new usuarioVO("alberto", "albertro");
 	private Connection connection = null;
+	
+	public pruebasUsuario() throws Exception {
+		connection = GestorDeConexionesBD.getConnection();
+	}
 	
 	//Pruebas de las clases usuarioVO y usuarioDAO
 	

@@ -3,6 +3,7 @@ package pruebas;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import modelo.GestorDeConexionesBD;
 import modelo.clasesDAO.*;
 import modelo.clasesVO.*;
 import modelo.excepcion.*;
@@ -11,6 +12,10 @@ public class pruebasSesion {
 	private sesionVO sVO = new sesionVO("albertro","alberto");
 	private sesionDAO sDAO = new sesionDAO();
 	private Connection connection = null;
+	
+	public pruebasSesion() throws Exception {
+		connection = GestorDeConexionesBD.getConnection();
+	}
 	
 	public void pruebaExisteSesion() throws SQLException {
 		try {

@@ -3,6 +3,7 @@ package pruebas;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import modelo.GestorDeConexionesBD;
 import modelo.clasesDAO.gustarDAO;
 import modelo.clasesVO.gustarVO;
 import modelo.excepcion.ErrorAnyadirMegusta;
@@ -13,6 +14,10 @@ public class pruebasGustar {
 	private gustarVO gVO = new gustarVO("alberto", "cancion_1", "album_1", "artista_1");
 	private gustarDAO gDAO = new gustarDAO();
 	private Connection connection = null;
+	
+	public pruebasGustar() throws Exception {
+		connection = GestorDeConexionesBD.getConnection();
+	}
 	
 	public void pruebaDarMegusta() throws ErrorAnyadirMegusta, SQLException {
 		try {

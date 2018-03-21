@@ -3,6 +3,7 @@ package pruebas;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import modelo.GestorDeConexionesBD;
 import modelo.clasesDAO.artistaAlbumDAO;
 import modelo.clasesVO.artistaAlbumVO;
 import modelo.excepcion.ArtistaAlbumExiste;
@@ -12,6 +13,10 @@ public class pruebasArtistaAlbum {
 	private artistaAlbumVO aVO = new artistaAlbumVO("artista_1", "album_1", "2018");
 	private artistaAlbumDAO aDAO = new artistaAlbumDAO();
 	private Connection connection = null;
+	
+	public pruebasArtistaAlbum () throws Exception {
+		connection = GestorDeConexionesBD.getConnection();
+	}
 	
 	public void pruebaExisteAA() throws SQLException {
 		try {

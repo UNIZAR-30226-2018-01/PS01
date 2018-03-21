@@ -3,6 +3,7 @@ package pruebas;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import modelo.GestorDeConexionesBD;
 import modelo.clasesDAO.cancionDAO;
 import modelo.clasesVO.cancionVO;
 import modelo.excepcion.CancionNoExiste;
@@ -12,6 +13,10 @@ public class pruebasCancion {
 	private cancionVO cVO = new cancionVO("cancion_1", "artista_1", "album_1", "", "alberto");
 	private cancionDAO cDAO = new cancionDAO();
 	private Connection connection = null;
+	
+	public pruebasCancion() throws Exception {
+		connection = GestorDeConexionesBD.getConnection();
+	}
 	
 	public void pruebaExisteCancion() throws SQLException {
 		try {

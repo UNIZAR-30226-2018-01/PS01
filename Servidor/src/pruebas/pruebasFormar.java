@@ -3,6 +3,7 @@ package pruebas;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import modelo.GestorDeConexionesBD;
 import modelo.clasesDAO.formarDAO;
 import modelo.clasesVO.formarVO;
 import modelo.excepcion.CancionExisteEnLista;
@@ -12,6 +13,10 @@ public class pruebasFormar {
 	private formarVO fVO = new formarVO("cancion_1", "artista_1", "album_1", "lista_1", "alberto");
 	private formarDAO fDAO = new formarDAO();
 	private Connection connection = null;
+	
+	public pruebasFormar() throws Exception {
+		connection = GestorDeConexionesBD.getConnection();
+	}
 	
 	public void pruebaExisteCancionEnLista() throws SQLException {
 		try {

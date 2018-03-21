@@ -12,7 +12,7 @@ public class GestorDeConexionesBD {
 		
 	static {			
 		try {
-			Class.forName(DRIVER_CLASS_NAME);
+			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace(System.err);
 		}	
@@ -23,6 +23,7 @@ public class GestorDeConexionesBD {
 	
 	public final static Connection getConnection()
 		throws SQLException {
-			return DriverManager.getConnection(DRIVER_URL, USER, PASSWORD);
+			return DriverManager.getConnection("jdbc:mysql://localhost/prueba?" +
+                    "user=alberto&password=rass");
 	}
 }

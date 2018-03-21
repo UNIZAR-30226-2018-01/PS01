@@ -3,6 +3,7 @@ package pruebas;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import modelo.GestorDeConexionesBD;
 import modelo.clasesDAO.*;
 import modelo.clasesVO.*;
 import modelo.excepcion.*;
@@ -11,6 +12,10 @@ public class pruebasListaReproduccion {
 	private listaReproduccionVO lVO = new listaReproduccionVO("lista_1", "alberto");
 	private listaReproduccionDAO lDAO = new listaReproduccionDAO();
 	private Connection connection = null;
+	
+	public pruebasListaReproduccion() throws Exception {
+		connection = GestorDeConexionesBD.getConnection();
+	}
 	
 	public void pruebaExisteLista() throws SQLException {
 		try {
