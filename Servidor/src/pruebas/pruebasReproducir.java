@@ -12,7 +12,7 @@ public class pruebasReproducir {
 	private reproducirDAO rDAO = new reproducirDAO();
 	private Connection connection = null;
 	
-	public void anyadirReproduccion() throws ExcepcionReproduccion, SQLException {
+	public void pruebaAnyadirReproduccion() throws ExcepcionReproduccion, SQLException {
 		try {
 			rDAO.anyadirReproduccion(rVO, connection);
 		}
