@@ -22,20 +22,29 @@ public class pruebasGustar {
 	public void pruebaDarMegusta() throws ErrorAnyadirMegusta, SQLException {
 		try {
 			gDAO.megusta(gVO, connection);
+			System.out.println("Me gusta dado correctamente.");
 		}
 		catch (Exception e) {
 			System.out.println(e.toString());
 		}
-		System.out.println("Me gusta dado correctamente.");
 	}
 	
 	public void pruebaQuitarMegusta() throws ErrorQuitarMegusta, SQLException {
 		try {
 			gDAO.yanomegusta(gVO, connection);
+			System.out.println("Me gusta quitado correctamente.");
 		}
 		catch (Exception e) {
 			System.out.println(e.toString());
 		}
-		System.out.println("Me gusta dado correctamente.");
+	}
+	
+	public static void main(String args[]) throws Exception {
+		pruebasGustar p = new pruebasGustar();
+		
+		p.pruebaDarMegusta();
+		p.pruebaDarMegusta();
+		p.pruebaQuitarMegusta();
+		p.pruebaQuitarMegusta();
 	}
 }

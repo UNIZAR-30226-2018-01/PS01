@@ -35,20 +35,32 @@ public class pruebasCancion {
 	public void pruebaAnyadirCancion() throws CancionYaExiste, SQLException {
 		try {
 			cDAO.anyadirCancion(cVO, connection);
+			System.out.println("Canción " + cVO.verTitulo() + " subida por el usuario " + cVO.verUploader() + " correctamente.");
 		}
 		catch (Exception e) {
 			System.out.println(e.toString());
 		}
-		System.out.println("Canción " + cVO.verTitulo() + " subida por el usuario " + cVO.verUploader() + " correctamente.");
 	}
 	
 	public void pruebaQuitarCancion() throws CancionNoExiste, SQLException {
 		try {
 			cDAO.quitarCancion(cVO, connection);
+			System.out.println("Canción " + cVO.verTitulo() + " eliminada por el usuario " + cVO.verUploader() + " correctamente.");
 		}
 		catch (Exception e) {
 			System.out.println(e.toString());
 		}
-		System.out.println("Canción " + cVO.verTitulo() + " eliminada por el usuario " + cVO.verUploader() + " correctamente.");
+	}
+	
+	public static void main(String args[]) throws Exception {
+		pruebasCancion p = new pruebasCancion();
+		
+		p.pruebaExisteCancion();
+		p.pruebaAnyadirCancion();
+		p.pruebaAnyadirCancion();
+		p.pruebaExisteCancion();
+		p.pruebaQuitarCancion();
+		p.pruebaExisteCancion();
+		p.pruebaAnyadirCancion();		
 	}
 }

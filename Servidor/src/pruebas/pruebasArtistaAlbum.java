@@ -35,22 +35,36 @@ public class pruebasArtistaAlbum {
 	public void pruebaInsertarAA() throws ArtistaAlbumExiste, SQLException {
 		try {
 			aDAO.anyadirArtistaAlbum(aVO, connection);
+			System.out.println("El álbum " + aVO.verNombreAlbum() + " del artista " + aVO.verNombreArtista() + " ha sido añadido correctamente.");
 		}
 		catch (Exception e) {
-			System.out.println("El álbum " + aVO.verNombreAlbum() + " del artista " + aVO.verNombreArtista() + " ha sido añadido correctamente.");
+			System.out.println(e.toString());
 		}
 	}
 	
 	public void pruebaQuitarAA() throws ArtistaAlbumNoExiste, SQLException {
 		try {
 			aDAO.quitarArtistaAlbum(aVO, connection);
+			System.out.println("El álbum " + aVO.verNombreAlbum() + " del artista " + aVO.verNombreArtista() + " ha sido eliminado correctamente.");
 		}
 		catch (Exception e) {
-			System.out.println("El álbum " + aVO.verNombreAlbum() + " del artista " + aVO.verNombreArtista() + " ha sido eliminado correctamente.");
+			System.out.println(e.toString());
 		}
 	}
 	
-	public static void main(String args[]) {
+	public static void main(String args[]) throws Exception {
+		pruebasArtistaAlbum p = new pruebasArtistaAlbum();
 		
+		p.pruebaExisteAA();
+		p.pruebaInsertarAA();
+		p.pruebaInsertarAA();
+		p.pruebaInsertarAA();
+		p.pruebaInsertarAA();
+		p.pruebaInsertarAA();
+		p.pruebaQuitarAA();
+		p.pruebaQuitarAA();
+		p.pruebaQuitarAA();
+		p.pruebaQuitarAA();
+		p.pruebaExisteAA();
 	}
 }

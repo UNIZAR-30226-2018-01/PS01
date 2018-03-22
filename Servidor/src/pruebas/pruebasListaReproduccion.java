@@ -20,10 +20,10 @@ public class pruebasListaReproduccion {
 	public void pruebaExisteLista() throws SQLException {
 		try {
 			if (lDAO.existeLista(lVO, connection)) {
-				System.out.println("La lista del usuario " + lVO.obtenerNombreUsuario() + " ya existe.");
+				System.out.println("La lista " + lVO.obtenerNombreLista() + " del usuario " + lVO.obtenerNombreUsuario() + " ya existe.");
 			}
 			else {
-				System.out.println("La lista del usuario " + lVO.obtenerNombreUsuario() + " no existe.");
+				System.out.println("La lista " + lVO.obtenerNombreLista() + " del usuario " + lVO.obtenerNombreUsuario() + " no existe.");
 			}
 		}
 		catch (Exception e) {
@@ -34,24 +34,33 @@ public class pruebasListaReproduccion {
 	public void pruebaInsertarLista() throws ListaYaExiste, SQLException {
 		try {
 			lDAO.anyadirLista(lVO, connection);
+			System.out.println("Lista " + lVO.obtenerNombreLista() + " creada correctamente.");
 		}
 		catch (Exception e) {
 			System.out.println(e.toString());
 		}
-		System.out.println("Lista " + lVO.obtenerNombreLista() + " creada correctamente.");
 	}
 	
 	public void pruebaQuitarLista() throws ListaYaExiste, SQLException {
 		try {
 			lDAO.quitarLista(lVO, connection);
+			System.out.println("Lista " + lVO.obtenerNombreLista() + " eliminada correctamente.");
 		}
 		catch (Exception e) {
 			System.out.println(e.toString());
 		}
-		System.out.println("Lista " + lVO.obtenerNombreLista() + " eliminada correctamente.");
 	}
 	
-	public static void main(String args[]) {
+	public static void main(String args[]) throws Exception {
+		pruebasListaReproduccion p = new pruebasListaReproduccion();
 		
+		p.pruebaExisteLista();
+		p.pruebaInsertarLista();
+		p.pruebaInsertarLista();
+		p.pruebaExisteLista();
+		p.pruebaQuitarLista();
+		p.pruebaQuitarLista();
+		p.pruebaExisteLista();
+		p.pruebaInsertarLista();
 	}
 }

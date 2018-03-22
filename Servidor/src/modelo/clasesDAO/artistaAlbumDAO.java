@@ -2,6 +2,8 @@ package modelo.clasesDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
 import modelo.clasesVO.artistaAlbumVO;
 import modelo.excepcion.*;
 import java.sql.SQLException;
@@ -16,9 +18,9 @@ public class artistaAlbumDAO {
 	public void anyadirArtistaAlbum(artistaAlbumVO aa, Connection connection)
 			throws ArtistaAlbumExiste, SQLException {
 		try {
-			if (!existeArtistaAlbum(aa, connection)) {
+			if (existeArtistaAlbum(aa, connection)) {
 				throw new ArtistaAlbumExiste("El álbum " + aa.verNombreAlbum()
-				+ " del artista " + aa.verNombreArtista() + "ya existe.");
+				+ " del artista " + aa.verNombreArtista() + " ya existe.");
 			}
 			else {
 				String queryString = "INSERT INTO ArtistaAlbum(nombreArtista, nombreAlbum, anyooAlbum) "
@@ -50,13 +52,13 @@ public class artistaAlbumDAO {
 		try {
 			if (!existeArtistaAlbum(aa, connection)) {
 				throw new ArtistaAlbumNoExiste("El álbum " + aa.verNombreAlbum()
-						+ " del artista " + aa.verNombreArtista() + "no existe.");
+						+ " del artista " + aa.verNombreArtista() + " no existe.");
 			}
 			else {
 				String queryString = "DELETE FROM ArtistaAlbum"
-						+ " WHERE nombreArtista = " + aa.verNombreArtista()
-						+ " AND nombreAlbum = " + aa.verNombreAlbum()
-						+ "; ";
+						+ " WHERE nombreArtista = '" + aa.verNombreArtista()
+						+ "' AND nombreAlbum = '" + aa.verNombreAlbum()
+						+ "'; ";
 				
 				PreparedStatement preparedStatement = 
 		                connection.prepareStatement(queryString);
@@ -78,16 +80,16 @@ public class artistaAlbumDAO {
 		try {
 			String comprobacion = "SELECT *"
 					+ " FROM ArtistaAlbum"
-					+ " WHERE nombreArtista = " + aa.verNombreArtista()
-					+ " AND nombreAlbum = " + aa.verNombreAlbum()
-					+ "; ";
+					+ " WHERE nombreArtista = '" + aa.verNombreArtista()
+					+ "' AND nombreAlbum = '" + aa.verNombreAlbum()
+					+ "';";
 			
 			PreparedStatement preparedStatement = 
 	                connection.prepareStatement(comprobacion);
 	            
 	        /* Execute query. */                    
-	        int busquedaComp = preparedStatement.executeUpdate();
-	        return (busquedaComp != 0);
+			ResultSet busquedaComp = preparedStatement.executeQuery();
+	        return (busquedaComp.next());
 		}
 		catch (Exception e) {
 			throw e;

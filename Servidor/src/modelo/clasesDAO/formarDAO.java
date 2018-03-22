@@ -2,6 +2,7 @@ package modelo.clasesDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import modelo.clasesVO.formarVO;
@@ -20,8 +21,8 @@ public class formarDAO {
 			throws CancionExisteEnLista, SQLException {
 		try {
 			if (existeCancionEnLista(f, connection)) {
-				throw new CancionExisteEnLista("La canción " + f.verTituloCancion() + "ya existe"
-						+ " en la lista" + f.verNombreLista() + ".");
+				throw new CancionExisteEnLista("La canción " + f.verTituloCancion() + " ya existe"
+						+ " en la lista " + f.verNombreLista() + ".");
 			}
 			else {
 				String queryString = "INSERT INTO Formar(titulo, nombreArtista, nombreAlbum, nombreLista, nombreUsuario)"
@@ -54,17 +55,17 @@ public class formarDAO {
 			throws CancionNoExisteEnLista, SQLException {
 		try {
 			if (!existeCancionEnLista(f, connection)) {
-				throw new CancionNoExisteEnLista("La canción " + f.verTituloCancion() + "no existe"
-						+ " en la lista" + f.verNombreLista() + ".");
+				throw new CancionNoExisteEnLista("La canción " + f.verTituloCancion() + " no existe"
+						+ " en la lista " + f.verNombreLista() + ".");
 			}
 			else {
 				String queryString = "DELETE FROM Formar"
-						+ " WHERE titulo = " + f.verTituloCancion()
-						+ " AND nombreArtista = " + f.verNombreArtista()
-						+ " AND nombreAlbum = " + f.verNombreAlbum()
-						+ " AND nombreLista = " + f.verNombreLista()
-						+ " AND nombreUsuario = " + f.verNombreUsuario()
-						+ ";";
+						+ " WHERE titulo = '" + f.verTituloCancion()
+						+ "' AND nombreArtista = '" + f.verNombreArtista()
+						+ "' AND nombreAlbum = '" + f.verNombreAlbum()
+						+ "' AND nombreLista = '" + f.verNombreLista()
+						+ "' AND nombreUsuario = '" + f.verNombreUsuario()
+						+ "';";
 				
 				PreparedStatement preparedStatement = 
 		                connection.prepareStatement(queryString);
@@ -86,18 +87,18 @@ public class formarDAO {
 		try {
 			String comprobacion = "SELECT *"
 					+ " FROM Formar"
-					+ " WHERE titulo = " + f.verTituloCancion()
-					+ " AND nombreArtista = " + f.verNombreArtista()
-					+ " AND nombreAlbum = " + f.verNombreAlbum()
-					+ " AND nombreLista = " + f.verNombreLista()
-					+ " AND nombreUsuario = " + f.verNombreUsuario()
-					+ ";";
+					+ " WHERE titulo = '" + f.verTituloCancion()
+					+ "' AND nombreArtista = '" + f.verNombreArtista()
+					+ "' AND nombreAlbum = '" + f.verNombreAlbum()
+					+ "' AND nombreLista = '" + f.verNombreLista()
+					+ "' AND nombreUsuario = '" + f.verNombreUsuario()
+					+ "';";
 			PreparedStatement preparedStatement = 
 	                connection.prepareStatement(comprobacion);
 	            
 	        /* Execute query. */                    
-	        int busquedaComp = preparedStatement.executeUpdate();
-	        return (busquedaComp != 0);			
+			ResultSet busquedaComp = preparedStatement.executeQuery();
+	        return (busquedaComp.next());			
 		}
 		catch (Exception e) {
 			throw e;

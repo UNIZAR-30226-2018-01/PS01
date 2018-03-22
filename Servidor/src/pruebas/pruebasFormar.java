@@ -35,24 +35,33 @@ public class pruebasFormar {
 	public void pruebaAnyadirCancionALista() throws CancionExisteEnLista, SQLException {
 		try {
 			fDAO.anyadirCancionALista(fVO, connection);
+			System.out.println("Canción " + fVO.verTituloCancion() + " añadida a la lista " + fVO.verNombreLista() + " correctamente.");
 		}
 		catch (Exception e) {
 			System.out.println(e.toString());
 		}
-		System.out.println("Canción " + fVO.verTituloCancion() + " añadida a la lista " + fVO.verNombreLista() + " correctamente.");
 	}
 	
 	public void pruebaQuitarCancionDeLista() throws CancionNoExisteEnLista, SQLException {
 		try {
 			fDAO.quitarCancionDeLista(fVO, connection);
+			System.out.println("Canción " + fVO.verTituloCancion() + " eliminada de la lista " + fVO.verNombreLista() + " correctamente.");
 		}
 		catch (Exception e) {
 			System.out.println(e.toString());
 		}
-		System.out.println("Canción " + fVO.verTituloCancion() + " eliminada de la lista " + fVO.verNombreLista() + " correctamente.");
 	}
 	
-	public static void main(String args[]) {
+	public static void main(String args[]) throws Exception {
+		pruebasFormar p = new pruebasFormar();
 		
+		p.pruebaExisteCancionEnLista();
+		p.pruebaAnyadirCancionALista();
+		p.pruebaAnyadirCancionALista();
+		p.pruebaExisteCancionEnLista();
+		p.pruebaQuitarCancionDeLista();
+		p.pruebaQuitarCancionDeLista();
+		p.pruebaExisteCancionEnLista();
+		p.pruebaAnyadirCancionALista();
 	}
 }

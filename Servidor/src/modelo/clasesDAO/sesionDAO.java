@@ -2,6 +2,7 @@ package modelo.clasesDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import modelo.clasesVO.sesionVO;
@@ -77,7 +78,7 @@ public class sesionDAO {
 	 */
 	public boolean existeSesion(sesionVO s, Connection connection) throws SQLException {
 		try {
-			String comprobacion = "SELECT nombre "
+			String comprobacion = "SELECT nombreUsuario "
 								+ "FROM Sesion "
 								+ "WHERE nombreUsuario = " + s.verNombreUsuario() + " "
 								+ "AND hashSesion = " + s.verHashSesion() +";";
@@ -86,8 +87,8 @@ public class sesionDAO {
 	                connection.prepareStatement(comprobacion);
 	            
 	        /* Execute query. */                    
-	        int busquedaComp = preparedStatement.executeUpdate();
-	        return (busquedaComp != 0);
+			ResultSet busquedaComp = preparedStatement.executeQuery();
+	        return (busquedaComp.next());
 		}
 		catch (Exception e) {
 			throw e;

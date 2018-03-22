@@ -34,11 +34,11 @@ public class pruebasSesion {
 	public void pruebaInsertarSesion() throws UsuarioYaLogueado, SQLException{
 		try {
 			sDAO.insertarSesion(sVO, connection);
+			System.out.println("Sesión creada correctamente.");
 		}
 		catch (Exception e) {
 			System.out.println(e.toString());
 		}
-		System.out.println("Sesión creada correctamente.");
 	}
 	
 	public void pruebaCerrarSesion() throws UsuarioYaLogueado, SQLException{
@@ -51,7 +51,13 @@ public class pruebasSesion {
 		System.out.println("Sesión cerrada correctamente.");
 	}
 	
-	public static void main(String args[]) {
+	public static void main(String args[]) throws Exception {
+		pruebasSesion p = new pruebasSesion();
 		
+		p.pruebaExisteSesion();
+		p.pruebaInsertarSesion();
+		p.pruebaExisteSesion();
+		p.pruebaCerrarSesion();
+		p.pruebaExisteSesion();
 	}
 }
