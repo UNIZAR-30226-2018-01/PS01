@@ -11,6 +11,7 @@ CREATE TABLE Cancion(
 	nombreAlbum varchar(32),
 	genero varchar(32) default 'Desconocido',
 	uploader varchar(32) REFERENCES Usuario(nombre),
+	ruta varchar UNIQUE NOT NULL,
 	PRIMARY KEY (titulo, nombreArtista, nombreAlbum, uploader),
 	FOREIGN KEY (nombreArtista, nombreAlbum) REFERENCES ArtistaAlbum(nombreArtista, nombreAlbum)
 );
@@ -24,7 +25,7 @@ CREATE TABLE ListaReproduccion(
 	nombre varchar(32),
 	nombreUsuario varchar(32),
 	PRIMARY KEY (nombre, nombreUsuario),
-	FOREIGN KEY (nombreUsuario) REFERENCES Usuario(nombre)
+	FOREIGN KEY (nombreUsuario) REFERENCES Usuario(nombre) ON DELETE CASCADE
 );
 
 CREATE TABLE Formar(
@@ -34,33 +35,33 @@ CREATE TABLE Formar(
 	nombreLista varchar(32),
 	nombreUsuario varchar(32),
 	PRIMARY KEY (titulo, nombreArtista, nombreAlbum, nombreLista, nombreUsuario),
-	FOREIGN KEY (titulo, nombreArtista, nombreAlbum) REFERENCES Cancion(titulo, nombreArtista, nombreAlbum),
-	FOREIGN KEY (nombreLista, nombreUsuario) REFERENCES ListaReproduccion(nombre, nombreUsuario)
+	FOREIGN KEY (titulo, nombreArtista, nombreAlbum) REFERENCES Cancion(titulo, nombreArtista, nombreAlbum) ON DELETE CASCADE,
+	FOREIGN KEY (nombreLista, nombreUsuario) REFERENCES ListaReproduccion(nombre, nombreUsuario) ON DELETE CASCADE
 );
 
-CREATE TABLE Escuchar(
+CREATE TABLE Acceder(
 	nombreLista varchar(32),
 	nombreCreador varchar(32),
 	nombreListener varchar(32),
 	fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (nombreLista, nombreCreador, nombreListener, fecha),
-	FOREIGN KEY (nombreCreador) REFERENCES Usuario(nombre),
-	FOREIGN KEY (nombreListener) REFERENCES Usuario(nombre)
+	FOREIGN KEY (nombreCreador) REFERENCES Usuario(nombre) ON DELETE CASCADE,
+	FOREIGN KEY (nombreListener) REFERENCES Usuario(nombre) ON DELETE CASCADE
 );
 
 CREATE TABLE Sesion(
 	hashSesion varchar(128),
 	nombreUsuario varchar(32),
 	PRIMARY KEY (hashSesion, nombreUsuario),
-	FOREIGN KEY (nombreUsuario) REFERENCES Usuario(nombre)
+	FOREIGN KEY (nombreUsuario) REFERENCES Usuario(nombre) ON DELETE CASCADE
 );
 
 CREATE TABLE Reproducir(
-	nombreUsuario varchar(32) REFERENCES Usuario(nombre),
+	nombreUsuario varchar(32) REFERENCES Usuario(nombre) ON DELETE CASCADE,
 	titulo varchar(32),
 	nombreAlbum varchar(32),
 	nombreArtista varchar(32),
-	FOREIGN KEY (titulo, nombreAlbum, nombreArtista) REFERENCES Cancion(titulo, nombreArtista, nombreAlbum),
+	FOREIGN KEY (titulo, nombreAlbum, nombreArtista) REFERENCES Cancion(titulo, nombreArtista, nombreAlbum) ON DELETE CASCADE,
 	PRIMARY KEY (nombreUsuario, titulo, nombreAlbum, nombreArtista)
 );
 
@@ -69,6 +70,6 @@ CREATE TABLE Gustar(
 	titulo varchar(32),
 	nombreAlbum varchar(32),
 	nombreArtista varchar(32),
-	FOREIGN KEY (titulo, nombreAlbum, nombreArtista) REFERENCES Cancion(titulo, nombreArtista, nombreAlbum),
+	FOREIGN KEY (titulo, nombreAlbum, nombreArtista) REFERENCES Cancion(titulo, nombreAlbum, nombreArtista) ON DELETE CASCADE,
 	PRIMARY KEY (nombreUsuario, titulo, nombreAlbum, nombreArtista)
 );

@@ -29,8 +29,17 @@ public interface InterfazFachada {
 	public void registrarUsuario(String nombreUsuario, String hashPass) 
 			throws UsuarioYaRegistrado, SQLException;
 	
-	public void cerrarSesion(String nombreusuario)
-			throws UsuarioSinLoguear, SQLException;
+	/*
+	 * Pre: 'nombreUsuario' es el nombre de un usuario existente y 'idSesion'
+	 * 		es el id de una nueva sesión
+	 * Post: Ha registrado una nueva sesión 'id' por parte del usuario
+	 * 		 'nombreUsuario'
+	 */
+	public void nuevaSesion(String nombreUsuario, String idSesion)
+			throws SesionExistente, SQLException;
+	
+	public void cerrarSesion(String nombreusuario, String idSesion)
+			throws SesionInexistente, SQLException;
 
 	public void crearListaDeReproduccion(listaReproduccionVO l)
 			throws ListaYaExiste, SQLException;

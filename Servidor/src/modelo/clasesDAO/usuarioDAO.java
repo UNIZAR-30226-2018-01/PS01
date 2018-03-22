@@ -67,9 +67,11 @@ public class usuarioDAO {
 	/*
 	 * Pre: ---
 	 * Post: Si el usuario u no existe en la base de datos, lanza una excepción
-	 * 		 'LoginInexistente'. En caso contrario, no hace nada.
+	 * 		 'LoginInexistente'. En caso contrario, ha comprobado si existe
+	 * 		 una entrada en la tabla usuario con un login y hash de contraseña
+	 * 		 determinados.
 	 */
-	public void iniciarSesion(usuarioVO u, Connection c)
+	public void hayUsuario(usuarioVO u, Connection c)
 			throws LoginInexistente, SQLException{
 		try {
 			// Preparamos la consulta
@@ -86,8 +88,7 @@ public class usuarioDAO {
 			// Comprobamos si ha devuelto algo
 			if(!r.next()) {
 				// Si no ha devuelto significa que no el usuario no existe
-				throw new LoginInexistente("El usuario \"" + u.verNombre() +
-						"\" no existe");
+				throw new LoginInexistente("Datos de login incorrectos");
 			}
 		}
 		catch(Exception e) {

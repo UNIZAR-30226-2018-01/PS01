@@ -21,7 +21,7 @@ public class ImplementacionFachada implements InterfazFachada {
 	public void iniciarSesion(String nombreUsuario, String hashPass)
 			throws LoginInexistente, SQLException {
 		try {
-			new usuarioDAO().iniciarSesion(new usuarioVO(nombreUsuario, hashPass),
+			new usuarioDAO().hayUsuario(new usuarioVO(nombreUsuario, hashPass),
 					obtenerConexion());
 		}
 		catch(Exception e) {
@@ -40,12 +40,24 @@ public class ImplementacionFachada implements InterfazFachada {
 			throw e;
 		}
 	}
+	
+	@Override
+	public void nuevaSesion(String nombreUsuario, String idSesion)
+			throws SesionExistente, SQLException {
+		try {
+			new sesionDAO().insertarSesion(new sesionVO(nombreUsuario, idSesion),
+					obtenerConexion());
+		}
+		catch(Exception e) {
+			throw e;
+		}
+	}
 
 	@Override
-	public void cerrarSesion(String nombreUsuario)
-			throws UsuarioSinLoguear, SQLException {
+	public void cerrarSesion(String nombreUsuario, String idSesion)
+			throws SesionInexistente, SQLException {
 		try {
-			new sesionDAO().cerrarSesion(nombreUsuario,
+			new sesionDAO().cerrarSesion(new sesionVO(nombreUsuario, idSesion),
 					obtenerConexion());
 		}
 		catch (Exception e) {

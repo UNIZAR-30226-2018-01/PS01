@@ -1,9 +1,9 @@
 package modelo.excepcion;
 
-public class UsuarioYaLogueado extends ExcepcionBase{
+public class SesionExistente extends ExcepcionBase{
 	private static final long serialVersionUID = 1L;
 	
-	public UsuarioYaLogueado(String info) {
+	public SesionExistente(String info) {
 		super(info);
 	}
 }
