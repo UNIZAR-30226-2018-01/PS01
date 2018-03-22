@@ -2,6 +2,7 @@ package modelo.clasesDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import modelo.clasesVO.cancionVO;
@@ -32,9 +33,9 @@ public class cancionDAO {
 	        		
 	        		preparedStatement.setString(1, cancion.verTitulo());
 	    			preparedStatement.setString(2, cancion.verNombreArtista());
-	    			preparedStatement.setString(1, cancion.verNombreAlbum());
-	    			preparedStatement.setString(2, cancion.verGenero());
-	    			preparedStatement.setString(1, cancion.verUploader());
+	    			preparedStatement.setString(3, cancion.verNombreAlbum());
+	    			preparedStatement.setString(4, cancion.verGenero());
+	    			preparedStatement.setString(5, cancion.verUploader());
 	    			
 	    			preparedStatement.executeUpdate();
 	        	}
@@ -59,12 +60,12 @@ public class cancionDAO {
 						+ cancion.verUploader() + " no existe.");
 			}
 			else {
-				String queryString = "DELETE FROM TABLE Cancion"
-						+ " WHERE titulo = " + cancion.verTitulo()
-						+ " AND nombreArtista = " + cancion.verNombreArtista()
-						+ " AND nombreAlbum = " + cancion.verNombreAlbum()
-						+ " AND uploader = " + cancion.verUploader()
-						+ ";";
+				String queryString = "DELETE FROM Cancion"
+						+ " WHERE titulo = '" + cancion.verTitulo()
+						+ "' AND nombreArtista = '" + cancion.verNombreArtista()
+						+ "' AND nombreAlbum = '" + cancion.verNombreAlbum()
+						+ "' AND uploader = '" + cancion.verUploader()
+						+ "';";
 				
 				PreparedStatement preparedStatement = 
 		                connection.prepareStatement(queryString);
@@ -86,18 +87,18 @@ public class cancionDAO {
 		try {
 			String comprobacion = "SELECT *"
 					+ " FROM Cancion"
-					+ " WHERE titulo = " + cancion.verTitulo()
-					+ " AND nombreArtista = " + cancion.verNombreArtista()
-					+ " AND nombreAlbum = " + cancion.verNombreAlbum()
-					+ " AND uploader = " + cancion.verUploader()
-					+ ";";
+					+ " WHERE titulo = '" + cancion.verTitulo()
+					+ "' AND nombreArtista = '" + cancion.verNombreArtista()
+					+ "' AND nombreAlbum = '" + cancion.verNombreAlbum()
+					+ "' AND uploader = '" + cancion.verUploader()
+					+ "';";
 			
 			PreparedStatement preparedStatement = 
 	                connection.prepareStatement(comprobacion);
 	            
 	        /* Execute query. */                    
-	        int busquedaComp = preparedStatement.executeUpdate();
-	        return (busquedaComp != 0);
+			ResultSet busquedaComp = preparedStatement.executeQuery();
+	        return (busquedaComp.next());
 		}
 		catch (Exception e) {
 			throw e;

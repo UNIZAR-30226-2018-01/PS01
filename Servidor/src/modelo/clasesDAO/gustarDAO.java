@@ -48,10 +48,10 @@ public class gustarDAO {
 			throws ErrorQuitarMegusta, SQLException {
 		try {
 			String queryString = "DELETE FROM TABLE Gustar"
-					+ " WHERE Gustar.nombreUsuario = " + gustar.verNombreUsuario()
-					+ " AND Gustar.titulo = " + gustar.verTitulo()
-					+ " AND Gustar.nombreAlbum = " + gustar.verNombreAlbum()
-					+ " AND Gustar.nombreArtista = " + gustar.verNombreArtista();
+					+ " WHERE Gustar.nombreUsuario = '" + gustar.verNombreUsuario()
+					+ "' AND Gustar.titulo = '" + gustar.verTitulo()
+					+ "' AND Gustar.nombreAlbum = '" + gustar.verNombreAlbum()
+					+ "' AND Gustar.nombreArtista = '" + gustar.verNombreArtista() + "';";
 			
 			PreparedStatement preparedStatement = 
 	                connection.prepareStatement(queryString);

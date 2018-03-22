@@ -23,8 +23,8 @@ public class usuarioDAO {
 			}
 			else {
 				String queryString = "INSERT INTO Usuario " +
-		                "(login, contrasenya, fechaRegistro, correo) " +
-		            		"VALUES (?,?,?,?)";
+		                "(nombre, hashPass) " +
+		            		"VALUES (?,?)";
 				
 				PreparedStatement preparedStatement = 
 		                connection.prepareStatement(queryString);
@@ -50,14 +50,14 @@ public class usuarioDAO {
 		try {
 			String comprobacion = "SELECT nombre "
 					+ "FROM Usuario "
-					+ "WHERE nombre = " + usuario + ";";
+					+ "WHERE nombre = '" + usuario + "';";
 			
 			PreparedStatement preparedStatement = 
 	                connection.prepareStatement(comprobacion);
 	            
 	        /* Execute query. */                    
-	        int busquedaComp = preparedStatement.executeUpdate();
-	        return (busquedaComp != 0);
+	        ResultSet busquedaComp = preparedStatement.executeQuery();
+	        return (busquedaComp.next());
 		}
 		catch (Exception e) {
 			throw e;

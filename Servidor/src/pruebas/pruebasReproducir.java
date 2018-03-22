@@ -20,14 +20,17 @@ public class pruebasReproducir {
 	public void pruebaAnyadirReproduccion() throws ExcepcionReproduccion, SQLException {
 		try {
 			rDAO.anyadirReproduccion(rVO, connection);
+			System.out.println("Sesión creada correctamente.");
 		}
 		catch (Exception e) {
 			System.out.println(e.toString());
 		}
-		System.out.println("Sesión creada correctamente.");
 	}
 	
-	public static void main(String args[]) {
+	public static void main(String args[]) throws Exception {
+		pruebasReproducir p = new pruebasReproducir();
 		
+		p.pruebaAnyadirReproduccion();
+		p.pruebaAnyadirReproduccion();
 	}
 }

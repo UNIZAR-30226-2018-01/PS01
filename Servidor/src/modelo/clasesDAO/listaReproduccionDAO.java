@@ -2,6 +2,7 @@ package modelo.clasesDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import modelo.clasesVO.listaReproduccionVO;
@@ -19,8 +20,8 @@ public class listaReproduccionDAO {
 			throws ListaYaExiste, SQLException {
 		try {
 			if (existeLista(lista, connection)) {
-				throw new ListaYaExiste("La lista de reproducción " + lista.obtenerNombreLista() + "del"
-						+ " usuario " + lista.obtenerNombreUsuario() + " ya existe.");
+				throw new ListaYaExiste("La lista de reproducción " + lista.obtenerNombreLista()
+						+ " del usuario " + lista.obtenerNombreUsuario() + " ya existe.");
 			}
 			else {
 				String queryString = "INSERT INTO ListaReproduccion(nombre, nombreUsuario) "
@@ -50,13 +51,13 @@ public class listaReproduccionDAO {
 			throws ListaNoExiste, SQLException {
 		try {
 			if (!existeLista(lista, connection)) {
-				throw new ListaNoExiste("La lista " + lista.obtenerNombreLista() + "no existe.");
+				throw new ListaNoExiste("La lista " + lista.obtenerNombreLista() + " no existe.");
 			}
 			else {
 				String queryString = "DELETE FROM ListaReproduccion"
-						+ " WHERE nombre = " + lista.obtenerNombreLista()
-						+ " AND nombreUsuario = " + lista.obtenerNombreUsuario()
-						+ "; ";
+						+ " WHERE nombre = '" + lista.obtenerNombreLista()
+						+ "' AND nombreUsuario = '" + lista.obtenerNombreUsuario()
+						+ "'; ";
 				
 				PreparedStatement preparedStatement = 
 		                connection.prepareStatement(queryString);
@@ -78,16 +79,16 @@ public class listaReproduccionDAO {
 		try {
 			String comprobacion = "SELECT *"
 					+ " FROM ListaReproduccion"
-					+ " WHERE nombre = " + lista.obtenerNombreLista()
-					+ " AND nombreUsuario = " + lista.obtenerNombreUsuario() 
-					+ ";";
+					+ " WHERE nombre = '" + lista.obtenerNombreLista()
+					+ "' AND nombreUsuario = '" + lista.obtenerNombreUsuario() 
+					+ "';";
 			
 			PreparedStatement preparedStatement = 
 	                connection.prepareStatement(comprobacion);
 	            
 	        /* Execute query. */                    
-	        int busquedaComp = preparedStatement.executeUpdate();
-	        return (busquedaComp != 0);
+			ResultSet busquedaComp = preparedStatement.executeQuery();
+	        return (busquedaComp.next());
 		}
 		catch (Exception e) {
 			throw e;

@@ -36,14 +36,18 @@ public class pruebasUsuario {
 	public void pruebaInsertarUsuario() throws UsuarioYaRegistrado, SQLException{
 		try {
 			new usuarioDAO().insertarUsuario(uVO, connection);
+			System.out.println("Usuario insertado correctamente.");
 		}
 		catch (Exception e) {
 			System.out.println(e.toString());
 		}
-		System.out.println("Usuario insertado correctamente.");
 	}
 			
-	public static void main(String args[]) {
+	public static void main(String args[]) throws Exception {
+		pruebasUsuario p = new pruebasUsuario();
 		
+		p.pruebaExisteUsuario();
+		p.pruebaInsertarUsuario();
+		p.pruebaExisteUsuario();
 	}
 }
