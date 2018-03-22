@@ -48,10 +48,12 @@ public class IniciarSesion extends HttpServlet {
 	
 	/*
 	 * Pre: ---
-	 * Post: Función que crea el identificador de la sesión.
+	 * Post: Función que crea el identificador de la sesión, partiendo de
+	 * 		 la hora actual y el nombre del usuario
 	 */
-	private static String crearIdSesion(String s) {
+	private static String crearIdSesion(String nombre) {
 		String sha1 = "";
+		String s = System.currentTimeMillis() + nombre;
 	    try {
 	        MessageDigest crypt = MessageDigest.getInstance("SHA-1");
 	        crypt.reset();
@@ -71,11 +73,11 @@ public class IniciarSesion extends HttpServlet {
 			throws IOException, ServletException {
 		// Variable para guardar los errores
 		HashMap<String, String> errors = new HashMap <String, String>();
-		String idSesion = crearIdSesion(); // Genera un id de sesion
 		
 		// Recuperamos los parámetros
 		String nombre = request.getParameter("nombre");
 		String hashPass = request.getParameter("hashPass");
+		String idSesion = crearIdSesion(nombre); // Genera un id de sesion
 	
 		// Comprobamos los parámetros recibidos
 		if ((nombre == null) || (nombre.trim().equals("")) || (hashPass == null)

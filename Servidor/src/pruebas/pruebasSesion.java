@@ -19,7 +19,7 @@ public class pruebasSesion {
 	
 	public void pruebaExisteSesion() throws SQLException {
 		try {
-			if (sDAO.existeSesion(sVO.verNombreUsuario(), connection)) {
+			if (sDAO.existeSesion(sVO, connection)) {
 				System.out.println("La sesion del usuario " + sVO.verNombreUsuario() + " ya existe.");
 			}
 			else {
@@ -31,7 +31,7 @@ public class pruebasSesion {
 		}
 	}
 	
-	public void pruebaInsertarSesion() throws UsuarioYaLogueado, SQLException{
+	public void pruebaInsertarSesion() throws SesionExistente, SQLException{
 		try {
 			sDAO.insertarSesion(sVO, connection);
 			System.out.println("Sesión creada correctamente.");
@@ -41,9 +41,9 @@ public class pruebasSesion {
 		}
 	}
 	
-	public void pruebaCerrarSesion() throws UsuarioYaLogueado, SQLException{
+	public void pruebaCerrarSesion() throws SesionExistente, SQLException{
 		try {
-			sDAO.cerrarSesion(sVO.verNombreUsuario(), connection);
+			sDAO.cerrarSesion(sVO, connection);
 		}
 		catch (Exception e) {
 			System.out.println(e.toString());
@@ -53,7 +53,6 @@ public class pruebasSesion {
 	
 	public static void main(String args[]) throws Exception {
 		pruebasSesion p = new pruebasSesion();
-		
 		p.pruebaExisteSesion();
 		p.pruebaInsertarSesion();
 		p.pruebaExisteSesion();
