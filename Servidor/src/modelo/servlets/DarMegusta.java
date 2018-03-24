@@ -34,6 +34,7 @@ public class DarMegusta extends HttpServlet {
 		String tituloCancion = request.getParameter("tituloCancion");
 		String nombreAlbum = request.getParameter("nombreAlbum");
 		String nombreArtista = request.getParameter("nombreArtista");
+		String uploader = request.getParameter("uploader");
 		Cookie[] cookies = request.getCookies();
 		
 		if(cookies != null){
@@ -57,7 +58,7 @@ public class DarMegusta extends HttpServlet {
 		}
 		else {
 			try {
-				new ImplementacionFachada().megusta(new gustarVO(nombreUsuario, tituloCancion, nombreAlbum, nombreArtista));
+				new ImplementacionFachada().megusta(new gustarVO(nombreUsuario, tituloCancion, nombreAlbum, nombreArtista, uploader));
 			}
 			catch (ErrorAnyadirMegusta l) {
 				request.setAttribute("ListaYaExiste", l.toString());

@@ -7,6 +7,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import com.mysql.jdbc.Connection;
+
 import modelo.clasesDAO.*;
 import modelo.clasesVO.*;
 
@@ -16,15 +17,16 @@ public class ImplementacionFachada implements InterfazFachada {
 	 * Pre:  ---
 	 * Post: Ha devuelto un objeto de conexión del pool de conexiones
 	 */
-	private static Connection obtenerConexion() {
+	private static Connection obtenerConexion() throws SQLException {
 		try {
-		Context initContext = new InitialContext();
-		DataSource ds = (DataSource) initContext.lookup("java:/comp/env/jdbc/ConexionMySQL");
-		return ds.getConnection();
+			Context initContext = new InitialContext();
+			DataSource ds = (DataSource) initContext.lookup("java:/comp/env/jdbc/ConexionMySQL");
+			return (Connection) ds.getConnection();
 		}
 		catch(NamingException e) {
 			System.out.println("Error al obtener conexion del pool");
 		}
+		return null;
 	}
 	
 	@Override

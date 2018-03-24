@@ -5,12 +5,14 @@ public class gustarVO {
 	private String tituloCancion;
 	private String nombreAlbum;
 	private String nombreArtista;
+	private String nombreUploader;
 
-	public gustarVO(String nombreUsuario, String tituloCancion, String nombreAlbum, String nombreArtista){
+	public gustarVO(String nombreUsuario, String tituloCancion, String nombreAlbum, String nombreArtista, String nombreUploader){
 		this.nombreUsuario = nombreUsuario;
 		this.tituloCancion = tituloCancion;
 		this.nombreAlbum = nombreAlbum;
 		this.nombreArtista = nombreArtista;
+		this.nombreUploader = nombreUploader;
 	}
 
 	public String verNombreUsuario(){
@@ -27,6 +29,10 @@ public class gustarVO {
 
 	public String verNombreArtista(){
 		return nombreArtista;
+	}
+	
+	public String verNombreUploader() {
+		return nombreUploader;
 	}
 
 	public void modificarNombreUsuario(String nuevoUsuario){
@@ -50,6 +56,12 @@ public class gustarVO {
 	public void modificarNombreArtista(String nuevoArtista){
 		if (nuevoArtista != null){
 			nombreArtista = nuevoArtista;
+		}
+	}
+	
+	public void modificarNombreUploader(String nuevoUploader) {
+		if (nuevoUploader != null) {
+			nombreUploader = nuevoUploader;
 		}
 	}
 }

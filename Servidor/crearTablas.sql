@@ -70,6 +70,7 @@ CREATE TABLE Gustar(
 	titulo varchar(32),
 	nombreAlbum varchar(32),
 	nombreArtista varchar(32),
-	FOREIGN KEY (titulo, nombreAlbum, nombreArtista) REFERENCES Cancion(titulo, nombreAlbum, nombreArtista) ON DELETE CASCADE,
-	PRIMARY KEY (nombreUsuario, titulo, nombreAlbum, nombreArtista)
+	uploader varchar(32),
+	PRIMARY KEY (nombreUsuario, titulo, nombreAlbum, nombreArtista),
+	FOREIGN KEY (titulo, nombreArtista, nombreAlbum, uploader) REFERENCES Cancion(titulo, nombreArtista, nombreAlbum, uploader) ON DELETE CASCADE
 );

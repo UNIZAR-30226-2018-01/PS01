@@ -33,6 +33,7 @@ public class QuitarMegusta extends HttpServlet {
 		String tituloCancion = request.getParameter("tituloCancion");
 		String nombreAlbum = request.getParameter("nombreAlbum");
 		String nombreArtista = request.getParameter("nombreArtista");
+		String uploader = request.getParameter("uploader");
 		Cookie[] cookies = request.getCookies();
 		
 		if(cookies != null){
@@ -56,7 +57,7 @@ public class QuitarMegusta extends HttpServlet {
 		}
 		else {
 			try {
-				new ImplementacionFachada().yanomegusta(new gustarVO(nombreUsuario, tituloCancion, nombreAlbum, nombreArtista));
+				new ImplementacionFachada().yanomegusta(new gustarVO(nombreUsuario, tituloCancion, nombreAlbum, nombreArtista, uploader));
 			}
 			catch (ErrorQuitarMegusta l) {
 				request.setAttribute("ListaYaExiste", l.toString());

@@ -11,7 +11,7 @@ import modelo.excepcion.ErrorQuitarMegusta;
 import modelo.excepcion.ExcepcionReproduccion;
 
 public class pruebasGustar {
-	private gustarVO gVO = new gustarVO("alberto", "cancion_1", "album_1", "artista_1");
+	private gustarVO gVO = new gustarVO("alberto", "cancion_1", "album_1", "artista_1", "alberto");
 	private gustarDAO gDAO = new gustarDAO();
 	private Connection connection = null;
 	
