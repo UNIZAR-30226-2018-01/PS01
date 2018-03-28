@@ -11,12 +11,13 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import modelo.ImplementacionFachada;
 import modelo.clasesVO.reproducirVO;
 import modelo.excepcion.ExcepcionReproduccion;
 
 @WebServlet("/AnyadirReproduccion")
-public class anyadirReproduccion extends HttpServlet {
+public class AnyadirReproduccion extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String PAGINA_ACTUAL = "inicio.jsp";
 	private static final String PAGINA_SIG = "inicio.jsp";
