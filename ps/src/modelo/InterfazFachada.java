@@ -38,6 +38,16 @@ public interface InterfazFachada {
 	public void nuevaSesion(String nombreUsuario, String idSesion)
 			throws SesionExistente, SQLException;
 	
+	/*
+	 * Pre:
+	 * Post: Consulta si el usuario 'nombreUsuario' tiene registrada una
+	 * 		 sesión con identificador 'idSesion'. En caso de no tenerla,
+	 * 		 devuelve una excepción 'SesionInexistente'
+	 */
+	public void existeSesionUsuario(String nombreUsuario, String idSesion)
+			throws SesionInexistente, SQLException;
+	
+	
 	public void cerrarSesion(String nombreusuario, String idSesion)
 			throws SesionInexistente, SQLException;
 

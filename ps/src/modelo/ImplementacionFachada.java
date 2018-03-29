@@ -7,34 +7,19 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import com.mysql.jdbc.Connection;
-
 import modelo.clasesDAO.*;
 import modelo.clasesVO.*;
+import modelo.FuncionesAuxiliares;
 
 public class ImplementacionFachada implements InterfazFachada {
 
-	/*
-	 * Pre:  ---
-	 * Post: Ha devuelto un objeto de conexión del pool de conexiones
-	 */
-	private static Connection obtenerConexion() throws SQLException {
-		try {
-			Context initContext = new InitialContext();
-			DataSource ds = (DataSource) initContext.lookup("java:/comp/env/jdbc/ConexionMySQL");
-			return (Connection) ds.getConnection();
-		}
-		catch(NamingException e) {
-			System.out.println("Error al obtener conexion del pool");
-		}
-		return null;
-	}
 	
 	@Override
 	public void iniciarSesion(String nombreUsuario, String hashPass)
 			throws LoginInexistente, SQLException {
 		try {
 			new usuarioDAO().hayUsuario(new usuarioVO(nombreUsuario, hashPass),
-					obtenerConexion());
+					FuncionesAuxiliares.obtenerConexion());
 		}
 		catch(Exception e) {
 			throw e;
@@ -46,7 +31,7 @@ public class ImplementacionFachada implements InterfazFachada {
 			throws UsuarioYaRegistrado, SQLException {
 		try {
 			new usuarioDAO().insertarUsuario(new usuarioVO(nombreUsuario, hashPass),
-					obtenerConexion());
+					FuncionesAuxiliares.obtenerConexion());
 		}
 		catch(Exception e) {
 			throw e;
@@ -58,7 +43,19 @@ public class ImplementacionFachada implements InterfazFachada {
 			throws SesionExistente, SQLException {
 		try {
 			new sesionDAO().insertarSesion(new sesionVO(nombreUsuario, idSesion),
-					obtenerConexion());
+					FuncionesAuxiliares.obtenerConexion());
+		}
+		catch(Exception e) {
+			throw e;
+		}
+	}
+	
+	@Override
+	public void existeSesionUsuario(String nombreUsuario, String idSesion)
+			throws SesionInexistente, SQLException{
+		try {
+			new sesionDAO().existeSesion(new sesionVO(nombreUsuario, idSesion),
+					FuncionesAuxiliares.obtenerConexion());
 		}
 		catch(Exception e) {
 			throw e;
@@ -70,7 +67,7 @@ public class ImplementacionFachada implements InterfazFachada {
 			throws SesionInexistente, SQLException {
 		try {
 			new sesionDAO().cerrarSesion(new sesionVO(nombreUsuario, idSesion),
-					obtenerConexion());
+					FuncionesAuxiliares.obtenerConexion());
 		}
 		catch (Exception e) {
 			throw e;
@@ -83,7 +80,7 @@ public class ImplementacionFachada implements InterfazFachada {
 			throws ListaYaExiste, SQLException {
 		try {
 			new listaReproduccionDAO().anyadirLista(l,
-					obtenerConexion());
+					FuncionesAuxiliares.obtenerConexion());
 		}
 		catch (Exception e) {
 			throw e;
@@ -95,7 +92,7 @@ public class ImplementacionFachada implements InterfazFachada {
 			throws ListaNoExiste, SQLException {
 		try {
 			new listaReproduccionDAO().quitarLista(l,
-					obtenerConexion());
+					FuncionesAuxiliares.obtenerConexion());
 		}
 		catch (Exception e) {
 			throw e;
@@ -107,7 +104,7 @@ public class ImplementacionFachada implements InterfazFachada {
 			throws ErrorAnyadirMegusta, SQLException {
 		try {
 			new gustarDAO().megusta(g,
-					obtenerConexion());
+					FuncionesAuxiliares.obtenerConexion());
 		}
 		catch (Exception e) {
 			throw e;
@@ -119,7 +116,7 @@ public class ImplementacionFachada implements InterfazFachada {
 			throws ErrorQuitarMegusta, SQLException {
 		try {
 			new gustarDAO().yanomegusta(g,
-					obtenerConexion());
+					FuncionesAuxiliares.obtenerConexion());
 		}
 		catch (Exception e) {
 			throw e;
@@ -131,7 +128,7 @@ public class ImplementacionFachada implements InterfazFachada {
 			throws ExcepcionReproduccion, SQLException {
 		try {
 			new reproducirDAO().anyadirReproduccion(r,
-					obtenerConexion());
+					FuncionesAuxiliares.obtenerConexion());
 		}
 		catch (Exception e) {
 			throw e;
@@ -143,7 +140,7 @@ public class ImplementacionFachada implements InterfazFachada {
 			throws CancionExisteEnLista, SQLException {
 		try {
 			new formarDAO().anyadirCancionALista(f,
-					obtenerConexion());
+					FuncionesAuxiliares.obtenerConexion());
 		}
 		catch (Exception e) {
 			throw e;
@@ -155,7 +152,7 @@ public class ImplementacionFachada implements InterfazFachada {
 			throws CancionNoExisteEnLista, SQLException {
 		try {
 			new formarDAO().quitarCancionDeLista(f,
-					obtenerConexion());
+					FuncionesAuxiliares.obtenerConexion());
 		}
 		catch (Exception e) {
 			throw e;
@@ -167,7 +164,7 @@ public class ImplementacionFachada implements InterfazFachada {
 			throws ExcepcionEscuchar, SQLException {
 		try {
 			new escucharDAO().anyadir(e,
-					obtenerConexion());
+					FuncionesAuxiliares.obtenerConexion());
 		}
 		catch (Exception ex) {
 			throw ex;
@@ -179,7 +176,7 @@ public class ImplementacionFachada implements InterfazFachada {
 			throws CancionYaExiste, SQLException {
 		try {
 			new cancionDAO().anyadirCancion(c,
-					obtenerConexion());
+					FuncionesAuxiliares.obtenerConexion());
 		}
 		catch (Exception e) {
 			throw e;
@@ -191,7 +188,7 @@ public class ImplementacionFachada implements InterfazFachada {
 			throws CancionNoExiste, SQLException {
 		try {
 			new cancionDAO().quitarCancion(c,
-					obtenerConexion());
+					FuncionesAuxiliares.obtenerConexion());
 		}
 		catch (Exception e) {
 			throw e;
@@ -203,7 +200,7 @@ public class ImplementacionFachada implements InterfazFachada {
 			throws ArtistaAlbumExiste, SQLException {
 		try {
 			new artistaAlbumDAO().anyadirArtistaAlbum(a,
-					obtenerConexion());
+					FuncionesAuxiliares.obtenerConexion());
 		}
 		catch (Exception e) {
 			throw e;
@@ -215,7 +212,7 @@ public class ImplementacionFachada implements InterfazFachada {
 			throws ArtistaAlbumNoExiste, SQLException {
 		try {
 			new artistaAlbumDAO().quitarArtistaAlbum(a,
-					obtenerConexion());
+					FuncionesAuxiliares.obtenerConexion());
 		}
 		catch (Exception e) {
 			throw e;

@@ -20,24 +20,23 @@ public class sesionDAO {
 	public void insertarSesion(sesionVO sesion, Connection connection)
 			throws SesionExistente, SQLException {
 		try {
-			if (existeSesion(sesion, connection)) {
-				throw new SesionExistente("Existe esa misma sesión");
-			}
-			else {
-				String queryString = "INSERT INTO Sesion " +
-		                "(hashSesion, nombreUsuario) " +
-		            		"VALUES (?,?);";
-				
-				PreparedStatement preparedStatement = 
-		                connection.prepareStatement(queryString);
-	        		
-	        		preparedStatement.setString(1, sesion.verHashSesion());
-	        		preparedStatement.setString(2, sesion.verNombreUsuario());
-	        		
-	        		preparedStatement.executeUpdate();
-			}	        
+			existeSesion(sesion, connection);
+			throw new SesionExistente("Existe esa misma sesión");	        
 		}
-		catch (SQLException e) {
+		catch (SesionInexistente e) {
+			String queryString = "INSERT INTO Sesion " +
+	                "(hashSesion, nombreUsuario) " +
+	            		"VALUES (?,?);";
+			
+			PreparedStatement preparedStatement = 
+	                connection.prepareStatement(queryString);
+    		
+    		preparedStatement.setString(1, sesion.verHashSesion());
+    		preparedStatement.setString(2, sesion.verNombreUsuario());
+    		
+    		preparedStatement.executeUpdate();
+		}
+		catch (Exception e) {
 			throw e;
 		}
 	}
@@ -47,26 +46,22 @@ public class sesionDAO {
 	 * Post: Ha borrado la sesión actual de un determinado usuario eliminando la correspondiente
 	 * 		 tupla de la tabla Sesion de la BD.
 	 * 		 Si el usuario no estuviera logueado y se ejecutase esta función, entonces y solo entonces
-	 * 		 saltaría una excepción 'UsuarioYaLogueado'.
+	 * 		 saltaría una excepción 'SesionInexistente'.
 	 */
 	public void cerrarSesion(sesionVO s, Connection connection)
 			throws SesionInexistente, SQLException {
 		try {
-			if (existeSesion(s, connection)) {
-				String queryString = "DELETE FROM Sesion "
-								   + "WHERE nombreUsuario = " + s.verNombreUsuario() + " "
-								   + "AND hashSesion = " + s.verHashSesion() +";";
-				PreparedStatement preparedStatement = 
-		                connection.prepareStatement(queryString);
-		            
-		        /* Execute query. */                    
-		        preparedStatement.executeUpdate();				
-			}
-			else {
-				throw new SesionInexistente("No existe una sesión con las características proporcionadas");
-			}
+			existeSesion(s, connection);
+			String queryString = "DELETE FROM Sesion "
+							   + "WHERE nombreUsuario = " + s.verNombreUsuario() + " "
+							   + "AND hashSesion = " + s.verHashSesion() +";";
+			PreparedStatement preparedStatement = 
+	                connection.prepareStatement(queryString);
+	            
+	        /* Execute query. */                    
+	        preparedStatement.executeUpdate();				
 		}
-		catch (SQLException e) {
+		catch (Exception e) {
 			throw e;
 		}
 	}
@@ -76,7 +71,8 @@ public class sesionDAO {
 	 * Post: Devuelve verdad si y solo si existe una sesión
 	 * 		 registrada para un determinado usuario.
 	 */
-	public boolean existeSesion(sesionVO s, Connection connection) throws SQLException {
+	public void existeSesion(sesionVO s, Connection connection) throws
+			SQLException, SesionInexistente {
 		try {
 			String comprobacion = "SELECT nombreUsuario "
 								+ "FROM Sesion "
@@ -88,7 +84,9 @@ public class sesionDAO {
 	            
 	        /* Execute query. */                    
 			ResultSet busquedaComp = preparedStatement.executeQuery();
-	        return (busquedaComp.next());
+			if(!busquedaComp.next()) {
+				throw new SesionInexistente("No existe una sesión con las características proporcionadas");
+			}
 		}
 		catch (Exception e) {
 			throw e;
