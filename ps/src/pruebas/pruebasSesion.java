@@ -19,12 +19,11 @@ public class pruebasSesion {
 	
 	public void pruebaExisteSesion() throws SQLException {
 		try {
-			if (sDAO.existeSesion(sVO, connection)) {
-				System.out.println("La sesion del usuario " + sVO.verNombreUsuario() + " ya existe.");
-			}
-			else {
-				System.out.println("La sesión del usuario " + sVO.verNombreUsuario() + " no existe.");
-			}
+			sDAO.existeSesion(sVO, connection);
+			System.out.println("La sesion del usuario " + sVO.verNombreUsuario() + " ya existe.");
+		}
+		catch(SesionInexistente e) {
+			System.out.println("La sesión del usuario " + sVO.verNombreUsuario() + " no existe.");
 		}
 		catch (Exception e) {
 			System.out.println(e.toString());

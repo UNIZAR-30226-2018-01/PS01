@@ -10,68 +10,67 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
   <servlet>
-	 <servlet-name>AnyadirArtistaAlbum</servlet-name>
-	 <servlet-class>AnyadirArtistaAlbum</servlet-class>
+    <servlet-name>AnyadirArtistaAlbum</servlet-name>
+    <servlet-class>AnyadirArtistaAlbum</servlet-class>
   </servlet>
   <servlet>
-	 <servlet-name>IniciarSesion</servlet-name>
-	 <servlet-class>IniciarSesion</servlet-class>
+    <servlet-name>IniciarSesion</servlet-name>
+    <servlet-class>IniciarSesion</servlet-class>
   </servlet>
   <servlet>
-	 <servlet-name>RegistrarUsuario</servlet-name>
-	 <servlet-class>RegistrarUsuario</servlet-class>
+    <servlet-name>RegistrarUsuario</servlet-name>
+    <servlet-class>RegistrarUsuario</servlet-class>
   </servlet>
   <servlet>
-	 <servlet-name>QuitarMegusta</servlet-name>
-	 <servlet-class>QuitarMegusta</servlet-class>
+    <servlet-name>QuitarMegusta</servlet-name>
+    <servlet-class>QuitarMegusta</servlet-class>
   </servlet>
   <servlet>
-	 <servlet-name>QuitarCancionUsuario</servlet-name>
-	 <servlet-class>QuitarCancionUsuario</servlet-class>
+    <servlet-name>QuitarCancionUsuario</servlet-name>
+    <servlet-class>QuitarCancionUsuario</servlet-class>
   </servlet>
   <servlet>
-	 <servlet-name>CerrarSesion</servlet-name>
-	 <servlet-class>CerrarSesion</servlet-class>
+    <servlet-name>CerrarSesion</servlet-name>
+    <servlet-class>CerrarSesion</servlet-class>
   </servlet>
   <servlet>
-	 <servlet-name>BuscarCancionTitulo</servlet-name>
-	 <servlet-class>BuscarCancionTitulo</servlet-class>
+    <servlet-name>BuscarCancionTitulo</servlet-name>
+    <servlet-class>BuscarCancionTitulo</servlet-class>
   </servlet>
   <servlet>
-	 <servlet-name>BorrarListaDeReproduccion</servlet-name>
-	 <servlet-class>BorrarListaDeReproduccion</servlet-class>
+    <servlet-name>BorrarListaDeReproduccion</servlet-name>
+    <servlet-class>BorrarListaDeReproduccion</servlet-class>
   </servlet>
   <servlet>
-	 <servlet-name>AnyadirReproduccion</servlet-name>
-	 <servlet-class>AnyadirReproduccion</servlet-class>
+    <servlet-name>AnyadirReproduccion</servlet-name>
+    <servlet-class>AnyadirReproduccion</servlet-class>
   </servlet>
   <servlet>
-	 <servlet-name>AnyadirCancionUsuario</servlet-name>
-	 <servlet-class>AnyadirCancionUsuario</servlet-class>
+    <servlet-name>AnyadirCancionUsuario</servlet-name>
+    <servlet-class>AnyadirCancionUsuario</servlet-class>
   </servlet>
   <servlet>
-	 <servlet-name>AnyadirCancionALista</servlet-name>
-	 <servlet-class>AnyadirCancionALista</servlet-class>
+    <servlet-name>AnyadirCancionALista</servlet-name>
+    <servlet-class>AnyadirCancionALista</servlet-class>
   </servlet>
   <servlet>
-	 <servlet-name>AnyadirAudicionLista</servlet-name>
-	 <servlet-class>AnyadirAudicionLista</servlet-class>
+    <servlet-name>AnyadirAudicionLista</servlet-name>
+    <servlet-class>AnyadirAudicionLista</servlet-class>
   </servlet>
   <servlet>
-	 <servlet-name>QuitarCancionDeLista</servlet-name>
-	 <servlet-class>QuitarCancionDeLista</servlet-class>
+    <servlet-name>QuitarCancionDeLista</servlet-name>
+    <servlet-class>QuitarCancionDeLista</servlet-class>
   </servlet>
   <servlet>
-	 <servlet-name>QuitarArtistaAlbum</servlet-name>
-	 <servlet-class>QuitarArtistaAlbum</servlet-class>
+    <servlet-name>QuitarArtistaAlbum</servlet-name>
+    <servlet-class>QuitarArtistaAlbum</servlet-class>
   </servlet>
   <servlet>
-	 <servlet-name>DarMegusta</servlet-name>
-	 <servlet-class>DarMegusta</servlet-class>
+    <servlet-name>DarMegusta</servlet-name>
+    <servlet-class>DarMegusta</servlet-class>
   </servlet>
   <servlet>
-	 <servlet-name>CrearListaDeReproduccion</servlet-name>
-	 <servlet-class>CrearListaDeReproduccion</servlet-class>
+    <servlet-name>CrearListaDeReproduccion</servlet-name>
+    <servlet-class>CrearListaDeReproduccion</servlet-class>
   </servlet>
-  
 </web-app>

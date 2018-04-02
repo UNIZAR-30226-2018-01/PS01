@@ -4,10 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Vector;
 
+import modelo.FuncionesAuxiliares;
 import modelo.clasesVO.listaReproduccionVO;
+import modelo.excepcion.CancionNoExiste;
 import modelo.excepcion.ListaNoExiste;
 import modelo.excepcion.ListaYaExiste;
+import modelo.excepcion.NoHayListas;
 
 public class listaReproduccionDAO {
 	/*
@@ -94,4 +98,33 @@ public class listaReproduccionDAO {
 			throw e;
 		}
 	}	
+	
+	/*
+	 * Pre:
+	 * Post: Ha devuelto un Vector con todas las listas que un usuario ha creado
+	 * 		 y las de los usuarios a los que sigue
+	 */
+	public Vector<String> devolverListas(String nombreUsuario, Connection c)
+			throws SQLException, NoHayListas {
+		try {
+			String s = "SELECT * "
+					 + "FROM listaReproduccion "
+					 + "WHERE nombreUsuario = '"
+					 + nombreUsuario + "';";
+			PreparedStatement p = c.prepareStatement(s);
+			ResultSet r = p.executeQuery();
+			
+			// Comprobamos que exista la canción
+			if(!r.first()) {
+				throw new NoHayListas("El usuario no tiene ninguna lista asociada");
+			}
+			
+			// Obtenemos y devolvemos el nombre de las listas
+			return new Vector<String>(FuncionesAuxiliares.
+							obtenerValorColumna(r, "nombre"));
+		}
+		catch (Exception e) {
+			throw e;
+		}
+	}
 }

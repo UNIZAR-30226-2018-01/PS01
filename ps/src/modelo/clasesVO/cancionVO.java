@@ -6,8 +6,24 @@ public class cancionVO {
 	private String nombreAlbum = "Desconocido";
 	private String genero = "Desconocido";
 	private String uploader;
+	private String ruta;
 
-	public cancionVO(String tituloCancion, String nombreArtista, String nombreAlbum, String genero, String uploader){
+	public cancionVO(String tituloCancion, String nombreArtista,
+			String nombreAlbum, String genero, String uploader, String ruta){
+		this.tituloCancion = tituloCancion;
+		if (nombreArtista != null){
+			this.nombreArtista = nombreArtista;
+		}
+		if (nombreAlbum != null){
+			this.nombreAlbum = nombreAlbum;
+		}
+		this.genero = genero;
+		this.uploader = uploader;
+		this.ruta = ruta;
+	}
+	
+	public cancionVO(String tituloCancion, String nombreArtista,
+			String nombreAlbum, String genero, String uploader){
 		this.tituloCancion = tituloCancion;
 		if (nombreArtista != null){
 			this.nombreArtista = nombreArtista;

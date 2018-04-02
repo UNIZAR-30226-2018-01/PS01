@@ -2,6 +2,8 @@ package modelo;
 
 import modelo.excepcion.*;
 import java.sql.SQLException;
+import java.util.Vector;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -213,6 +215,54 @@ public class ImplementacionFachada implements InterfazFachada {
 		try {
 			new artistaAlbumDAO().quitarArtistaAlbum(a,
 					FuncionesAuxiliares.obtenerConexion());
+		}
+		catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	@Override
+	public Vector<cancionVO> buscarCancionPorTitulo(String titulo,
+			String nombreUploader)
+			throws SQLException, CancionNoExiste {
+		try {
+			Vector<cancionVO> v = new cancionDAO().
+					buscarCancionPorTitulo(new cancionVO(titulo, "", "", "", ""),
+							nombreUploader,
+							FuncionesAuxiliares.obtenerConexion());
+			return v;
+		}
+		catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	@Override
+	public Vector<cancionVO> buscarCancionPorArtista(String artista,
+			String nombreUploader)
+			throws SQLException, CancionNoExiste {
+		try {
+			Vector<cancionVO> v = new cancionDAO().
+					buscarCancionPorArtista(new cancionVO("", artista, "", "", ""),
+							nombreUploader,
+							FuncionesAuxiliares.obtenerConexion());
+			return v;
+		}
+		catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	@Override
+	public Vector<cancionVO> buscarCancionPorAlbum(String album,
+			String nombreUploader)
+			throws SQLException, CancionNoExiste {
+		try {
+			Vector<cancionVO> v = new cancionDAO().
+					buscarCancionPorAlbum(new cancionVO("", "", album, "", ""),
+							nombreUploader,
+							FuncionesAuxiliares.obtenerConexion());
+			return v;
 		}
 		catch (Exception e) {
 			throw e;

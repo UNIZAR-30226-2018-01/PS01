@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Vector;
 
+import modelo.FuncionesAuxiliares;
 import modelo.clasesVO.cancionVO;
 import modelo.excepcion.CancionNoExiste;
 import modelo.excepcion.CancionYaExiste;
@@ -78,6 +80,7 @@ public class cancionDAO {
 		}
 	}
 	
+	
 	/*
 	 * Pre: ---
 	 * Post: Devuelve verdad si y solo si existe en la tabla Cancion una canción igual
@@ -101,6 +104,180 @@ public class cancionDAO {
 	        return (busquedaComp.next());
 		}
 		catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	/*
+	 * Pre:
+	 * Post Busca en la BD si existe una cancion en la BD con el título proporcionado,
+	 * 		bien sea subida por el administrador o por el usuario.
+	 * 		Además, devuelve un vector de cancionesVO que contiene todas las canciones
+	 * 		obtenidas en la consulta.
+	 * 		De no existir, lanza una excepción CancionNoExiste
+	 */
+	public Vector<cancionVO> buscarCancionPorTitulo(cancionVO c,
+			String nombreUploader, Connection cc)
+			throws SQLException, CancionNoExiste {
+		try {
+			String s = "SELECT * FROM Cancion WHERE "
+					 + "titulo = '" + c.verNombreArtista() + "' AND "
+					 + "(uploader = '" + nombreUploader + "' OR"
+					 + "uploader = 'Admin');";
+			PreparedStatement preparedStatement = cc.prepareStatement(s);
+			ResultSet busquedaComp = preparedStatement.executeQuery();
+			
+			// Comprobamos que exista la canción
+			if(!busquedaComp.first()) {
+				throw new CancionNoExiste("La cancion buscada no existe en la BD");
+			}
+			
+			// Generamos los objetos VO
+			Vector<String> titulos =
+					new Vector<String>(FuncionesAuxiliares.
+							obtenerValorColumna(busquedaComp, "titulo"));
+			Vector<String> nombres =
+					new Vector<String>(FuncionesAuxiliares.
+							obtenerValorColumna(busquedaComp, "nombreArtista"));
+			Vector<String> albums =
+					new Vector<String>(FuncionesAuxiliares.
+							obtenerValorColumna(busquedaComp, "nombreAlbum"));
+			Vector<String> generos =
+					new Vector<String>(FuncionesAuxiliares.
+							obtenerValorColumna(busquedaComp, "genero"));
+			Vector<String> uploaders =
+					new Vector<String>(FuncionesAuxiliares.
+							obtenerValorColumna(busquedaComp, "uploader"));
+			Vector<String> rutas =
+					new Vector<String>(FuncionesAuxiliares.
+							obtenerValorColumna(busquedaComp, "ruta"));
+			Vector<cancionVO> canciones =new Vector<cancionVO>(); 
+			
+			for(int i=0; i<titulos.size(); i++) {
+				canciones.add(new cancionVO(titulos.elementAt(i),
+						nombres.elementAt(i), albums.elementAt(i),
+						generos.elementAt(i), uploaders.elementAt(i),
+						rutas.elementAt(i)));
+			}
+			return canciones;
+		}
+		catch(Exception e) {
+			throw e;
+		}
+	}
+	
+	/*
+	 * Pre:
+	 * Post Busca en la BD si existe una cancion en la BD con el artista proporcionado,
+	 * 		bien sea subida por el administrador o por el usuario.
+	 * 		Además, devuelve un vector de cancionesVO que contiene todas las canciones
+	 * 		obtenidas en la consulta.
+	 * 		De no existir, lanza una excepción CancionNoExiste
+	 */
+	public Vector<cancionVO> buscarCancionPorArtista(cancionVO c,
+			String nombreUploader, Connection cc)
+			throws SQLException, CancionNoExiste {
+		try {
+			String s = "SELECT * FROM Cancion WHERE "
+					 + "nombreArtista = '" + c.verNombreArtista() + "' AND "
+					 + "(uploader = '" + nombreUploader + "' OR"
+					 + "uploader = 'admin');";
+			PreparedStatement preparedStatement = cc.prepareStatement(s);
+			ResultSet busquedaComp = preparedStatement.executeQuery();
+			
+			// Comprobamos que exista la canción
+			if(!busquedaComp.first()) {
+				throw new CancionNoExiste("La cancion buscada no existe en la BD");
+			}
+			
+			// Generamos los objetos VO
+			Vector<String> titulos =
+					new Vector<String>(FuncionesAuxiliares.
+							obtenerValorColumna(busquedaComp, "titulo"));
+			Vector<String> nombres =
+					new Vector<String>(FuncionesAuxiliares.
+							obtenerValorColumna(busquedaComp, "nombreArtista"));
+			Vector<String> albums =
+					new Vector<String>(FuncionesAuxiliares.
+							obtenerValorColumna(busquedaComp, "nombreAlbum"));
+			Vector<String> generos =
+					new Vector<String>(FuncionesAuxiliares.
+							obtenerValorColumna(busquedaComp, "genero"));
+			Vector<String> uploaders =
+					new Vector<String>(FuncionesAuxiliares.
+							obtenerValorColumna(busquedaComp, "uploader"));
+			Vector<String> rutas =
+					new Vector<String>(FuncionesAuxiliares.
+							obtenerValorColumna(busquedaComp, "ruta"));
+			Vector<cancionVO> canciones =new Vector<cancionVO>(); 
+			
+			for(int i=0; i<titulos.size(); i++) {
+				canciones.add(new cancionVO(titulos.elementAt(i),
+						nombres.elementAt(i), albums.elementAt(i),
+						generos.elementAt(i), uploaders.elementAt(i),
+						rutas.elementAt(i)));
+			}
+			return canciones;
+		}
+		catch(Exception e) {
+			throw e;
+		}
+	}
+	
+	/*
+	 * Pre:
+	 * Post Busca en la BD si existe una cancion en la BD con el album proporcionado,
+	 * 		bien sea subida por el administrador o por el usuario.
+	 * 		Además, devuelve un vector de cancionesVO que contiene todas las canciones
+	 * 		obtenidas en la consulta.
+	 * 		De no existir, lanza una excepción CancionNoExiste
+	 */
+	public Vector<cancionVO> buscarCancionPorAlbum(cancionVO c,
+			String nombreUploader, Connection cc)
+			throws SQLException, CancionNoExiste {
+		try {
+			String s = "SELECT * FROM Cancion WHERE "
+					 + "nombreAlbum = '" + c.verNombreAlbum() + "' AND "
+					 + "(uploader = '" + nombreUploader + "' OR"
+					 + "uploader = 'admin');";
+			PreparedStatement preparedStatement = cc.prepareStatement(s);
+			ResultSet busquedaComp = preparedStatement.executeQuery();
+			
+			// Comprobamos que exista la canción
+			if(!busquedaComp.first()) {
+				throw new CancionNoExiste("La cancion buscada no existe en la BD");
+			}
+			
+			// Generamos los objetos VO
+			Vector<String> titulos =
+					new Vector<String>(FuncionesAuxiliares.
+							obtenerValorColumna(busquedaComp, "titulo"));
+			Vector<String> nombres =
+					new Vector<String>(FuncionesAuxiliares.
+							obtenerValorColumna(busquedaComp, "nombreArtista"));
+			Vector<String> albums =
+					new Vector<String>(FuncionesAuxiliares.
+							obtenerValorColumna(busquedaComp, "nombreAlbum"));
+			Vector<String> generos =
+					new Vector<String>(FuncionesAuxiliares.
+							obtenerValorColumna(busquedaComp, "genero"));
+			Vector<String> uploaders =
+					new Vector<String>(FuncionesAuxiliares.
+							obtenerValorColumna(busquedaComp, "uploader"));
+			Vector<String> rutas =
+					new Vector<String>(FuncionesAuxiliares.
+							obtenerValorColumna(busquedaComp, "ruta"));
+			Vector<cancionVO> canciones =new Vector<cancionVO>(); 
+			
+			for(int i=0; i<titulos.size(); i++) {
+				canciones.add(new cancionVO(titulos.elementAt(i),
+						nombres.elementAt(i), albums.elementAt(i),
+						generos.elementAt(i), uploaders.elementAt(i),
+						rutas.elementAt(i)));
+			}
+			return canciones;
+		}
+		catch(Exception e) {
 			throw e;
 		}
 	}

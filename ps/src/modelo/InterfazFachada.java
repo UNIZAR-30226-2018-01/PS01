@@ -3,6 +3,7 @@ package modelo;
 import modelo.clasesVO.*;
 import modelo.excepcion.*;
 import java.sql.SQLException;
+import java.util.Vector;
 
 /*
  * Interfaz de la fachada. Incluye las operaciones que se pueden invocar desde
@@ -50,6 +51,39 @@ public interface InterfazFachada {
 	
 	public void cerrarSesion(String nombreusuario, String idSesion)
 			throws SesionInexistente, SQLException;
+	
+	/*
+	 * Pre:
+	 * Post: Comprueba en la BD si existe una canción de título "titulo".
+	 * 		 Si existe alguna, devuelve un array de cancionesVO con las canciones
+	 * 		 que tengan ese título
+	 * 		 Si no existe, lanzará una excepción "CancionNoExiste"
+	 */
+	public Vector<cancionVO> buscarCancionPorTitulo(String titulo,
+			String nombreUploader)
+			throws SQLException, CancionNoExiste;
+	
+	/*
+	 * Pre:
+	 * Post: Comprueba en la BD si existe una canción con artista "artista".
+	 * 		 Si existe alguna, devuelve un array de cancionesVO con las canciones
+	 * 		 que tengan ese título
+	 * 		 Si no existe, lanzará una excepción "CancionNoExiste"
+	 */
+	public Vector<cancionVO> buscarCancionPorArtista(String artista,
+			String nombreUploader)
+			throws SQLException, CancionNoExiste;
+	
+	/*
+	 * Pre:
+	 * Post: Comprueba en la BD si existe una canción del album "album".
+	 * 		 Si existe alguna, devuelve un array de cancionesVO con las canciones
+	 * 		 que tengan ese título
+	 * 		 Si no existe, lanzará una excepción "CancionNoExiste"
+	 */
+	public Vector<cancionVO> buscarCancionPorAlbum(String album,
+			String nombreUploader)
+			throws SQLException, CancionNoExiste;
 
 	public void crearListaDeReproduccion(listaReproduccionVO l)
 			throws ListaYaExiste, SQLException;

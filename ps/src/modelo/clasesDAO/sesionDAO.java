@@ -68,8 +68,8 @@ public class sesionDAO {
 	
 	/*
 	 * Pre:
-	 * Post: Devuelve verdad si y solo si existe una sesión
-	 * 		 registrada para un determinado usuario.
+	 * Post: Comprueba si existe una sesión s en la BD. Si no existe, lanza
+	 * 		 una excepción "SesionInexistente"
 	 */
 	public void existeSesion(sesionVO s, Connection connection) throws
 			SQLException, SesionInexistente {

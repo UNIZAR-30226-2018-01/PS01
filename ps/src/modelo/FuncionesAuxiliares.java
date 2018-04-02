@@ -1,11 +1,13 @@
 package modelo;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.http.Cookie;
 import javax.sql.DataSource;
+import java.util.Vector;
 import com.mysql.jdbc.Connection;
 
 public class FuncionesAuxiliares {
@@ -43,4 +45,23 @@ public class FuncionesAuxiliares {
 		return null;
 	}
 
+	/*
+	 * Pre:
+	 * Post: Dado un ResultSet, devuelve un vector con todos los valores para
+	 * 		 la columna 'c'. Si no había valores, devuelve un Vector vacío
+	 */
+	public static Vector<String> obtenerValorColumna(ResultSet r, String c)
+			throws SQLException {
+		try {
+			Vector<String> v = new Vector<String>();
+			r.beforeFirst();
+			while(r.first()) {
+				v.add(r.getString(c));
+			}
+			return v;
+		}
+		catch(Exception e) {
+			throw e;
+		}
+	}
 }

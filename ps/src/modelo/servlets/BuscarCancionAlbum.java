@@ -15,12 +15,12 @@ import modelo.clasesVO.cancionVO;
 
 /*
  * Servlet que busca una canción en la BD dado un título.
- * Recibe como parámetro el título de la canción (parámetro título) y dos
+ * Recibe como parámetro el album de la canción (parámetro album) y dos
  * cookies, la del nombre de usuario (login) y la de el id de sesión (idSesión)
  * y devuelve un vector dinámico llamado "canciones" de cancionesVO.
  */
-@WebServlet("/BuscarCancionTitulo")
-public class BuscarCancionTitulo extends HttpServlet {
+@WebServlet("/BuscarCancionAlbum")
+public class BuscarCancionAlbum extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String PAGINA_ACTUAL = "inicio.jsp";
 	private static final String PAGINA_SIG = "inicio.jsp";
@@ -32,7 +32,7 @@ public class BuscarCancionTitulo extends HttpServlet {
 		HashMap<String, String> errors = new HashMap <String, String>();
 	
 		// Recuperamos los parámetros
-		String titulo = request.getParameter("titulo");
+		String album = request.getParameter("album");
 		Cookie[] c = request.getCookies();
 		String nombreUsuario = FuncionesAuxiliares.obtenerCookie(c, "login");
 		String idSesion = FuncionesAuxiliares.obtenerCookie(c, "idSesion");
@@ -48,7 +48,7 @@ public class BuscarCancionTitulo extends HttpServlet {
 			try{
 				ImplementacionFachada f = new ImplementacionFachada();
 				f.existeSesionUsuario(nombreUsuario, idSesion);
-				Vector<cancionVO> v = f.buscarCancionPorTitulo(titulo, nombreUsuario);
+				Vector<cancionVO> v = f.buscarCancionPorAlbum(album, nombreUsuario);
 				request.setAttribute("canciones", v);
 			}
 			catch(SesionInexistente e) {
