@@ -133,7 +133,7 @@ public class cancionDAO {
 			}
 			
 			// Generamos los objetos VO
-			Vector<String> titulos =
+			/*Vector<String> titulos =
 					new Vector<String>(FuncionesAuxiliares.
 							obtenerValorColumna(busquedaComp, "titulo"));
 			Vector<String> nombres =
@@ -150,14 +150,20 @@ public class cancionDAO {
 							obtenerValorColumna(busquedaComp, "uploader"));
 			Vector<String> rutas =
 					new Vector<String>(FuncionesAuxiliares.
-							obtenerValorColumna(busquedaComp, "ruta"));
-			Vector<cancionVO> canciones =new Vector<cancionVO>(); 
+							obtenerValorColumna(busquedaComp, "ruta"));*/
+			Vector<cancionVO> canciones =new Vector<cancionVO>();
 			
-			for(int i=0; i<titulos.size(); i++) {
+			/*while (busquedaComp.next()) {
 				canciones.add(new cancionVO(titulos.elementAt(i),
 						nombres.elementAt(i), albums.elementAt(i),
 						generos.elementAt(i), uploaders.elementAt(i),
 						rutas.elementAt(i)));
+			}*/
+			
+			while (busquedaComp.next()) {
+				canciones.add(new cancionVO(busquedaComp.getString(1), busquedaComp.getString(2),
+											busquedaComp.getString(3), busquedaComp.getString(4),
+											busquedaComp.getString(5), busquedaComp.getString(6)));
 			}
 			return canciones;
 		}
@@ -191,7 +197,7 @@ public class cancionDAO {
 			}
 			
 			// Generamos los objetos VO
-			Vector<String> titulos =
+			/*Vector<String> titulos =
 					new Vector<String>(FuncionesAuxiliares.
 							obtenerValorColumna(busquedaComp, "titulo"));
 			Vector<String> nombres =
@@ -208,14 +214,13 @@ public class cancionDAO {
 							obtenerValorColumna(busquedaComp, "uploader"));
 			Vector<String> rutas =
 					new Vector<String>(FuncionesAuxiliares.
-							obtenerValorColumna(busquedaComp, "ruta"));
+							obtenerValorColumna(busquedaComp, "ruta"));*/
 			Vector<cancionVO> canciones =new Vector<cancionVO>(); 
 			
-			for(int i=0; i<titulos.size(); i++) {
-				canciones.add(new cancionVO(titulos.elementAt(i),
-						nombres.elementAt(i), albums.elementAt(i),
-						generos.elementAt(i), uploaders.elementAt(i),
-						rutas.elementAt(i)));
+			while (busquedaComp.next()) {
+				canciones.add(new cancionVO(busquedaComp.getString(1), busquedaComp.getString(2),
+											busquedaComp.getString(3), busquedaComp.getString(4),
+											busquedaComp.getString(5), busquedaComp.getString(6)));
 			}
 			return canciones;
 		}
@@ -249,7 +254,7 @@ public class cancionDAO {
 			}
 			
 			// Generamos los objetos VO
-			Vector<String> titulos =
+			/*Vector<String> titulos =
 					new Vector<String>(FuncionesAuxiliares.
 							obtenerValorColumna(busquedaComp, "titulo"));
 			Vector<String> nombres =
@@ -266,14 +271,13 @@ public class cancionDAO {
 							obtenerValorColumna(busquedaComp, "uploader"));
 			Vector<String> rutas =
 					new Vector<String>(FuncionesAuxiliares.
-							obtenerValorColumna(busquedaComp, "ruta"));
+							obtenerValorColumna(busquedaComp, "ruta"));*/
 			Vector<cancionVO> canciones =new Vector<cancionVO>(); 
 			
-			for(int i=0; i<titulos.size(); i++) {
-				canciones.add(new cancionVO(titulos.elementAt(i),
-						nombres.elementAt(i), albums.elementAt(i),
-						generos.elementAt(i), uploaders.elementAt(i),
-						rutas.elementAt(i)));
+			while (busquedaComp.next()) {
+				canciones.add(new cancionVO(busquedaComp.getString(1), busquedaComp.getString(2),
+											busquedaComp.getString(3), busquedaComp.getString(4),
+											busquedaComp.getString(5), busquedaComp.getString(6)));
 			}
 			return canciones;
 		}

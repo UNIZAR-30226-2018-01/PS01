@@ -4,10 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Vector;
 
+import modelo.clasesVO.cancionVO;
 import modelo.clasesVO.formarVO;
+import modelo.clasesVO.listaReproduccionVO;
 import modelo.excepcion.CancionExisteEnLista;
 import modelo.excepcion.CancionNoExisteEnLista;
+import modelo.excepcion.NoHayCanciones;
 
 public class formarDAO {
 	
@@ -99,6 +103,37 @@ public class formarDAO {
 	        /* Execute query. */                    
 			ResultSet busquedaComp = preparedStatement.executeQuery();
 	        return (busquedaComp.next());			
+		}
+		catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	public Vector<cancionVO> verLista(listaReproduccionVO l, Connection connection) throws SQLException, NoHayCanciones {
+		try {
+			Vector<cancionVO> canciones = new Vector<cancionVO>();
+			String queryString = "SELECT titulo, nombreArtista, nombreAlbum, genero, uploader "
+							   + "FROM Formar JOIN Cancion "
+							   + "WHERE nombreUsuario = '" + l.obtenerNombreUsuario() + "' "
+							   + "AND nombreLista = '" + l.obtenerNombreUsuario() + "' "
+							   + ";";
+			PreparedStatement preparedStatement = 
+	                connection.prepareStatement(queryString);
+			ResultSet resultado = preparedStatement.executeQuery(queryString);
+			
+			if (!resultado.first()) {
+				throw new NoHayCanciones("La Lista " + l.obtenerNombreLista() + " del usuario"
+						+ l.obtenerNombreUsuario() + " está vacía.");
+			}
+			else {
+				while (resultado.next()) {
+					canciones.add(new cancionVO(resultado.getString(1),	resultado.getString(2),
+												resultado.getString(3), resultado.getString(4),
+												resultado.getString(5), ""));
+				}
+				
+				return canciones;
+			}
 		}
 		catch (Exception e) {
 			throw e;

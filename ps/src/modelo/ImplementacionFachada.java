@@ -296,4 +296,14 @@ public class ImplementacionFachada implements InterfazFachada {
 			throw e;
 		}
 	}
+
+	@Override
+	public Vector<cancionVO> verLista(listaReproduccionVO l) throws NoHayCanciones, SQLException {
+		try {
+			return new formarDAO().verLista(l, FuncionesAuxiliares.obtenerConexion());
+		}
+		catch (Exception e) {
+			throw e;
+		}
+	}
 }

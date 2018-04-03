@@ -129,4 +129,7 @@ public interface InterfazFachada {
 	
 	public Vector<seguirVO> listaDeSeguidos(String nombreSeguidor)
 			throws SinSeguidos, SQLException;
+	
+	public Vector<cancionVO> verLista(listaReproduccionVO l)
+			throws NoHayCanciones, SQLException;
 }
