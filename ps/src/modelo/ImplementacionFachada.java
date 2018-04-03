@@ -1,6 +1,8 @@
 package modelo;
 
 import modelo.excepcion.*;
+
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Vector;
 
@@ -185,7 +187,7 @@ public class ImplementacionFachada implements InterfazFachada {
 
 	@Override
 	public void quitarCancionUsuario(cancionVO c)
-			throws CancionNoExiste, SQLException {
+			throws CancionNoExiste, SQLException, IOException {
 		try {
 			new cancionDAO().quitarCancion(c,
 					FuncionesAuxiliares.obtenerConexion());
@@ -301,6 +303,16 @@ public class ImplementacionFachada implements InterfazFachada {
 	public Vector<cancionVO> verLista(listaReproduccionVO l) throws NoHayCanciones, SQLException {
 		try {
 			return new formarDAO().verLista(l, FuncionesAuxiliares.obtenerConexion());
+		}
+		catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	@Override
+	public Vector<seguirVO> listaDeSeguidores(String nombreSeguido) throws SinSeguidores, SQLException {
+		try {
+			return new seguirDAO().listaDeSeguidores(nombreSeguido, FuncionesAuxiliares.obtenerConexion());
 		}
 		catch (Exception e) {
 			throw e;

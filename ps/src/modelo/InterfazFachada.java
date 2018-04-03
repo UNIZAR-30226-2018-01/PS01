@@ -2,6 +2,8 @@ package modelo;
 
 import modelo.clasesVO.*;
 import modelo.excepcion.*;
+
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Vector;
 
@@ -113,7 +115,7 @@ public interface InterfazFachada {
 			throws CancionYaExiste, SQLException;
 	
 	public void quitarCancionUsuario(cancionVO c)
-			throws CancionNoExiste, SQLException;
+			throws CancionNoExiste, SQLException, IOException;
 	
 	public void anyadirArtistaAlbum(artistaAlbumVO a)
 			throws ArtistaAlbumExiste, SQLException;
@@ -132,4 +134,7 @@ public interface InterfazFachada {
 	
 	public Vector<cancionVO> verLista(listaReproduccionVO l)
 			throws NoHayCanciones, SQLException;
+	
+	public Vector<seguirVO> listaDeSeguidores(String nombreSeguido)
+			throws SinSeguidores, SQLException;
 }

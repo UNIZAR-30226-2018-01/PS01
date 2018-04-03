@@ -8,6 +8,7 @@ import java.util.Vector;
 
 import modelo.clasesVO.seguirVO;
 import modelo.excepcion.ErrorDejarDeSeguir;
+import modelo.excepcion.SinSeguidores;
 import modelo.excepcion.SinSeguidos;
 
 public class seguirDAO {
@@ -92,4 +93,32 @@ public class seguirDAO {
 			throw e;
 		}
 	}
+	
+	public Vector<seguirVO> listaDeSeguidores(String nombreSeguido, Connection connection)
+			throws SinSeguidores, SQLException {
+			try {
+				Vector<seguirVO> seguidos = new Vector<seguirVO>();
+				String queryString =  "SELECT * "
+									+ "FROM Seguir "
+									+ "WHERE nombreSeguido = '" + nombreSeguido + "';";
+				
+				PreparedStatement preparedStatement = 
+		                connection.prepareStatement(queryString);
+				ResultSet resultado = preparedStatement.executeQuery(queryString);
+				
+				if (!resultado.first()) {
+					throw new SinSeguidores("El usuario " + nombreSeguido + " no tiene seguidores.");
+				}
+				else {
+					while (resultado.next()) {
+						seguidos.add(new seguirVO(resultado.getString(1), resultado.getString(2)));
+					}
+					
+					return seguidos;
+				}
+			}
+			catch (Exception e) {
+				throw e;
+			}
+		}
 }

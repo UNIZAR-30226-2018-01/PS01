@@ -1,7 +1,10 @@
 Servlets que faltan:
--Ver mis listas de reproducción (Devolvería un array de nombres de listas de reproducción) (Este lo tengo a medias)
+
+- Ver mis listas de reproducción (Devolvería un array de nombres de listas de reproducción) (Este lo tengo a medias)
 - (HECHO) Ver lista de reproducción (Devolvería un array de nombres de canciones que pertenecen a la lista).
  Se puede adaptar tanto para ver tus propias listas como para ver las de un determinado usuario.
 - (HECHO) Seguir a un usuario
 - (HECHO) Ver la lista de usuarios que sigo
--Subir una canción
+- (HECHO) Ver la lista de usuarios que me siguen
+- (HECHO) Subir una canción
+- (HECHO) Borrar una canción

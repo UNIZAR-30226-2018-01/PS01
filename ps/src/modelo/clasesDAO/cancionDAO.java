@@ -1,12 +1,14 @@
 package modelo.clasesDAO;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 
-import modelo.FuncionesAuxiliares;
 import modelo.clasesVO.cancionVO;
 import modelo.excepcion.CancionNoExiste;
 import modelo.excepcion.CancionYaExiste;
@@ -54,7 +56,7 @@ public class cancionDAO {
 	 * 		 y subida por el mismo 'uploader', entonces lanza una excepción 'CancionNoExiste'
 	 */
 	public void quitarCancion(cancionVO cancion, Connection connection)
-			throws CancionNoExiste, SQLException {
+			throws CancionNoExiste, SQLException, IOException {
 		try {
 			if (!existeCancion(cancion, connection)) {
 				throw new CancionNoExiste("La cancion " + cancion.verTitulo() + " perteneciente al álbum"
@@ -62,7 +64,14 @@ public class cancionDAO {
 						+ cancion.verUploader() + " no existe.");
 			}
 			else {
-				String queryString = "DELETE FROM Cancion"
+				String queryString1 = "SELECT ruta "
+								   + " WHERE titulo = '" + cancion.verTitulo()
+								   + "' AND nombreArtista = '" + cancion.verNombreArtista()
+								   + "' AND nombreAlbum = '" + cancion.verNombreAlbum()
+								   + "' AND uploader = '" + cancion.verUploader()
+								   + "';";
+				
+				String queryString2 = "DELETE FROM Cancion"
 						+ " WHERE titulo = '" + cancion.verTitulo()
 						+ "' AND nombreArtista = '" + cancion.verNombreArtista()
 						+ "' AND nombreAlbum = '" + cancion.verNombreAlbum()
@@ -70,9 +79,16 @@ public class cancionDAO {
 						+ "';";
 				
 				PreparedStatement preparedStatement = 
-		                connection.prepareStatement(queryString);
+		                connection.prepareStatement(queryString1);
+				ResultSet resultado = preparedStatement.executeQuery();
 				
+				String ruta = resultado.getString(1);
+				
+				preparedStatement = 
+		                connection.prepareStatement(queryString2);
 				preparedStatement.executeUpdate();
+				
+				Files.delete(new File(ruta).toPath());
 			}
 		}
 		catch (SQLException e) {
