@@ -126,4 +126,7 @@ public interface InterfazFachada {
 	
 	public void dejarDeSeguir(String nombreSeguidor, String nombreSeguido)
 			throws ErrorDejarDeSeguir, SQLException;
+	
+	public Vector<seguirVO> listaDeSeguidos(String nombreSeguidor)
+			throws SinSeguidos, SQLException;
 }

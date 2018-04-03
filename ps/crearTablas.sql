@@ -22,7 +22,10 @@ CREATE TABLE Usuario(
 );
 
 CREATE TABLE Seguir(
+	--Este atributo se refiere a tí como persona que sigue
+	--a otra persona, NO a las personas que te siguen a tí
 	nombreSeguidor varchar(32),
+	--Este atributo se refiere a la persona a la que sigues
 	nombreSeguido varchar(32),
 	PRIMARY KEY (nombreSeguidor, nombreSeguido),
 	FOREIGN KEY (nombreSeguidor) REFERENCES Usuario(nombre) ON DELETE CASCADE,

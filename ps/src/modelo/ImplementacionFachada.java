@@ -286,4 +286,14 @@ public class ImplementacionFachada implements InterfazFachada {
 			throw e;
 		}
 	}
+
+	@Override
+	public Vector<seguirVO> listaDeSeguidos(String nombreSeguidor) throws SinSeguidos, SQLException {
+		try {
+			return new seguirDAO().listaDeSeguidos(nombreSeguidor, FuncionesAuxiliares.obtenerConexion());
+		}
+		catch (Exception e) {
+			throw e;
+		}
+	}
 }
