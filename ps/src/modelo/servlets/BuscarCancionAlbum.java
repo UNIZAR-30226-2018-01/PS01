@@ -23,7 +23,6 @@ import modelo.clasesVO.cancionVO;
 public class BuscarCancionAlbum extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String PAGINA_ACTUAL = "inicio.jsp";
-	private static final String PAGINA_SIG = "inicio.jsp";
 	
 	
 	public void doPost (HttpServletRequest request, HttpServletResponse response)

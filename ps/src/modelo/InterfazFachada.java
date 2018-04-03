@@ -120,4 +120,10 @@ public interface InterfazFachada {
 	
 	public void quitarArtistaAlbum(artistaAlbumVO a)
 			throws ArtistaAlbumNoExiste, SQLException;
+	
+	public void seguir(String nombreSeguidor, String nombreSeguido)
+			throws SQLException;
+	
+	public void dejarDeSeguir(String nombreSeguidor, String nombreSeguido)
+			throws ErrorDejarDeSeguir, SQLException;
 }

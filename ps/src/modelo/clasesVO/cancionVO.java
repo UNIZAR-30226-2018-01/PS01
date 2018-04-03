@@ -54,6 +54,10 @@ public class cancionVO {
 	public String verUploader(){
 		return uploader;
 	}
+	
+	public String verRuta() {
+		return ruta;
+	}
 
 	public void modificarTitulo(String nuevoTitulo){
 		if (nuevoTitulo != null){
@@ -76,6 +80,12 @@ public class cancionVO {
 	public void modificarUploader(String nuevoUploader){
 		if (nuevoUploader != null){
 			uploader = nuevoUploader;
+		}
+	}
+	
+	public void modificarRuta(String nuevaRuta) {
+		if (nuevaRuta != null) {
+			ruta = nuevaRuta;
 		}
 	}
 }

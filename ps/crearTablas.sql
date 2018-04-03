@@ -21,6 +21,14 @@ CREATE TABLE Usuario(
 	hashPass varchar(128) NOT NULL
 );
 
+CREATE TABLE Seguir(
+	nombreSeguidor varchar(32),
+	nombreSeguido varchar(32),
+	PRIMARY KEY (nombreSeguidor, nombreSeguido),
+	FOREIGN KEY (nombreSeguidor) REFERENCES Usuario(nombre) ON DELETE CASCADE,
+	FOREIGN KEY (nombreSeguido) REFERENCES Usuario(nombre) ON DELETE CASCADE
+);
+
 CREATE TABLE ListaReproduccion(
 	nombre varchar(32),
 	nombreUsuario varchar(32),

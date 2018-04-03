@@ -1,7 +1,6 @@
 package modelo.servlets;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.HashMap;
 
 import javax.servlet.RequestDispatcher;
@@ -25,7 +24,6 @@ import modelo.FuncionesAuxiliares;
 public class MostrarListasReproduccion extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String PAGINA_ACTUAL = "inicio.jsp";
-	private static final String PAGINA_SIG = "inicio.jsp";
        
     /**
      * @see HttpServlet#HttpServlet()

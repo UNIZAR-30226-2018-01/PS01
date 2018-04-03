@@ -13,31 +13,32 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import modelo.ImplementacionFachada;
-import modelo.clasesVO.gustarVO;
-import modelo.excepcion.ErrorQuitarMegusta;
+import modelo.excepcion.ErrorDejarDeSeguir;
 
-@WebServlet("/QuitarMegusta")
-public class QuitarMegusta extends HttpServlet {
+/**
+ * Servlet implementation class DejarDeSeguirUsuario
+ */
+@WebServlet("/DejarDeSeguirUsuario")
+public class DejarDeSeguirUsuario extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String PAGINA_ACTUAL = "inicio.jsp";
-	
-	public void doPost (HttpServletRequest request, HttpServletResponse response)
-			throws IOException, ServletException {
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// Variable para guardar los errores
 		HashMap<String, String> errors = new HashMap <String, String>();
 		
 		// Recuperamos los parámetros y las cookies
-		String nombreUsuario = new String();
-		String tituloCancion = request.getParameter("tituloCancion");
-		String nombreAlbum = request.getParameter("nombreAlbum");
-		String nombreArtista = request.getParameter("nombreArtista");
-		String uploader = request.getParameter("uploader");
+		String nombreSeguidor = new String();
+		String nombreSeguido = request.getParameter("nombreSeguido");
 		Cookie[] cookies = request.getCookies();
 		
 		if(cookies != null){
 			for(Cookie i : cookies){
 				if(i.getName().equals("login")){
-					nombreUsuario = i.getValue();
+					nombreSeguidor = i.getValue();
 					break;
 				}
 			}
@@ -48,18 +49,18 @@ public class QuitarMegusta extends HttpServlet {
 			dispatcher.forward(request, response);
 		}
 		
-		if(!errors.isEmpty()){ // Los parámetros eran incorrectos
+		if(!errors.isEmpty()){
+			// Los parámetros eran incorrectos
 			request.setAttribute("errores", errors);
 			RequestDispatcher dispatcher=request.getRequestDispatcher("inicio.jsp");
 			dispatcher.forward(request, response);
 		}
 		else {
 			try {
-				new ImplementacionFachada().yanomegusta(new gustarVO(nombreUsuario, tituloCancion, nombreAlbum, nombreArtista, uploader));
+				new ImplementacionFachada().dejarDeSeguir(nombreSeguidor, nombreSeguido);
 			}
-			catch (ErrorQuitarMegusta l) {
-				request.setAttribute("ListaYaExiste", l.toString());
-				RequestDispatcher dispatcher=request.getRequestDispatcher(PAGINA_ACTUAL);
+			catch (ErrorDejarDeSeguir s) {
+				RequestDispatcher dispatcher=request.getRequestDispatcher("inicio.jsp");
 				dispatcher.forward(request, response);
 			}
 			catch (SQLException s) {

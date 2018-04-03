@@ -13,31 +13,28 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import modelo.ImplementacionFachada;
-import modelo.clasesVO.gustarVO;
-import modelo.excepcion.ErrorQuitarMegusta;
 
-@WebServlet("/QuitarMegusta")
-public class QuitarMegusta extends HttpServlet {
+/**
+ * Servlet implementation class SeguirUsuario
+ */
+@WebServlet("/SeguirUsuario")
+public class SeguirUsuario extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String PAGINA_ACTUAL = "inicio.jsp";
-	
-	public void doPost (HttpServletRequest request, HttpServletResponse response)
-			throws IOException, ServletException {
+    
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// Variable para guardar los errores
 		HashMap<String, String> errors = new HashMap <String, String>();
 		
 		// Recuperamos los parámetros y las cookies
-		String nombreUsuario = new String();
-		String tituloCancion = request.getParameter("tituloCancion");
-		String nombreAlbum = request.getParameter("nombreAlbum");
-		String nombreArtista = request.getParameter("nombreArtista");
-		String uploader = request.getParameter("uploader");
+		String nombreSeguidor = new String();
+		String nombreSeguido = request.getParameter("nombreSeguido");
 		Cookie[] cookies = request.getCookies();
 		
 		if(cookies != null){
 			for(Cookie i : cookies){
 				if(i.getName().equals("login")){
-					nombreUsuario = i.getValue();
+					nombreSeguidor = i.getValue();
 					break;
 				}
 			}
@@ -48,19 +45,15 @@ public class QuitarMegusta extends HttpServlet {
 			dispatcher.forward(request, response);
 		}
 		
-		if(!errors.isEmpty()){ // Los parámetros eran incorrectos
+		if(!errors.isEmpty()){
+			// Los parámetros eran incorrectos
 			request.setAttribute("errores", errors);
 			RequestDispatcher dispatcher=request.getRequestDispatcher("inicio.jsp");
 			dispatcher.forward(request, response);
 		}
 		else {
 			try {
-				new ImplementacionFachada().yanomegusta(new gustarVO(nombreUsuario, tituloCancion, nombreAlbum, nombreArtista, uploader));
-			}
-			catch (ErrorQuitarMegusta l) {
-				request.setAttribute("ListaYaExiste", l.toString());
-				RequestDispatcher dispatcher=request.getRequestDispatcher(PAGINA_ACTUAL);
-				dispatcher.forward(request, response);
+				new ImplementacionFachada().seguir(nombreSeguidor, nombreSeguido);
 			}
 			catch (SQLException s) {
 				RequestDispatcher dispatcher=request.getRequestDispatcher("inicio.jsp");

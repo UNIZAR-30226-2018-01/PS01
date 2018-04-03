@@ -8,7 +8,6 @@ import java.util.Vector;
 
 import modelo.FuncionesAuxiliares;
 import modelo.clasesVO.listaReproduccionVO;
-import modelo.excepcion.CancionNoExiste;
 import modelo.excepcion.ListaNoExiste;
 import modelo.excepcion.ListaYaExiste;
 import modelo.excepcion.NoHayListas;

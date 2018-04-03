@@ -14,8 +14,6 @@ import modelo.clasesVO.*;
 import modelo.FuncionesAuxiliares;
 
 public class ImplementacionFachada implements InterfazFachada {
-
-	
 	@Override
 	public void iniciarSesion(String nombreUsuario, String hashPass)
 			throws LoginInexistente, SQLException {
@@ -263,6 +261,26 @@ public class ImplementacionFachada implements InterfazFachada {
 							nombreUploader,
 							FuncionesAuxiliares.obtenerConexion());
 			return v;
+		}
+		catch (Exception e) {
+			throw e;
+		}
+	}
+
+	@Override
+	public void seguir(String nombreSeguidor, String nombreSeguido) throws SQLException {
+		try {
+			new seguirDAO().seguir(nombreSeguidor, nombreSeguido, FuncionesAuxiliares.obtenerConexion());
+		}
+		catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	@Override
+	public void dejarDeSeguir(String nombreSeguidor, String nombreSeguido) throws SQLException, ErrorDejarDeSeguir {
+		try {
+			new seguirDAO().dejarDeSeguir(nombreSeguidor, nombreSeguido, FuncionesAuxiliares.obtenerConexion());
 		}
 		catch (Exception e) {
 			throw e;
