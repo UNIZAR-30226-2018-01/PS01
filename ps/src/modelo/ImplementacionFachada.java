@@ -6,11 +6,13 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Vector;
 
+/*
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import com.mysql.jdbc.Connection;
+*/
 import modelo.clasesDAO.*;
 import modelo.clasesVO.*;
 import modelo.FuncionesAuxiliares;

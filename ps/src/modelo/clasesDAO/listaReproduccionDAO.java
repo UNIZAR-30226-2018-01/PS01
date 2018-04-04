@@ -7,11 +7,9 @@ import java.sql.SQLException;
 import java.util.Vector;
 
 import modelo.FuncionesAuxiliares;
-import modelo.clasesVO.cancionVO;
 import modelo.clasesVO.listaReproduccionVO;
 import modelo.excepcion.ListaNoExiste;
 import modelo.excepcion.ListaYaExiste;
-import modelo.excepcion.NoHayCanciones;
 import modelo.excepcion.NoHayListas;
 
 public class listaReproduccionDAO {
