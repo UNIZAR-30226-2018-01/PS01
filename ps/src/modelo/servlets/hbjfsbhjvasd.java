@@ -42,9 +42,8 @@ public class SubirCanciones extends HttpServlet {
 		String nombreArtista = request.getParameter("nombreArtista");
 		String nombreAlbum = request.getParameter("nombreAlbum");
 		String genero = request.getParameter("genero");
+		
 		String fileName = new String();
-		String rutaBase = "/Users/albertomurrodrigo/Documents/dg/PS01/ps/music/";
-		/*
 		Cookie[] cookies = request.getCookies();
 		
 		if(cookies != null){
@@ -60,9 +59,9 @@ public class SubirCanciones extends HttpServlet {
 			RequestDispatcher dispatcher=request.getRequestDispatcher("inicio.jsp");
 			dispatcher.forward(request, response);
 		}
-		*/
-		if (!new File(rutaBase + nombreUsuario + "/").exists()) {
-        	Files.createDirectory(new File(rutaBase + nombreUsuario + "/").toPath());
+		
+		if (!new File("music/" + nombreUsuario + "/").exists()) {
+        	Files.createDirectory(new File("music/" + nombreUsuario + "/").toPath());
         }
 		
 		// Retrieves <input type="file" name="file" multiple="true">
@@ -70,8 +69,8 @@ public class SubirCanciones extends HttpServlet {
 		for (Part filePart : fileParts) {
 	        fileName = Paths.get(filePart.getName()).getFileName().toString();
 	        InputStream fileContent = filePart.getInputStream();
-	        Files.createFile(new File(rutaBase + nombreUsuario + "/" + fileName).toPath());
-	        Files.copy(fileContent, new File(rutaBase + nombreUsuario + "/" + fileName).toPath(), StandardCopyOption.REPLACE_EXISTING);
+	        Files.createFile(new File("music/" + nombreUsuario + "/" + fileName).toPath());
+	        Files.copy(fileContent, new File("music/" + nombreUsuario + "/" + fileName).toPath(), StandardCopyOption.REPLACE_EXISTING);
 	    }
 		
 		if(!errors.isEmpty()){ // Los parámetros eran incorrectos

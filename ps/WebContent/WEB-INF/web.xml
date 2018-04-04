@@ -73,4 +73,8 @@
     <servlet-name>CrearListaDeReproduccion</servlet-name>
     <servlet-class>CrearListaDeReproduccion</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>SubirCanciones</servlet-name>
+    <servlet-class>SubirCanciones</servlet-class>
+  </servlet>
 </web-app>
