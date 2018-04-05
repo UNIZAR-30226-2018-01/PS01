@@ -11,7 +11,7 @@ import java.util.Vector;
 import java.sql.Connection;
 
 public class FuncionesAuxiliares {
-	public static final String URL_SERVER = "127.0.0.1:8080";
+	public static final String URL_SERVER = "http://127.0.0.1:8080/ps/";
 
 	private FuncionesAuxiliares() {}
 	
