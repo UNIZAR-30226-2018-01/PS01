@@ -76,5 +76,12 @@
   <servlet>
     <servlet-name>SubirCanciones</servlet-name>
     <servlet-class>SubirCanciones</servlet-class>
+    
+    <multipart-config>
+         <!-- 50MB max -->
+         <max-file-size>-1</max-file-size>
+         <max-request-size>-1</max-request-size>
+         <file-size-threshold>0</file-size-threshold>
+   </multipart-config>
   </servlet>
 </web-app>
