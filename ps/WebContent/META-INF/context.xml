@@ -1,1 +1,24 @@
-<Context allowCasualMultipartParsing="true"/>
+<!DOCTYPE definition [
+<!ENTITY password ";=rass">
+]>
+
+<element>
+	<elem1>
+		<Resource
+			    name="jdbc/ConexionMySQL"
+			    auth="Container"
+			    type="javax.sql.DataSource"
+			    maxActive="100"
+			    maxIdle="30"
+			    maxWait="10000"
+			    driverClassName="com.mysql.jdbc.Driver"
+			    username="alberto"
+			    password="rass"
+			    url="jdbc:mysql://localhost/prueba?user=alberto&password;"
+			    />
+	</elem1>
+	<elem1>
+	<Context allowCasualMultipartParsing="true"/>
+	</elem1>
+		
+</element>

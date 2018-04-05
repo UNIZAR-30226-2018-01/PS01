@@ -40,7 +40,7 @@ public class cancionDAO {
 	    			preparedStatement.setString(3, cancion.verNombreAlbum());
 	    			preparedStatement.setString(4, cancion.verGenero());
 	    			preparedStatement.setString(5, cancion.verUploader());
-	    			
+	    			System.out.println("eyy");
 	    			preparedStatement.executeUpdate();
 	        	}
 		}
