@@ -1,3 +1,7 @@
+DROP DATABASE IF EXISTS software;
+CREATE DATABASE software;
+USE software;
+
 CREATE TABLE ArtistaAlbum(
 	nombreArtista varchar(32) default 'Desconocido',
 	nombreAlbum varchar(32) default 'Desconocido',
@@ -11,7 +15,7 @@ CREATE TABLE Cancion(
 	nombreAlbum varchar(32),
 	genero varchar(32) default 'Desconocido',
 	uploader varchar(32) REFERENCES Usuario(nombre),
-	ruta varchar UNIQUE NOT NULL,
+	ruta varchar(32) UNIQUE NOT NULL,
 	PRIMARY KEY (titulo, nombreArtista, nombreAlbum, uploader),
 	FOREIGN KEY (nombreArtista, nombreAlbum) REFERENCES ArtistaAlbum(nombreArtista, nombreAlbum)
 );
@@ -21,11 +25,11 @@ CREATE TABLE Usuario(
 	hashPass varchar(128) NOT NULL
 );
 
+-- 'nombreSeguidor' se refiere a ti como persona que sigue a otra persona,
+-- NO las personas que te siguen a ti
+-- 'nombreSeguido' se refiere a la persona a la que sigues
 CREATE TABLE Seguir(
-	--Este atributo se refiere a tí como persona que sigue
-	--a otra persona, NO a las personas que te siguen a tí
 	nombreSeguidor varchar(32),
-	--Este atributo se refiere a la persona a la que sigues
 	nombreSeguido varchar(32),
 	PRIMARY KEY (nombreSeguidor, nombreSeguido),
 	FOREIGN KEY (nombreSeguidor) REFERENCES Usuario(nombre) ON DELETE CASCADE,

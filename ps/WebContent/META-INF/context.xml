@@ -1,24 +1,17 @@
-<!DOCTYPE definition [
-<!ENTITY password ";=rass">
-]>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
 
-<element>
-	<elem1>
-		<Resource
-			    name="jdbc/ConexionMySQL"
-			    auth="Container"
-			    type="javax.sql.DataSource"
-			    maxActive="100"
-			    maxIdle="30"
-			    maxWait="10000"
-			    driverClassName="com.mysql.jdbc.Driver"
-			    username="alberto"
-			    password="rass"
-			    url="jdbc:mysql://localhost/prueba?user=alberto&password;"
-			    />
-	</elem1>
-	<elem1>
-	<Context allowCasualMultipartParsing="true"/>
-	</elem1>
-		
-</element>
+<Context>
+	<Resource>
+		name="jdbc/UsersDB"
+		auth="Container"
+		type="javax.sql.DataSource"
+		maxActive="100"
+		maxIdle="30"
+		maxWait="10000"
+		driverClassName="com.mysql.jdbc.Driver"
+		url="jdbc:mysql://localhost:7654/software"
+		username="root"
+		password="1234567a"
+	</Resource>
+</Context>

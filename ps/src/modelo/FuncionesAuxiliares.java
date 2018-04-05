@@ -8,9 +8,10 @@ import javax.naming.NamingException;
 import javax.servlet.http.Cookie;
 import javax.sql.DataSource;
 import java.util.Vector;
-import com.mysql.jdbc.Connection;
+import java.sql.Connection;
 
 public class FuncionesAuxiliares {
+	public static final String URL_SERVER = "127.0.0.1:8080";
 
 	private FuncionesAuxiliares() {}
 	
@@ -21,13 +22,13 @@ public class FuncionesAuxiliares {
 	public static Connection obtenerConexion() throws SQLException {
 		try {
 			Context initContext = new InitialContext();
-			DataSource ds = (DataSource) initContext.lookup("java:/comp/env/jdbc/ConexionMySQL");
-			return (Connection) ds.getConnection();
+			DataSource ds = (DataSource) initContext.lookup("java:/comp/env/jdbc/UsersDB");
+			return ds.getConnection();
 		}
 		catch(NamingException e) {
 			System.out.println("Error al obtener conexion del pool");
+			return null;
 		}
-		return null;
 	}
 	
 	/*
