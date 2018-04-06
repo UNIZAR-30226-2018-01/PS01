@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="psProject1" version="3">
+  <DEPS>
+    <ID name="psProject1" mc="PropertyContainer" uid="7f35d989-5a93-4a24-b628-e752fc8de5de"/>
+  </DEPS>
+  <OBJECT>
+    <ID name="psProject1" mc="PropertyContainer" uid="7f35d989-5a93-4a24-b628-e752fc8de5de"/>
+    <PID name="psProject1" mc="AnalystProject" uid="48823a45-96c9-4782-9cc4-50651d492fd9"/>
+    <ATTRIBUTES>
+      <ATT name="Name"><![CDATA[psProject1]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES></DEPENDENCIES>
+  </OBJECT>
+</EXT>
