@@ -12,10 +12,7 @@ import java.sql.Connection;
 import modelo.GestorDeConexionesBD;
 
 public class FuncionesAuxiliares {
-<<<<<<< HEAD
-=======
 	public static final String URL_SERVER = "http://127.0.0.1:8080/ps/";
->>>>>>> b5b59b3b6ddc993287c1ed63a2c957ae1392cfb8
 
 	private FuncionesAuxiliares() {}
 	
