@@ -25,34 +25,17 @@ public class FuncionesAuxiliares {
 	 * Post: Ha devuelto un objeto de conexión del pool de conexiones
 	 */
 	public static Connection obtenerConexion() throws SQLException {
-
-		//try {
-		//	Class.forName("com.mysql.jdbc.Driver");
-		/*try {
->>>>>>> b5b59b3b6ddc993287c1ed63a2c957ae1392cfb8
+		try {
 			Context initContext = new InitialContext();
 			Context c = (Context) initContext.lookup("java:/comp/env");
-			DataSource ds = (DataSource) c.lookup("jdbc/prueba"); 
-			System.out.println("Creando conexión...");
+			DataSource ds = (DataSource) c.lookup("jdbc/pool"); 
 			return ds.getConnection();
-		}
-		catch(SQLException s) {
-			System.out.println(s.toString());
-			return null;
 		}
 		catch(NamingException e) {
 			System.out.println("Error al obtener conexion del pool");
 			System.out.println(e.toString());
 			return null;
-<<<<<<< HEAD
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		return null;
-=======
-		}*/
-		return GestorDeConexionesBD.getConnection();
 	}
 	
 	/*

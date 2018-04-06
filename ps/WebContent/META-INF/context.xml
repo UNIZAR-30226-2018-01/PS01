@@ -2,16 +2,8 @@
 <!DOCTYPE xml>
 
 <Context>
-	<Resource>
-		name="jdbc/prueba"
-		auth="Container"
-		type="javax.sql.DataSource"
-		maxActive="100"
-		maxIdle="30"
-		maxWait="10000"
-		driverClassName="com.mysql.jdbc.Driver"
-		url="jdbc:mysql://localhost:7654/software"
-		username="mewat"
-		password="mewat"
-	</Resource>
+<Resource name="jdbc/pool" auth="Container" type="javax.sql.DataSource"
+		maxTotal="100" maxIdle="30" maxWaitMillis="10000" username="mewat"
+		password="mewat" driverClassName="com.mysql.jdbc.Driver"
+		url="jdbc:mysql://localhost:3306/software" />
 </Context>
