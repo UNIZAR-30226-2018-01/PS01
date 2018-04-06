@@ -40,7 +40,7 @@ public class SubirCanciones extends HttpServlet {
 		HashMap<String, String> errors = new HashMap <String, String>();
 		
 		// Recuperamos los parámetros y las cookies
-		String nombreUsuario = new String();
+		String nombreUsuario = "alberto";
 		String tituloCancion = "cancion_2";//request.getParameter("tituloCancion");
 		String nombreArtista = "artista_1";//request.getParameter("nombreArtista");
 		String nombreAlbum = "album_1";//request.getParameter("nombreAlbum");
@@ -49,6 +49,7 @@ public class SubirCanciones extends HttpServlet {
 		Cookie[] cookies = request.getCookies();
 		
 		if(cookies != null){
+			System.out.println("Cookies no nulas.");
 			for(Cookie i : cookies){
 				if(i.getName().equals("login")){
 					nombreUsuario = i.getValue();
@@ -57,6 +58,7 @@ public class SubirCanciones extends HttpServlet {
 			}
 		}
 		else {
+			System.out.println("Cookies nulas.");
 			errors.put("CookiesNulas", "El usuario no está logueado.");
 			RequestDispatcher dispatcher=request.getRequestDispatcher("inicio.jsp");
 			dispatcher.forward(request, response);
@@ -69,6 +71,7 @@ public class SubirCanciones extends HttpServlet {
 		// Retrieves <input type="file" name="file" multiple="true">
 		List<Part> fileParts = request.getParts().stream().filter(part -> "file".equals(part.getName())).collect(Collectors.toList());
 		for (Part filePart : fileParts) {
+			System.out.println("Subiendo fichero...");
 	        //fileName = Paths.get(filePart.getName()).getFileName().toString();
 	        InputStream fileContent = filePart.getInputStream();
 	        if (new File("music/" + nombreUsuario + "/" + tituloCancion + ".mp3").exists()) {
@@ -87,23 +90,29 @@ public class SubirCanciones extends HttpServlet {
 		        Files.copy(fileContent, new File(rutaBase + nombreUsuario + "/" + tituloCancion + ".mp3").toPath(), StandardCopyOption.REPLACE_EXISTING);
 	        }
 	    }
+		System.out.println("Fichero subido");
 		
 		if(!errors.isEmpty()){ // Los parámetros eran incorrectos
+			System.out.println("El hashmap de errores es no nulo.");
 			request.setAttribute("errores", errors);
 			RequestDispatcher dispatcher=request.getRequestDispatcher("inicio.jsp");
 			dispatcher.forward(request, response);
 		}
 		else {
+			System.out.println("Insertando canción en la base de datos 1...");
 			try {
 				new ImplementacionFachada().anyadirCancionUsuario(new cancionVO(tituloCancion, nombreArtista,
 						nombreAlbum, genero, nombreUsuario, "music/" + nombreUsuario + "/" + tituloCancion + ".mp3"));
+				System.out.println("Canción guardada con éxito");
 			}
 			catch (CancionYaExiste c) {
+				System.out.println("Excepción CancionYaExiste");
 				request.setAttribute("CancionYaExiste", c.toString());
 				RequestDispatcher dispatcher=request.getRequestDispatcher("inicio.jsp");
 				dispatcher.forward(request, response);
 			}
 			catch (SQLException s) {
+				System.out.println(s.toString());
 				RequestDispatcher dispatcher=request.getRequestDispatcher("inicio.jsp");
 				dispatcher.forward(request, response);
 			}
