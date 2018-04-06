@@ -9,6 +9,7 @@ import javax.servlet.http.Cookie;
 import javax.sql.DataSource;
 import java.util.Vector;
 import java.sql.Connection;
+import modelo.GestorDeConexionesBD;
 
 public class FuncionesAuxiliares {
 	public static final String URL_SERVER = "http://127.0.0.1:8080/ps/";
@@ -20,7 +21,7 @@ public class FuncionesAuxiliares {
 	 * Post: Ha devuelto un objeto de conexión del pool de conexiones
 	 */
 	public static Connection obtenerConexion() throws SQLException {
-		try {
+		/*try {
 			Context initContext = new InitialContext();
 			DataSource ds = (DataSource) initContext.lookup("java:/comp/env/jdbc/UsersDB");
 			return ds.getConnection();
@@ -28,7 +29,8 @@ public class FuncionesAuxiliares {
 		catch(NamingException e) {
 			System.out.println("Error al obtener conexion del pool");
 			return null;
-		}
+		}*/
+		return GestorDeConexionesBD.getConnection();
 	}
 	
 	/*

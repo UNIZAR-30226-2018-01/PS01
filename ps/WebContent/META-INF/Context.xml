@@ -11,7 +11,7 @@
 		maxWait="10000"
 		driverClassName="com.mysql.jdbc.Driver"
 		url="jdbc:mysql://localhost:7654/software"
-		username="root"
-		password="1234567a"
+		username="mewat"
+		password="mewat"
 	</Resource>
 </Context>

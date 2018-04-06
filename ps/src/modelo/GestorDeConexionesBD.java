@@ -3,7 +3,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class GestorDeConexionesBD {		
+public class GestorDeConexionesBD {	
+	private static final String URL_BD = "jdbc:mysql://localhost:3306/software";
+	private static final String user = "mewat";
+	private static final String pass = "mewat";
 	static {			
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -12,12 +15,10 @@ public class GestorDeConexionesBD {
 		}	
 	}
 
-	private GestorDeConexionesBD(){
-	}
+	private GestorDeConexionesBD(){}
 	
 	public final static Connection getConnection()
 		throws SQLException {
-			return DriverManager.getConnection("jdbc:mysql://localhost/prueba?" +
-                    "user=alberto&password=rass");
+				return DriverManager.getConnection(URL_BD, user, pass);
 	}
 }
