@@ -113,6 +113,7 @@ public class IniciarSesion extends HttpServlet {
 			catch(SQLException e){
 				RequestDispatcher dispatcher=request.getRequestDispatcher(PAGINA_ACTUAL);
 				dispatcher.forward(request, response);
+				e.printStackTrace();
 			}
 		}
 	}

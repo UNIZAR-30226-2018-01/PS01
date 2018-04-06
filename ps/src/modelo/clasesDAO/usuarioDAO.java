@@ -76,11 +76,10 @@ public class usuarioDAO {
 		try {
 			// Preparamos la consulta
 			String q = new String();
-			q = q + "SELECT * FROM USUARIO ";
-			q = q + "WHERE nombre = ? AND hashPass = ?";
+			q = q + "SELECT * FROM Usuario ";
+			q = q + "WHERE nombre = '" + u.verNombre() + "' AND ";
+			q = q + "hashPass = '" + u.verHashPass() + "';";
 			PreparedStatement preparedStatement = c.prepareStatement(q);
-			preparedStatement.setString(1, u.verNombre());
-			preparedStatement.setString(1, u.verHashPass());
 			
 			// Hacemos la consulta
 			ResultSet r = preparedStatement.executeQuery(q);
