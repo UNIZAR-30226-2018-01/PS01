@@ -7,13 +7,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.http.Cookie;
 import javax.sql.DataSource;
-import java.util.Formatter;
 import java.util.Vector;
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
-import modelo.GestorDeConexionesBD;
 
 public class FuncionesAuxiliares {
 	public static final String URL_SERVER = "http://127.0.0.1:8080/ps/";
