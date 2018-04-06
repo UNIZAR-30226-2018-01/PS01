@@ -17,7 +17,7 @@ public class GestorDeConexionesBD {
 	
 	public final static Connection getConnection()
 		throws SQLException {
-			return DriverManager.getConnection("jdbc:mysql://localhost/prueba?" +
+			return DriverManager.getConnection("jdbc:mysql://localhost:3306/prueba?" +
                     "user=alberto&password=rass");
 	}
 }

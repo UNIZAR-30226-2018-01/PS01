@@ -178,9 +178,12 @@ public class ImplementacionFachada implements InterfazFachada {
 	@Override
 	public void anyadirCancionUsuario(cancionVO c)
 			throws CancionYaExiste, SQLException {
+		System.out.println("Insertando canción en la base de datos 2...");
 		try {
+			System.out.println("Insertando canción en la base de datos 2.1...");
 			new cancionDAO().anyadirCancion(c,
 					FuncionesAuxiliares.obtenerConexion());
+			System.out.println("Canción insertada con éxito");
 		}
 		catch (Exception e) {
 			throw e;

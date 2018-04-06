@@ -11,7 +11,6 @@ import java.util.Vector;
 import java.sql.Connection;
 
 public class FuncionesAuxiliares {
-	public static final String URL_SERVER = "127.0.0.1:8080";
 
 	private FuncionesAuxiliares() {}
 	
@@ -21,14 +20,26 @@ public class FuncionesAuxiliares {
 	 */
 	public static Connection obtenerConexion() throws SQLException {
 		try {
+			Class.forName("com.mysql.jdbc.Driver");
 			Context initContext = new InitialContext();
-			DataSource ds = (DataSource) initContext.lookup("java:/comp/env/jdbc/UsersDB");
+			Context c = (Context) initContext.lookup("java:/comp/env");
+			DataSource ds = (DataSource) c.lookup("jdbc/prueba"); 
+			System.out.println("Creando conexión...");
 			return ds.getConnection();
+		}
+		catch(SQLException s) {
+			System.out.println(s.toString());
+			return null;
 		}
 		catch(NamingException e) {
 			System.out.println("Error al obtener conexion del pool");
+			System.out.println(e.toString());
 			return null;
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		return null;
 	}
 	
 	/*

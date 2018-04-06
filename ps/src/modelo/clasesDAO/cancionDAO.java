@@ -22,6 +22,7 @@ public class cancionDAO {
 	 */
 	public void anyadirCancion(cancionVO cancion, Connection connection)
 			throws CancionYaExiste, SQLException {
+		System.out.println("Insertando canción en la base de datos 3...");
 		try {
 			if (existeCancion(cancion, connection)) {
 				throw new CancionYaExiste("La cancion " + cancion.verTitulo() + " perteneciente al álbum"
@@ -40,7 +41,6 @@ public class cancionDAO {
 	    			preparedStatement.setString(3, cancion.verNombreAlbum());
 	    			preparedStatement.setString(4, cancion.verGenero());
 	    			preparedStatement.setString(5, cancion.verUploader());
-	    			System.out.println("eyy");
 	    			preparedStatement.executeUpdate();
 	        	}
 		}
