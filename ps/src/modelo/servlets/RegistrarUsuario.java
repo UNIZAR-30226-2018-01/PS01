@@ -24,7 +24,6 @@ import javax.servlet.annotation.WebServlet;
 @WebServlet("/RegistrarUsuario")
 public class RegistrarUsuario extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final int LONGITUD_HASH = 128;
 	private static final String PAGINA_ACTUAL = "inicio.jsp";
 	private static final String PAGINA_SIG = "inicio.jsp";
 	
@@ -40,8 +39,8 @@ public class RegistrarUsuario extends HttpServlet {
 		// Comprobamos los parámetros recibidos
 		if ((nombre == null) || (nombre.trim().equals("")) || (hashPass == null)
 			  || (hashPass.trim().equals("")) || nombre.length()<4 || 
-			  nombre.length()>32 || hashPass.length() != LONGITUD_HASH) {
-			errors.put("inicioSesion", "Parámetros incorrectos");
+			  nombre.length()>32) {
+			errors.put("registroUsuario", "Parámetros incorrectos");
 		}
 		
 		if (!errors.isEmpty()){ // Los parámetros recibidos son incorrectos

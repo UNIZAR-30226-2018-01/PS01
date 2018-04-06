@@ -7,7 +7,11 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.http.Cookie;
 import javax.sql.DataSource;
+import java.util.Formatter;
 import java.util.Vector;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import modelo.GestorDeConexionesBD;
 
@@ -66,5 +70,27 @@ public class FuncionesAuxiliares {
 		catch(Exception e) {
 			throw e;
 		}
+	}
+		
+	
+	/*
+	 * Pre: ---
+	 * Post: Función que a partir de un String genera su hash
+	 */
+	public static String crearHash(String s) {
+		try {
+            java.security.MessageDigest md = java.security.MessageDigest
+                    .getInstance("MD5");
+            byte[] array = md.digest(s.getBytes());
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < array.length; ++i) {
+                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100)
+                        .substring(1, 3));
+            }
+            return sb.toString();
+        } catch (java.security.NoSuchAlgorithmException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
 	}
 }

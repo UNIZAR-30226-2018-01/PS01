@@ -24,19 +24,15 @@ public class sesionDAO {
 			throw new SesionExistente("Existe esa misma sesión");	        
 		}
 		catch (SesionInexistente e) {
-			String queryString = "INSERT INTO Sesion " +
-	                "(hashSesion, nombreUsuario) " +
-	            		"VALUES (?,?);";
+			String q = "INSERT INTO Sesion(hashSesion, nombreUsuario) "
+					 + "VALUES ('" + sesion.verHashSesion() + "','"
+					 + sesion.verNombreUsuario() + "');";
 			
-			PreparedStatement preparedStatement = 
-	                connection.prepareStatement(queryString);
-    		
-    		preparedStatement.setString(1, sesion.verHashSesion());
-    		preparedStatement.setString(2, sesion.verNombreUsuario());
-    		
+			PreparedStatement preparedStatement = connection.prepareStatement(q);
     		preparedStatement.executeUpdate();
 		}
 		catch (Exception e) {
+			e.printStackTrace();
 			throw e;
 		}
 	}
@@ -53,8 +49,8 @@ public class sesionDAO {
 		try {
 			existeSesion(s, connection);
 			String queryString = "DELETE FROM Sesion "
-							   + "WHERE nombreUsuario = " + s.verNombreUsuario() + " "
-							   + "AND hashSesion = " + s.verHashSesion() +";";
+							   + "WHERE nombreUsuario = '" + s.verNombreUsuario() + "' "
+							   + "AND hashSesion = '" + s.verHashSesion() +"';";
 			PreparedStatement preparedStatement = 
 	                connection.prepareStatement(queryString);
 	            
@@ -76,8 +72,8 @@ public class sesionDAO {
 		try {
 			String comprobacion = "SELECT nombreUsuario "
 								+ "FROM Sesion "
-								+ "WHERE nombreUsuario = " + s.verNombreUsuario() + " "
-								+ "AND hashSesion = " + s.verHashSesion() +";";
+								+ "WHERE nombreUsuario = '" + s.verNombreUsuario() + "' "
+								+ "AND hashSesion = '" + s.verHashSesion() +"';";
 			
 			PreparedStatement preparedStatement = 
 	                connection.prepareStatement(comprobacion);

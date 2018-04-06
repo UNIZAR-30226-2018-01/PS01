@@ -46,7 +46,7 @@ public class ImplementacionFachada implements InterfazFachada {
 	public void nuevaSesion(String nombreUsuario, String idSesion)
 			throws SesionExistente, SQLException {
 		try {
-			new sesionDAO().insertarSesion(new sesionVO(nombreUsuario, idSesion),
+			new sesionDAO().insertarSesion(new sesionVO(idSesion, nombreUsuario),
 					FuncionesAuxiliares.obtenerConexion());
 		}
 		catch(Exception e) {

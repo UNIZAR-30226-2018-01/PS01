@@ -7,6 +7,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import javax.servlet.http.HttpServletResponse;
 
 import modelo.FuncionesAuxiliares;
 
@@ -19,7 +20,7 @@ public class RegistrarUsuario {
 	 
 			// Metemos los parámetros necesarios y los tratamos
 	        params.put("nombre", "Paco");
-	        params.put("hashPass", "Pil");
+	        params.put("hashPass", FuncionesAuxiliares.crearHash("prueba"));
 	        StringBuilder postData = new StringBuilder();
 	        for (Map.Entry<String, Object> param : params.entrySet()) {
 	            if (postData.length() != 0)
@@ -32,7 +33,6 @@ public class RegistrarUsuario {
 	        
 	        // Enviamos los parámetros
 	        byte[] postDataBytes = postData.toString().getBytes("UTF-8");
-	        
 	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 	        conn.setRequestMethod("POST");
 	        conn.setRequestProperty("Content-Type",
@@ -44,10 +44,6 @@ public class RegistrarUsuario {
 	        
 	        // Leemos los parámetros
 	        InputStream response = conn.getInputStream();
-	        
-	        System.out.println("Exito...");
-	        
-	       
 		}
 		catch(MalformedURLException e) {
 			System.out.println("URL no existente");

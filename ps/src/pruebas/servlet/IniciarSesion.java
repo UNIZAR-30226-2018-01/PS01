@@ -1,6 +1,7 @@
 package pruebas.servlet;
 
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -8,12 +9,16 @@ import java.net.URLEncoder;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import modelo.FuncionesAuxiliares;
+import org.json.simple.*;
+import org.json.simple.parser.*;
 
 /*
  * Prueba el servlet de inicio de sesión, introduciendo un usuario y la
  * contraseña de este usuario
  */
 public class IniciarSesion {
+	public static final String NOMBRE = "Paco";
+	public static final String HASH_PW = FuncionesAuxiliares.crearHash("prueba");
 
 	public static void main(String[] args) {
 		try {
@@ -22,8 +27,8 @@ public class IniciarSesion {
 			Map<String, Object> params = new LinkedHashMap<>();
 	 
 			// Metemos los parámetros necesarios y los tratamos
-	        params.put("nombre", "Paco");
-	        params.put("hashPass", "Pil");
+	        params.put("nombre", NOMBRE);
+	        params.put("hashPass", HASH_PW);
 	        StringBuilder postData = new StringBuilder();
 	        for (Map.Entry<String, Object> param : params.entrySet()) {
 	            if (postData.length() != 0)
@@ -34,9 +39,8 @@ public class IniciarSesion {
 	                    "UTF-8"));
 	        }
 	        
-	        // Enviamos los parámetros
+	        // Enviamos los parámetros al servlet
 	        byte[] postDataBytes = postData.toString().getBytes("UTF-8");
-	        
 	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 	        conn.setRequestMethod("POST");
 	        conn.setRequestProperty("Content-Type",
@@ -46,16 +50,28 @@ public class IniciarSesion {
 	        conn.setDoOutput(true);
 	        conn.getOutputStream().write(postDataBytes);
 	        
-	        // Leemos los parámetros
+	        // Leemos la respuesta del servlet
 	        InputStream response = conn.getInputStream();
-	        java.util.Scanner scanner = new java.util.Scanner(response,"UTF-8").useDelimiter("\\A");
-	        String theString = scanner.hasNext() ? scanner.next() : "";
-	        System.out.println(theString);
-	        scanner.close();
+	        JSONParser jsonParser = new JSONParser();
+	        JSONObject jsonObject = (JSONObject)jsonParser.parse(
+	        	      new InputStreamReader(response, "UTF-8"));
+	        String error = (String) jsonObject.get("error");
+	        String login = (String) jsonObject.get("login");
+	        String idSesion = (String) jsonObject.get("idSesion");
 	        
-	        System.out.println("Exito...");
-	        
-	       
+	        // Comprobamos los parámetros
+	        if(error != null) {
+	        	System.out.println(error);
+	        }
+	        else if(login==null) {
+	        	System.out.println("Error en el login recibido");
+	        }
+	        else if(idSesion==null) {
+	        	System.out.println("Error en el id de sesion recibido");
+	        }
+	        else{
+	        	System.out.println("CORRECTO!");
+	        }     
 		}
 		catch(MalformedURLException e) {
 			System.out.println("URL no existente");

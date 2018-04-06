@@ -1,18 +1,19 @@
 package modelo.servlets;
 
 import java.io.*;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+//import java.security.MessageDigest;
+//import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
-import java.util.Formatter;
-import java.util.HashMap;
+//import java.util.Formatter;
+//import java.util.HashMap;
 import javax.servlet.*;
 import javax.servlet.http.*;
-
+import modelo.FuncionesAuxiliares;
 import modelo.ImplementacionFachada;
 import modelo.excepcion.LoginInexistente;
 import modelo.excepcion.SesionExistente;
 import javax.servlet.annotation.WebServlet;
+import org.json.simple.*;
 
 /*
  * Servlet que se utiliza para autentificar al usuario en el servidor, es decir,
@@ -29,47 +30,66 @@ import javax.servlet.annotation.WebServlet;
 @WebServlet("/IniciarSesion")
 public class IniciarSesion extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String PAGINA_ACTUAL = "inicio.jsp";
-	private static final String PAGINA_SIG = "inicio.jsp";
 	
-	/*
-	 * Función auxiliar para calcular el hash. De Stackoverflow
-	 */
-	private static String byteToHex(final byte[] hash) {
-	    Formatter formatter = new Formatter();
-	    for (byte b : hash)
-	    {
-	        formatter.format("%02x", b);
-	    }
-	    String result = formatter.toString();
-	    formatter.close();
-	    return result;
+	public void doPost (HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException {
+		// Definición de variables
+		PrintWriter out = response.getWriter();
+		JSONObject obj = new JSONObject();
+		String nombre = request.getParameter("nombre");
+		String hashPass = request.getParameter("hashPass");
+		String idSesion = FuncionesAuxiliares.
+				crearHash(System.currentTimeMillis() + nombre); // Genera un id de sesion
+	
+		// Comprobamos los parámetros recibidos
+		if ((nombre == null) || (nombre.trim().equals("")) || (hashPass == null)
+			|| (hashPass.trim().equals(""))) {
+			// Metemos el objeto de error en el JSON
+			obj.put("error", "Parámetros incorrectos");
+			
+			// Respondemos con el fichero JSON
+			out.println(obj.toJSONString());
+		}
+		else{ // Los parámetros estaban bien
+			try{
+				// Comprobamos si existe el usuario con ese nombre y hash
+				new ImplementacionFachada().iniciarSesion(nombre, hashPass);
+				new ImplementacionFachada().nuevaSesion(nombre, idSesion);
+				
+				// Metemos los objetos en un objeto JSON
+				obj.put("login", nombre);
+				obj.put("idSesion", idSesion);
+				
+				// Respondemos con el fichero JSON
+				out.println(obj.toJSONString());
+			}
+			catch(LoginInexistente e) {
+				// Metemos el objeto de error en el JSON
+				obj.put("error", e.toString());
+				
+				// Respondemos con el fichero JSON
+				out.println(obj.toJSONString());
+			}
+			catch(SesionExistente e) {
+				// Metemos los objetos en un objeto JSON
+				obj.put("login", nombre);
+				obj.put("idSesion", idSesion);
+				
+				// Respondemos con el fichero JSON
+				out.println(obj.toJSONString());
+			}
+			catch(SQLException e){
+				e.printStackTrace();
+				// Metemos el objeto de error en el JSON
+				obj.put("error", "Error SQL en el servidor");
+				
+				// Respondemos con el fichero JSON
+				out.println(obj.toJSONString());
+			}
+		}
 	}
 	
-	
 	/*
-	 * Pre: ---
-	 * Post: Función que crea el identificador de la sesión, partiendo de
-	 * 		 la hora actual y el nombre del usuario
-	 */
-	private static String crearIdSesion(String nombre) {
-		String sha1 = "";
-		String s = System.currentTimeMillis() + nombre;
-	    try {
-	        MessageDigest crypt = MessageDigest.getInstance("SHA-1");
-	        crypt.reset();
-	        crypt.update(s.getBytes("UTF-8"));
-	        sha1 = byteToHex(crypt.digest());
-	    }
-	    catch(NoSuchAlgorithmException e) {
-	        e.printStackTrace();
-	    }
-	    catch(UnsupportedEncodingException e) {
-	        e.printStackTrace();
-	    }
-	    return sha1;
-	}
-	
 	public void doPost (HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		// Variable para guardar los errores
@@ -78,7 +98,8 @@ public class IniciarSesion extends HttpServlet {
 		// Recuperamos los parámetros
 		String nombre = request.getParameter("nombre");
 		String hashPass = request.getParameter("hashPass");
-		String idSesion = crearIdSesion(nombre); // Genera un id de sesion
+		String idSesion = FuncionesAuxiliares.
+				crearHash(System.currentTimeMillis() + nombre); // Genera un id de sesion
 	
 		// Comprobamos los parámetros recibidos
 		if ((nombre == null) || (nombre.trim().equals("")) || (hashPass == null)
@@ -116,5 +137,5 @@ public class IniciarSesion extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
-	}
+	}*/
 }
