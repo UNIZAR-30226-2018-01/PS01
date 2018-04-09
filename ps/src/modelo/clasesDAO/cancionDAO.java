@@ -8,10 +8,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
-
 import modelo.clasesVO.cancionVO;
 import modelo.excepcion.CancionNoExiste;
 import modelo.excepcion.CancionYaExiste;
+import org.json.simple.*;
 
 public class cancionDAO {
 	/*
@@ -128,17 +128,18 @@ public class cancionDAO {
 	 * Pre:
 	 * Post Busca en la BD si existe una cancion en la BD con el título proporcionado,
 	 * 		bien sea subida por el administrador o por el usuario.
-	 * 		Además, devuelve un vector de cancionesVO que contiene todas las canciones
-	 * 		obtenidas en la consulta.
+	 * 		Además, devuelve un json con una clave canciones, cuyo
+	 * 		valor asociado será un array en el que cada componente es una
+	 * 		canción
 	 * 		De no existir, lanza una excepción CancionNoExiste
 	 */
-	public Vector<cancionVO> buscarCancionPorTitulo(cancionVO c,
+	public JSONObject buscarCancionPorTitulo(cancionVO c,
 			String nombreUploader, Connection cc)
 			throws SQLException, CancionNoExiste {
 		try {
 			String s = "SELECT * FROM Cancion WHERE "
 					 + "titulo = '" + c.verNombreArtista() + "' AND "
-					 + "(uploader = '" + nombreUploader + "' OR"
+					 + "(uploader = '" + nombreUploader + "' OR "
 					 + "uploader = 'Admin');";
 			PreparedStatement preparedStatement = cc.prepareStatement(s);
 			ResultSet busquedaComp = preparedStatement.executeQuery();
@@ -175,13 +176,20 @@ public class cancionDAO {
 						generos.elementAt(i), uploaders.elementAt(i),
 						rutas.elementAt(i)));
 			}*/
-			
+			JSONObject obj = new JSONObject();
+			JSONArray array = new JSONArray();
 			while (busquedaComp.next()) {
-				canciones.add(new cancionVO(busquedaComp.getString(1), busquedaComp.getString(2),
-											busquedaComp.getString(3), busquedaComp.getString(4),
-											busquedaComp.getString(5), busquedaComp.getString(6)));
+				JSONObject aux = new JSONObject();
+				aux.put("tituloCancion", busquedaComp.getString(1));
+				aux.put("nombreArtista", busquedaComp.getString(2));
+				aux.put("nombreAlbum", busquedaComp.getString(3));
+				aux.put("genero", busquedaComp.getString(4));
+				aux.put("uploader", busquedaComp.getString(5));
+				aux.put("ruta", busquedaComp.getString(6));
+				array.add(aux);
 			}
-			return canciones;
+			obj.put("canciones", array);
+			return obj;
 		}
 		catch(Exception e) {
 			throw e;

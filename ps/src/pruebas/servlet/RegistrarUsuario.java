@@ -1,13 +1,16 @@
 package pruebas.servlet;
 
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import javax.servlet.http.HttpServletResponse;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import modelo.FuncionesAuxiliares;
 
@@ -44,6 +47,22 @@ public class RegistrarUsuario {
 	        
 	        // Leemos los parámetros
 	        InputStream response = conn.getInputStream();
+	        JSONParser jsonParser = new JSONParser();
+	        JSONObject jsonObject = (JSONObject)jsonParser.parse(
+	        	      new InputStreamReader(response, "UTF-8"));
+	        String error = (String) jsonObject.get("error");
+	        String UsuarioRegistrado = (String) jsonObject.get("UsuarioRegistrado");
+	        
+	        // Comprobamos los parámetros
+	        if(error != null) {
+	        	System.out.println(error);
+	        }
+	        else if(UsuarioRegistrado != null) {
+	        	System.out.println(UsuarioRegistrado);
+	        }
+	        else{
+	        	System.out.println("CORRECTO!");
+	        } 
 		}
 		catch(MalformedURLException e) {
 			System.out.println("URL no existente");

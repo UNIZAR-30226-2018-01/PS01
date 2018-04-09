@@ -2,10 +2,10 @@ package modelo;
 
 import modelo.clasesVO.*;
 import modelo.excepcion.*;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Vector;
+import org.json.simple.*;
 
 /*
  * Interfaz de la fachada. Incluye las operaciones que se pueden invocar desde
@@ -57,11 +57,11 @@ public interface InterfazFachada {
 	/*
 	 * Pre:
 	 * Post: Comprueba en la BD si existe una canción de título "titulo".
-	 * 		 Si existe alguna, devuelve un array de cancionesVO con las canciones
-	 * 		 que tengan ese título
-	 * 		 Si no existe, lanzará una excepción "CancionNoExiste"
+	 * 		 Si existe alguna, devuelve un json con una clave canciones, cuyo
+	 * 		 valor asociado será un array en el que cada componente es una
+	 * 		 canción
 	 */
-	public Vector<cancionVO> buscarCancionPorTitulo(String titulo,
+	public JSONObject buscarCancionPorTitulo(String titulo,
 			String nombreUploader)
 			throws SQLException, CancionNoExiste;
 	

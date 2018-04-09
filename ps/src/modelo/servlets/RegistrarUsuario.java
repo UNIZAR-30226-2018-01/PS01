@@ -2,37 +2,34 @@ package modelo.servlets;
 
 import java.io.*;
 import java.sql.SQLException;
-import java.util.HashMap;
 import javax.servlet.*;
 import javax.servlet.http.*;
-
 import modelo.ImplementacionFachada;
 import modelo.excepcion.UsuarioYaRegistrado;
 import javax.servlet.annotation.WebServlet;
+import org.json.simple.JSONObject;
 
 
 /* Servlet que se utiliza para registrar a un usuario en el servidor. Los
  * parametros que ha de recibir en el request son "nombre", que se corresponde
  * con el nombre de usuario, y hashPass, que se corresponde con el hash de la
- * contraseña del usuario. Si ha ido mal, puede devolver en el request los
- * siguientes parámetros:
- *   -InicioSesion, lo cual significa que el nombre de usuario escogido o la
- *   contraseña escogida es inválida.
- *   -UsuarioYaRegistrado, lo cual significa que ya hay un usuario registrado
- *   con el nombre proporcionado por el usuario
+ * contraseña del usuario.
+ * Si ha ido bien devuelve un json sin claves, es decir, vacío. 
+ * Si ha ido mal, puede devolver las siguientes claves:
+ * 	-error, lo cual significa que el usuario o contraseña proporcionados
+ *   no cumplen con la sintaxis (tamaño, etc)
+ *  -UsuarioRegistrado, que indica que el usuario proporcionado ya existe,
+ *   con lo que no se puede registrar
  */
 @WebServlet("/RegistrarUsuario")
 public class RegistrarUsuario extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String PAGINA_ACTUAL = "inicio.jsp";
-	private static final String PAGINA_SIG = "inicio.jsp";
 	
 	public void doPost (HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException{
-		// Variable para guardar los errores
-		HashMap<String, String> errors = new HashMap <String, String>();
-	
-		// Recuperamos los parámetros
+		// Definición de variables
+		PrintWriter out = response.getWriter();
+		JSONObject obj = new JSONObject();
 		String nombre = request.getParameter("nombre");
 		String hashPass = request.getParameter("hashPass");
 	
@@ -40,27 +37,33 @@ public class RegistrarUsuario extends HttpServlet {
 		if ((nombre == null) || (nombre.trim().equals("")) || (hashPass == null)
 			  || (hashPass.trim().equals("")) || nombre.length()<4 || 
 			  nombre.length()>32) {
-			errors.put("registroUsuario", "Parámetros incorrectos");
-		}
-		
-		if (!errors.isEmpty()){ // Los parámetros recibidos son incorrectos
-			request.setAttribute("errores", errors);
-			RequestDispatcher dispatcher=request.getRequestDispatcher(PAGINA_ACTUAL);
-			dispatcher.forward(request, response);
+			// Metemos el objeto de error en el JSON
+			obj.put("error", "Parámetros incorrectos");
+			
+			// Respondemos con el fichero JSON
+			out.println(obj.toJSONString());
 		}
 		else{ // Los parámetros recibidos son correctos
 			try{
 				new ImplementacionFachada().registrarUsuario(nombre, hashPass);
-				response.sendRedirect(PAGINA_SIG);
+				
+				// Respondemos con el fichero JSON
+				out.println(obj.toJSONString());
 			}
 			catch(UsuarioYaRegistrado e){
-				request.setAttribute("UsuarioYaRegistrado", e.toString());
-				RequestDispatcher dispatcher=request.getRequestDispatcher(PAGINA_ACTUAL);
-				dispatcher.forward(request, response);
+				// Metemos el objeto de error en el JSON
+				obj.put("UsuarioRegistrado", "El usuario proporcionado ya existe");
+				
+				// Respondemos con el fichero JSON
+				out.println(obj.toJSONString());
 			}
 			catch(SQLException e) {
-				RequestDispatcher dispatcher=request.getRequestDispatcher(PAGINA_ACTUAL);
-				dispatcher.forward(request, response);
+				e.printStackTrace();
+				// Metemos el objeto de error en el JSON
+				obj.put("error", "Error SQL en el servidor");
+				
+				// Respondemos con el fichero JSON
+				out.println(obj.toJSONString());
 			}
 		}
 	}
