@@ -68,22 +68,22 @@ public interface InterfazFachada {
 	/*
 	 * Pre:
 	 * Post: Comprueba en la BD si existe una canción con artista "artista".
-	 * 		 Si existe alguna, devuelve un array de cancionesVO con las canciones
-	 * 		 que tengan ese título
-	 * 		 Si no existe, lanzará una excepción "CancionNoExiste"
+	 * 		 Si existe alguna, devuelve un json con una clave canciones, cuyo
+	 * 		 valor asociado será un array en el que cada componente es una
+	 * 		 canción
 	 */
-	public Vector<cancionVO> buscarCancionPorArtista(String artista,
+	public JSONObject buscarCancionPorArtista(String artista,
 			String nombreUploader)
 			throws SQLException, CancionNoExiste;
 	
 	/*
 	 * Pre:
 	 * Post: Comprueba en la BD si existe una canción del album "album".
-	 * 		 Si existe alguna, devuelve un array de cancionesVO con las canciones
-	 * 		 que tengan ese título
-	 * 		 Si no existe, lanzará una excepción "CancionNoExiste"
+	 * 		 Si existe alguna, devuelve un json con una clave canciones, cuyo
+	 * 		 valor asociado será un array en el que cada componente es una
+	 * 		 canción
 	 */
-	public Vector<cancionVO> buscarCancionPorAlbum(String album,
+	public JSONObject buscarCancionPorAlbum(String album,
 			String nombreUploader)
 			throws SQLException, CancionNoExiste;
 

@@ -126,7 +126,7 @@ public class cancionDAO {
 	
 	/*
 	 * Pre:
-	 * Post Busca en la BD si existe una cancion en la BD con el título proporcionado,
+	 * Post Busca en la BD si existen canciones en la BD con el título proporcionado,
 	 * 		bien sea subida por el administrador o por el usuario.
 	 * 		Además, devuelve un json con una clave canciones, cuyo
 	 * 		valor asociado será un array en el que cada componente es una
@@ -138,7 +138,7 @@ public class cancionDAO {
 			throws SQLException, CancionNoExiste {
 		try {
 			String s = "SELECT * FROM Cancion WHERE "
-					 + "titulo = '" + c.verNombreArtista() + "' AND "
+					 + "titulo = '" + c.verTitulo() + "' AND "
 					 + "(uploader = '" + nombreUploader + "' OR "
 					 + "uploader = 'Admin');";
 			PreparedStatement preparedStatement = cc.prepareStatement(s);
@@ -148,36 +148,11 @@ public class cancionDAO {
 			if(!busquedaComp.first()) {
 				throw new CancionNoExiste("La cancion buscada no existe en la BD");
 			}
-			
-			// Generamos los objetos VO
-			/*Vector<String> titulos =
-					new Vector<String>(FuncionesAuxiliares.
-							obtenerValorColumna(busquedaComp, "titulo"));
-			Vector<String> nombres =
-					new Vector<String>(FuncionesAuxiliares.
-							obtenerValorColumna(busquedaComp, "nombreArtista"));
-			Vector<String> albums =
-					new Vector<String>(FuncionesAuxiliares.
-							obtenerValorColumna(busquedaComp, "nombreAlbum"));
-			Vector<String> generos =
-					new Vector<String>(FuncionesAuxiliares.
-							obtenerValorColumna(busquedaComp, "genero"));
-			Vector<String> uploaders =
-					new Vector<String>(FuncionesAuxiliares.
-							obtenerValorColumna(busquedaComp, "uploader"));
-			Vector<String> rutas =
-					new Vector<String>(FuncionesAuxiliares.
-							obtenerValorColumna(busquedaComp, "ruta"));*/
-			Vector<cancionVO> canciones =new Vector<cancionVO>();
-			
-			/*while (busquedaComp.next()) {
-				canciones.add(new cancionVO(titulos.elementAt(i),
-						nombres.elementAt(i), albums.elementAt(i),
-						generos.elementAt(i), uploaders.elementAt(i),
-						rutas.elementAt(i)));
-			}*/
+
+			// Objetos para devolver el resultado
 			JSONObject obj = new JSONObject();
 			JSONArray array = new JSONArray();
+			busquedaComp.beforeFirst(); // Movemos el cursor antes del 1er elemento
 			while (busquedaComp.next()) {
 				JSONObject aux = new JSONObject();
 				aux.put("tituloCancion", busquedaComp.getString(1));
@@ -198,20 +173,21 @@ public class cancionDAO {
 	
 	/*
 	 * Pre:
-	 * Post Busca en la BD si existe una cancion en la BD con el artista proporcionado,
+	 * Post Busca en la BD si existen canciones en la BD con el artista proporcionado,
 	 * 		bien sea subida por el administrador o por el usuario.
-	 * 		Además, devuelve un vector de cancionesVO que contiene todas las canciones
-	 * 		obtenidas en la consulta.
+	 * 		Además, devuelve un json con una clave canciones, cuyo
+	 * 		valor asociado será un array en el que cada componente es una
+	 * 		canción
 	 * 		De no existir, lanza una excepción CancionNoExiste
 	 */
-	public Vector<cancionVO> buscarCancionPorArtista(cancionVO c,
+	public JSONObject buscarCancionPorArtista(cancionVO c,
 			String nombreUploader, Connection cc)
 			throws SQLException, CancionNoExiste {
 		try {
 			String s = "SELECT * FROM Cancion WHERE "
 					 + "nombreArtista = '" + c.verNombreArtista() + "' AND "
-					 + "(uploader = '" + nombreUploader + "' OR"
-					 + "uploader = 'admin');";
+					 + "(uploader = '" + nombreUploader + "' OR "
+					 + "uploader = 'Admin');";
 			PreparedStatement preparedStatement = cc.prepareStatement(s);
 			ResultSet busquedaComp = preparedStatement.executeQuery();
 			
@@ -219,34 +195,23 @@ public class cancionDAO {
 			if(!busquedaComp.first()) {
 				throw new CancionNoExiste("La cancion buscada no existe en la BD");
 			}
-			
-			// Generamos los objetos VO
-			/*Vector<String> titulos =
-					new Vector<String>(FuncionesAuxiliares.
-							obtenerValorColumna(busquedaComp, "titulo"));
-			Vector<String> nombres =
-					new Vector<String>(FuncionesAuxiliares.
-							obtenerValorColumna(busquedaComp, "nombreArtista"));
-			Vector<String> albums =
-					new Vector<String>(FuncionesAuxiliares.
-							obtenerValorColumna(busquedaComp, "nombreAlbum"));
-			Vector<String> generos =
-					new Vector<String>(FuncionesAuxiliares.
-							obtenerValorColumna(busquedaComp, "genero"));
-			Vector<String> uploaders =
-					new Vector<String>(FuncionesAuxiliares.
-							obtenerValorColumna(busquedaComp, "uploader"));
-			Vector<String> rutas =
-					new Vector<String>(FuncionesAuxiliares.
-							obtenerValorColumna(busquedaComp, "ruta"));*/
-			Vector<cancionVO> canciones =new Vector<cancionVO>(); 
-			
+
+			// Objetos para devolver el resultado
+			JSONObject obj = new JSONObject();
+			JSONArray array = new JSONArray();
+			busquedaComp.beforeFirst(); // Movemos el cursor antes del 1er elemento
 			while (busquedaComp.next()) {
-				canciones.add(new cancionVO(busquedaComp.getString(1), busquedaComp.getString(2),
-											busquedaComp.getString(3), busquedaComp.getString(4),
-											busquedaComp.getString(5), busquedaComp.getString(6)));
+				JSONObject aux = new JSONObject();
+				aux.put("tituloCancion", busquedaComp.getString(1));
+				aux.put("nombreArtista", busquedaComp.getString(2));
+				aux.put("nombreAlbum", busquedaComp.getString(3));
+				aux.put("genero", busquedaComp.getString(4));
+				aux.put("uploader", busquedaComp.getString(5));
+				aux.put("ruta", busquedaComp.getString(6));
+				array.add(aux);
 			}
-			return canciones;
+			obj.put("canciones", array);
+			return obj;
 		}
 		catch(Exception e) {
 			throw e;
@@ -257,18 +222,19 @@ public class cancionDAO {
 	 * Pre:
 	 * Post Busca en la BD si existe una cancion en la BD con el album proporcionado,
 	 * 		bien sea subida por el administrador o por el usuario.
-	 * 		Además, devuelve un vector de cancionesVO que contiene todas las canciones
-	 * 		obtenidas en la consulta.
+	 * 		Además, devuelve un json con una clave canciones, cuyo
+	 * 		valor asociado será un array en el que cada componente es una
+	 * 		canción
 	 * 		De no existir, lanza una excepción CancionNoExiste
 	 */
-	public Vector<cancionVO> buscarCancionPorAlbum(cancionVO c,
+	public JSONObject buscarCancionPorAlbum(cancionVO c,
 			String nombreUploader, Connection cc)
 			throws SQLException, CancionNoExiste {
 		try {
 			String s = "SELECT * FROM Cancion WHERE "
 					 + "nombreAlbum = '" + c.verNombreAlbum() + "' AND "
-					 + "(uploader = '" + nombreUploader + "' OR"
-					 + "uploader = 'admin');";
+					 + "(uploader = '" + nombreUploader + "' OR "
+					 + "uploader = 'Admin');";
 			PreparedStatement preparedStatement = cc.prepareStatement(s);
 			ResultSet busquedaComp = preparedStatement.executeQuery();
 			
@@ -276,34 +242,23 @@ public class cancionDAO {
 			if(!busquedaComp.first()) {
 				throw new CancionNoExiste("La cancion buscada no existe en la BD");
 			}
-			
-			// Generamos los objetos VO
-			/*Vector<String> titulos =
-					new Vector<String>(FuncionesAuxiliares.
-							obtenerValorColumna(busquedaComp, "titulo"));
-			Vector<String> nombres =
-					new Vector<String>(FuncionesAuxiliares.
-							obtenerValorColumna(busquedaComp, "nombreArtista"));
-			Vector<String> albums =
-					new Vector<String>(FuncionesAuxiliares.
-							obtenerValorColumna(busquedaComp, "nombreAlbum"));
-			Vector<String> generos =
-					new Vector<String>(FuncionesAuxiliares.
-							obtenerValorColumna(busquedaComp, "genero"));
-			Vector<String> uploaders =
-					new Vector<String>(FuncionesAuxiliares.
-							obtenerValorColumna(busquedaComp, "uploader"));
-			Vector<String> rutas =
-					new Vector<String>(FuncionesAuxiliares.
-							obtenerValorColumna(busquedaComp, "ruta"));*/
-			Vector<cancionVO> canciones =new Vector<cancionVO>(); 
-			
+
+			// Objetos para devolver el resultado
+			JSONObject obj = new JSONObject();
+			JSONArray array = new JSONArray();
+			busquedaComp.beforeFirst(); // Movemos el cursor antes del 1er elemento
 			while (busquedaComp.next()) {
-				canciones.add(new cancionVO(busquedaComp.getString(1), busquedaComp.getString(2),
-											busquedaComp.getString(3), busquedaComp.getString(4),
-											busquedaComp.getString(5), busquedaComp.getString(6)));
+				JSONObject aux = new JSONObject();
+				aux.put("tituloCancion", busquedaComp.getString(1));
+				aux.put("nombreArtista", busquedaComp.getString(2));
+				aux.put("nombreAlbum", busquedaComp.getString(3));
+				aux.put("genero", busquedaComp.getString(4));
+				aux.put("uploader", busquedaComp.getString(5));
+				aux.put("ruta", busquedaComp.getString(6));
+				array.add(aux);
 			}
-			return canciones;
+			obj.put("canciones", array);
+			return obj;
 		}
 		catch(Exception e) {
 			throw e;

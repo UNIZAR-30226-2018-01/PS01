@@ -2,8 +2,6 @@ package modelo.servlets;
 
 import java.io.*;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Vector;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.WebServlet;
@@ -11,7 +9,6 @@ import modelo.FuncionesAuxiliares;
 import modelo.ImplementacionFachada;
 import modelo.excepcion.CancionNoExiste;
 import modelo.excepcion.SesionInexistente;
-import modelo.clasesVO.cancionVO;
 import org.json.simple.*;
 
 /*

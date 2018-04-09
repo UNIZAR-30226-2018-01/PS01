@@ -10,17 +10,19 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import modelo.FuncionesAuxiliares;
 
-public class RegistrarUsuario {
+public class BuscarCancionAlbum {
+	public static final String ALBUM = "Iros todos a tomar por culo";
+	
 	public static void main(String[] args) {
 		try {
-			// Creamos las cosas que son necesarios
-			URL url = new URL(Datos.URL_SERVER + "RegistrarUsuario");
+			// Creamos las cosas que son necesarias
+			URL url = new URL(FuncionesAuxiliares.URL_SERVER + "BuscarCancionAlbum");
 			Map<String, Object> params = new LinkedHashMap<>();
 	 
 			// Metemos los parámetros necesarios y los tratamos
-	        params.put("nombre", "Paco");
-	        params.put("hashPass", "1");
+	        params.put("album", ALBUM);
 	        StringBuilder postData = new StringBuilder();
 	        for (Map.Entry<String, Object> param : params.entrySet()) {
 	            if (postData.length() != 0)
@@ -40,6 +42,8 @@ public class RegistrarUsuario {
 	        conn.setRequestProperty("Content-Length",
 	                String.valueOf(postDataBytes.length));
 	        conn.setDoOutput(true);
+	        conn.setRequestProperty("Cookie", "login=" + Datos.USER +
+	        						"; idSesion=" + Datos.SESION);
 	        conn.getOutputStream().write(postDataBytes);
 	        
 	        // Leemos los parámetros
@@ -48,15 +52,15 @@ public class RegistrarUsuario {
 	        JSONObject jsonObject = (JSONObject)jsonParser.parse(
 	        	      new InputStreamReader(response, "UTF-8"));
 	        String error = (String) jsonObject.get("error");
-	        String UsuarioRegistrado = (String) jsonObject.get("UsuarioRegistrado");
+	        String cancionInexistente = (String) jsonObject.get("CancionInexistente");
 	        
 	        // Comprobamos los parámetros
-	        System.out.print("RegistrarUsuario --> ");
+	        System.out.print("BuscarCancionAlbum --> ");
 	        if(error != null) {
 	        	System.out.println(error);
 	        }
-	        else if(UsuarioRegistrado != null) {
-	        	System.out.println(UsuarioRegistrado);
+	        else if(cancionInexistente != null) {
+	        	System.out.println(cancionInexistente);
 	        }
 	        else{
 	        	System.out.println("CORRECTO!");
