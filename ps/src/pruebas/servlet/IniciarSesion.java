@@ -8,7 +8,6 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import modelo.FuncionesAuxiliares;
 import org.json.simple.*;
 import org.json.simple.parser.*;
 
@@ -18,12 +17,12 @@ import org.json.simple.parser.*;
  */
 public class IniciarSesion {
 	public static final String NOMBRE = "Paco";
-	public static final String HASH_PW = FuncionesAuxiliares.crearHash("prueba");
+	public static final String HASH_PW = "1";
 
 	public static void main(String[] args) {
 		try {
 			// Creamos las cosas que son necesarios
-			URL url = new URL(FuncionesAuxiliares.URL_SERVER + "IniciarSesion");
+			URL url = new URL(Datos.URL_SERVER + "IniciarSesion");
 			Map<String, Object> params = new LinkedHashMap<>();
 	 
 			// Metemos los parámetros necesarios y los tratamos
@@ -60,6 +59,7 @@ public class IniciarSesion {
 	        String idSesion = (String) jsonObject.get("idSesion");
 	        
 	        // Comprobamos los parámetros
+	        System.out.print("IniciarSesion --> ");
 	        if(error != null) {
 	        	System.out.println(error);
 	        }
@@ -71,7 +71,7 @@ public class IniciarSesion {
 	        }
 	        else{
 	        	System.out.println("CORRECTO!");
-	        }     
+	        }
 		}
 		catch(MalformedURLException e) {
 			System.out.println("URL no existente");

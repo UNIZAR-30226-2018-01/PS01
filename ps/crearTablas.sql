@@ -12,13 +12,13 @@ CREATE TABLE ArtistaAlbum(
 CREATE TABLE Cancion(
 	titulo varchar(32),
 	nombreArtista varchar(32),
-	nombreAlbum varchar(32),
+	nombreAlbum varchar(32) default 'Desconocido',
 	genero varchar(32) default 'Desconocido',
 	uploader varchar(32) REFERENCES Usuario(nombre),
 	ruta varchar(32) UNIQUE NOT NULL,
-	PRIMARY KEY (titulo, nombreArtista, nombreAlbum, uploader),
-	FOREIGN KEY (nombreArtista, nombreAlbum) REFERENCES ArtistaAlbum(nombreArtista, nombreAlbum)
+	PRIMARY KEY (titulo, nombreArtista, nombreAlbum, uploader)
 );
+--FOREIGN KEY (nombreArtista, nombreAlbum) REFERENCES ArtistaAlbum(nombreArtista, nombreAlbum)
 
 CREATE TABLE Usuario(
 	nombre varchar(32) PRIMARY KEY,

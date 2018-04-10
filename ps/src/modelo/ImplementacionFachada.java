@@ -1,21 +1,13 @@
 package modelo;
 
 import modelo.excepcion.*;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Vector;
-
-/*
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
-import com.mysql.jdbc.Connection;
-*/
 import modelo.clasesDAO.*;
 import modelo.clasesVO.*;
 import modelo.FuncionesAuxiliares;
+import org.json.simple.*;
 
 public class ImplementacionFachada implements InterfazFachada {
 	@Override
@@ -58,7 +50,7 @@ public class ImplementacionFachada implements InterfazFachada {
 	public void existeSesionUsuario(String nombreUsuario, String idSesion)
 			throws SesionInexistente, SQLException{
 		try {
-			new sesionDAO().existeSesion(new sesionVO(nombreUsuario, idSesion),
+			new sesionDAO().existeSesion(new sesionVO(idSesion, nombreUsuario),
 					FuncionesAuxiliares.obtenerConexion());
 		}
 		catch(Exception e) {
@@ -70,7 +62,7 @@ public class ImplementacionFachada implements InterfazFachada {
 	public void cerrarSesion(String nombreUsuario, String idSesion)
 			throws SesionInexistente, SQLException {
 		try {
-			new sesionDAO().cerrarSesion(new sesionVO(nombreUsuario, idSesion),
+			new sesionDAO().cerrarSesion(new sesionVO(idSesion, nombreUsuario),
 					FuncionesAuxiliares.obtenerConexion());
 		}
 		catch (Exception e) {
@@ -227,11 +219,11 @@ public class ImplementacionFachada implements InterfazFachada {
 	}
 	
 	@Override
-	public Vector<cancionVO> buscarCancionPorTitulo(String titulo,
+	public JSONObject buscarCancionPorTitulo(String titulo,
 			String nombreUploader)
 			throws SQLException, CancionNoExiste {
 		try {
-			Vector<cancionVO> v = new cancionDAO().
+			JSONObject v = new cancionDAO().
 					buscarCancionPorTitulo(new cancionVO(titulo, "", "", "", ""),
 							nombreUploader,
 							FuncionesAuxiliares.obtenerConexion());
@@ -243,11 +235,11 @@ public class ImplementacionFachada implements InterfazFachada {
 	}
 	
 	@Override
-	public Vector<cancionVO> buscarCancionPorArtista(String artista,
+	public JSONObject buscarCancionPorArtista(String artista,
 			String nombreUploader)
 			throws SQLException, CancionNoExiste {
 		try {
-			Vector<cancionVO> v = new cancionDAO().
+			JSONObject v = new cancionDAO().
 					buscarCancionPorArtista(new cancionVO("", artista, "", "", ""),
 							nombreUploader,
 							FuncionesAuxiliares.obtenerConexion());
@@ -259,11 +251,11 @@ public class ImplementacionFachada implements InterfazFachada {
 	}
 	
 	@Override
-	public Vector<cancionVO> buscarCancionPorAlbum(String album,
+	public JSONObject buscarCancionPorAlbum(String album,
 			String nombreUploader)
 			throws SQLException, CancionNoExiste {
 		try {
-			Vector<cancionVO> v = new cancionDAO().
+			JSONObject v = new cancionDAO().
 					buscarCancionPorAlbum(new cancionVO("", "", album, "", ""),
 							nombreUploader,
 							FuncionesAuxiliares.obtenerConexion());

@@ -13,4 +13,19 @@
 		<res-auth>Container</res-auth>
 	</resource-ref>
 	
+	<servlet>
+  		<servlet-name>RegistrarUsuario</servlet-name>
+  		<servlet-class>RegistrarUsuario</servlet-class>
+	</servlet>
+	
+	<servlet>
+  		<servlet-name>IniciarSesion</servlet-name>
+  		<servlet-class>IniciarSesion</servlet-class>
+	</servlet>
+	
+	<servlet>
+  		<servlet-name>BuscarCancionTitulo</servlet-name>
+  		<servlet-class>BuscarCancionTitulo</servlet-class>
+	</servlet>
+	
 </web-app>
