@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONObject;
+
 import modelo.FuncionesAuxiliares;
 import modelo.ImplementacionFachada;
 import modelo.clasesVO.cancionVO;
@@ -47,7 +49,7 @@ public class VerLista extends HttpServlet {
 		}
 		else{
 			try{
-				Vector<cancionVO> canciones = new ImplementacionFachada().verLista(new listaReproduccionVO(nombreLista, creadorLista));
+				JSONObject canciones = new ImplementacionFachada().verLista(new listaReproduccionVO(nombreLista, creadorLista));
 				request.setAttribute("canciones", canciones);
 				RequestDispatcher dispatcher=request.getRequestDispatcher(PAGINA_ACTUAL);
 				dispatcher.forward(request, response);

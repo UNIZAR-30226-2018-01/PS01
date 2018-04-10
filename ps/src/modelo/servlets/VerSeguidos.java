@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONObject;
+
 import modelo.ImplementacionFachada;
 import modelo.clasesVO.seguirVO;
 import modelo.excepcion.SinSeguidos;
@@ -56,7 +58,7 @@ public class VerSeguidos extends HttpServlet {
 		}
 		else {
 			try {
-				Vector<seguirVO> v = new ImplementacionFachada().listaDeSeguidos(nombreSeguidor);
+				JSONObject v = new ImplementacionFachada().listaDeSeguidos(nombreSeguidor);
 				request.setAttribute("seguidos", v);
 			}
 			catch (SinSeguidos s) {

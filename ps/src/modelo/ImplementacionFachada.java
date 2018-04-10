@@ -287,7 +287,7 @@ public class ImplementacionFachada implements InterfazFachada {
 	}
 
 	@Override
-	public Vector<seguirVO> listaDeSeguidos(String nombreSeguidor) throws SinSeguidos, SQLException {
+	public JSONObject listaDeSeguidos(String nombreSeguidor) throws SinSeguidos, SQLException {
 		try {
 			return new seguirDAO().listaDeSeguidos(nombreSeguidor, FuncionesAuxiliares.obtenerConexion());
 		}
@@ -307,7 +307,7 @@ public class ImplementacionFachada implements InterfazFachada {
 	}
 	
 	@Override
-	public Vector<seguirVO> listaDeSeguidores(String nombreSeguido) throws SinSeguidores, SQLException {
+	public JSONObject listaDeSeguidores(String nombreSeguido) throws SinSeguidores, SQLException {
 		try {
 			return new seguirDAO().listaDeSeguidores(nombreSeguido, FuncionesAuxiliares.obtenerConexion());
 		}

@@ -117,11 +117,17 @@ public class seguirDAO {
 					throw new SinSeguidores("El usuario " + nombreSeguido + " no tiene seguidores.");
 				}
 				else {
+					JSONObject obj = new JSONObject();
+					JSONArray array = new JSONArray();
+					resultado.beforeFirst();
 					while (resultado.next()) {
-						seguidos.add(new seguirVO(resultado.getString(1), resultado.getString(2)));
+						JSONObject aux = new JSONObject();
+						aux.put("nombreSeguido", resultado.getString(1));
+						aux.put("nombreSeguidor", resultado.getString(2));
+						array.add(aux);
 					}
-					
-					return seguidos;
+					obj.put("listaDeSeguidores", array);
+					return obj;
 				}
 			}
 			catch (Exception e) {

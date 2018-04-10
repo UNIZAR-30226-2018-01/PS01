@@ -129,12 +129,12 @@ public interface InterfazFachada {
 	public void dejarDeSeguir(String nombreSeguidor, String nombreSeguido)
 			throws ErrorDejarDeSeguir, SQLException;
 	
-	public Vector<seguirVO> listaDeSeguidos(String nombreSeguidor)
+	public JSONObject listaDeSeguidos(String nombreSeguidor)
 			throws SinSeguidos, SQLException;
 	
 	public JSONObject verLista(listaReproduccionVO l)
 			throws NoHayCanciones, SQLException;
 	
-	public Vector<seguirVO> listaDeSeguidores(String nombreSeguido)
+	public JSONObject listaDeSeguidores(String nombreSeguido)
 			throws SinSeguidores, SQLException;
 }
