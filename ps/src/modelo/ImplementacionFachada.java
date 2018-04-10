@@ -297,7 +297,7 @@ public class ImplementacionFachada implements InterfazFachada {
 	}
 
 	@Override
-	public Vector<cancionVO> verLista(listaReproduccionVO l) throws NoHayCanciones, SQLException {
+	public JSONObject verLista(listaReproduccionVO l) throws NoHayCanciones, SQLException {
 		try {
 			return new formarDAO().verLista(l, FuncionesAuxiliares.obtenerConexion());
 		}

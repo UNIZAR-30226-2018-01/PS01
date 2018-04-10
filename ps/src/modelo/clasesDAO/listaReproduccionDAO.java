@@ -6,6 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import modelo.FuncionesAuxiliares;
 import modelo.clasesVO.listaReproduccionVO;
 import modelo.excepcion.ListaNoExiste;
@@ -103,7 +106,7 @@ public class listaReproduccionDAO {
 	 * Post: Ha devuelto un Vector con todas las listas que un usuario ha creado
 	 * 		 y las de los usuarios a los que sigue
 	 */
-	public Vector<String> devolverListas(String nombreUsuario, Connection c)
+	public JSONObject devolverListas(String nombreUsuario, Connection c)
 			throws SQLException, NoHayListas {
 		try {
 			String s = "SELECT * "
@@ -117,10 +120,11 @@ public class listaReproduccionDAO {
 			if(!r.first()) {
 				throw new NoHayListas("El usuario no tiene ninguna lista asociada");
 			}
-			
+			JSONObject obj = new JSONObject();
+			JSONArray array = new JSONArray();
 			// Obtenemos y devolvemos el nombre de las listas
-			return new Vector<String>(FuncionesAuxiliares.
-							obtenerValorColumna(r, "nombre"));
+			return FuncionesAuxiliares.
+							obtenerValorColumna(r, "nombre");
 		}
 		catch (Exception e) {
 			throw e;

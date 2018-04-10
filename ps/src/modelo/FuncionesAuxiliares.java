@@ -7,6 +7,10 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.http.Cookie;
 import javax.sql.DataSource;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import java.util.Vector;
 import java.sql.Connection;
 
@@ -53,15 +57,19 @@ public class FuncionesAuxiliares {
 	 * Post: Dado un ResultSet, devuelve un vector con todos los valores para
 	 * 		 la columna 'c'. Si no había valores, devuelve un Vector vacío
 	 */
-	public static Vector<String> obtenerValorColumna(ResultSet r, String c)
+	public static JSONObject obtenerValorColumna(ResultSet r, String c)
 			throws SQLException {
 		try {
-			Vector<String> v = new Vector<String>();
+			JSONObject obj = new JSONObject();
+			JSONArray v = new JSONArray();
 			r.beforeFirst();
 			while(r.first()) {
 				v.add(r.getString(c));
 			}
-			return v;
+			
+			obj.put(c, v);
+			return obj;
+			//return v;
 		}
 		catch(Exception e) {
 			throw e;

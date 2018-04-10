@@ -6,6 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import modelo.clasesVO.cancionVO;
 import modelo.clasesVO.formarVO;
 import modelo.clasesVO.listaReproduccionVO;
@@ -109,9 +112,8 @@ public class formarDAO {
 		}
 	}
 	
-	public Vector<cancionVO> verLista(listaReproduccionVO l, Connection connection) throws SQLException, NoHayCanciones {
+	public JSONObject verLista(listaReproduccionVO l, Connection connection) throws SQLException, NoHayCanciones {
 		try {
-			Vector<cancionVO> canciones = new Vector<cancionVO>();
 			String queryString = "SELECT titulo, nombreArtista, nombreAlbum, genero, uploader "
 							   + "FROM Formar JOIN Cancion "
 							   + "WHERE nombreUsuario = '" + l.obtenerNombreUsuario() + "' "
@@ -126,13 +128,21 @@ public class formarDAO {
 						+ l.obtenerNombreUsuario() + " está vacía.");
 			}
 			else {
+				JSONObject obj = new JSONObject();
+				JSONArray array = new JSONArray();
+				resultado.beforeFirst(); // Movemos el cursor antes del 1er elemento
 				while (resultado.next()) {
-					canciones.add(new cancionVO(resultado.getString(1),	resultado.getString(2),
-												resultado.getString(3), resultado.getString(4),
-												resultado.getString(5), ""));
+					JSONObject aux = new JSONObject();
+					aux.put("tituloCancion", resultado.getString(1));
+					aux.put("nombreArtista", resultado.getString(2));
+					aux.put("nombreAlbum", resultado.getString(3));
+					aux.put("genero", resultado.getString(4));
+					aux.put("uploader", resultado.getString(5));
+					aux.put("ruta", "");
+					array.add(aux);
 				}
-				
-				return canciones;
+				obj.put("lista", array);
+				return obj;
 			}
 		}
 		catch (Exception e) {

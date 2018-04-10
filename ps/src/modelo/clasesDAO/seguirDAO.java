@@ -6,6 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import modelo.clasesVO.seguirVO;
 import modelo.excepcion.ErrorDejarDeSeguir;
 import modelo.excepcion.SinSeguidores;
@@ -66,10 +69,9 @@ public class seguirDAO {
 		}
 	}
 	
-	public Vector<seguirVO> listaDeSeguidos(String nombreSeguidor, Connection connection)
+	public JSONObject listaDeSeguidos(String nombreSeguidor, Connection connection)
 		throws SinSeguidos, SQLException {
 		try {
-			Vector<seguirVO> seguidos = new Vector<seguirVO>();
 			String queryString =  "SELECT * "
 								+ "FROM Seguir "
 								+ "WHERE nombreSeguidor = '" + nombreSeguidor + "';";
@@ -82,11 +84,17 @@ public class seguirDAO {
 				throw new SinSeguidos("El usuario " + nombreSeguidor + " no sigue a nadie.");
 			}
 			else {
+				JSONObject obj = new JSONObject();
+				JSONArray array = new JSONArray();
+				resultado.beforeFirst();
 				while (resultado.next()) {
-					seguidos.add(new seguirVO(resultado.getString(1), resultado.getString(2)));
+					JSONObject aux = new JSONObject();
+					aux.put("nombreSeguidor", resultado.getString(1));
+					aux.put("nombreSeguido", resultado.getString(2));
+					array.add(aux);
 				}
-				
-				return seguidos;
+				obj.put("listaDeSeguidos", array);
+				return obj;
 			}
 		}
 		catch (Exception e) {
@@ -94,10 +102,9 @@ public class seguirDAO {
 		}
 	}
 	
-	public Vector<seguirVO> listaDeSeguidores(String nombreSeguido, Connection connection)
+	public JSONObject listaDeSeguidores(String nombreSeguido, Connection connection)
 			throws SinSeguidores, SQLException {
 			try {
-				Vector<seguirVO> seguidos = new Vector<seguirVO>();
 				String queryString =  "SELECT * "
 									+ "FROM Seguir "
 									+ "WHERE nombreSeguido = '" + nombreSeguido + "';";
