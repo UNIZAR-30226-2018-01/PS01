@@ -3,20 +3,20 @@ package modelo.clasesDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import modelo.clasesVO.reproducirVO;
+import modelo.clasesVO.reproduccionVO;
 import modelo.excepcion.ExcepcionReproduccion;
 
-public class reproducirDAO {
+public class reproduccionDAO {
 	/*
 	 * Pre: ---
 	 * Post: Ha marcado una determinada canción como reproducida para un usuario.
 	 * 		 Si y solo si se produce algún problema al registrar la audición, entonces
 	 * 		 lanza una excepción ExcepcionReproduccion.
 	 */
-	public void anyadirReproduccion (reproducirVO repro, Connection connection)
+	public void anyadirReproduccion (reproduccionVO repro, Connection connection)
 			throws ExcepcionReproduccion, SQLException {
 		try {
-			String queryString = "INSERT INTO Reproducir(nombreUsuario, titulo, nombreAlbum, nombreArtista) "
+			String queryString = "INSERT INTO Reproduccion(nombreUsuario, titulo, nombreAlbum, nombreArtista) "
 					+ "VALUES (?,?,?,?);";
 			
 			PreparedStatement preparedStatement = 

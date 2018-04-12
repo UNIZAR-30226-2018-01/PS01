@@ -1,25 +1,26 @@
 package modelo.clasesVO;
 
-public class gustarVO {
+public class reproduccionVO {
 	private String nombreUsuario;
 	private String tituloCancion;
 	private String nombreAlbum;
 	private String nombreArtista;
-	private String nombreUploader;
+	private String fecha;
 
-	public gustarVO(String nombreUsuario, String tituloCancion, String nombreAlbum, String nombreArtista, String nombreUploader){
+	public reproduccionVO(String nombreUsuario, String tituloCancion,
+			String nombreAlbum, String nombreArtista, String fecha){
 		this.nombreUsuario = nombreUsuario;
 		this.tituloCancion = tituloCancion;
 		this.nombreAlbum = nombreAlbum;
 		this.nombreArtista = nombreArtista;
-		this.nombreUploader = nombreUploader;
+		this.fecha = fecha;
 	}
 
 	public String verNombreUsuario(){
 		return nombreUsuario;
 	}
 
-	public String verTitulo(){
+	public String verTituloCancion(){
 		return tituloCancion;
 	}
 
@@ -31,8 +32,8 @@ public class gustarVO {
 		return nombreArtista;
 	}
 	
-	public String verNombreUploader() {
-		return nombreUploader;
+	public String verFecha() {
+		return fecha;
 	}
 
 	public void modificarNombreUsuario(String nuevoUsuario){
@@ -48,7 +49,7 @@ public class gustarVO {
 	}
 
 	public void modificarNombreAlbum(String nuevoAlbum){
-		if (nuevoAlbum != null){
+		if (nuevoAlbum != null){	
 			nombreAlbum = nuevoAlbum;
 		}
 	}
@@ -56,12 +57,6 @@ public class gustarVO {
 	public void modificarNombreArtista(String nuevoArtista){
 		if (nuevoArtista != null){
 			nombreArtista = nuevoArtista;
-		}
-	}
-	
-	public void modificarNombreUploader(String nuevoUploader) {
-		if (nuevoUploader != null) {
-			nombreUploader = nuevoUploader;
 		}
 	}
 }

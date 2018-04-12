@@ -53,7 +53,7 @@ public class IniciarSesion extends HttpServlet {
 		else{ // Los parámetros estaban bien
 			try{
 				// Comprobamos si existe el usuario con ese nombre y hash
-				new ImplementacionFachada().iniciarSesion(nombre, hashPass);
+				new ImplementacionFachada().existeUsuario(nombre, hashPass);
 				new ImplementacionFachada().nuevaSesion(nombre, idSesion);
 				
 				// Metemos los objetos en un objeto JSON

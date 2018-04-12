@@ -19,7 +19,7 @@ public interface InterfazFachada {
 	 * 		 si existe una entrada en la base de datos con ese nombre de usuario
 	 * 		 y ese hash de contraseña. En caso contrario, lanza una excepción
 	 */
-	public void iniciarSesion(String nombreUsuario, String hashPass) 
+	public void existeUsuario(String nombreUsuario, String hashPass) 
 			throws LoginInexistente, SQLException;
 	
 	/*
@@ -93,35 +93,17 @@ public interface InterfazFachada {
 	public void borrarListaDeReproduccion(listaReproduccionVO l)
 			throws ListaNoExiste, SQLException;
 	
-	public void megusta(gustarVO g)
-			throws ErrorAnyadirMegusta, SQLException;
-	
-	public void yanomegusta(gustarVO g)
-			throws ErrorQuitarMegusta, SQLException;
-	
-	public void anyadirReproduccion(reproducirVO r)
-			throws ExcepcionReproduccion, SQLException;
-	
 	public void anyadirCancionALista(formarVO f)
 			throws CancionExisteEnLista, SQLException;
 	
 	public void quitarCancionDeLista(formarVO f)
 			throws CancionNoExisteEnLista, SQLException;
 	
-	public void anyadirAudicionLista(escucharVO e)
-			throws ExcepcionEscuchar, SQLException;
-	
 	public void anyadirCancionUsuario(cancionVO c)
 			throws CancionYaExiste, SQLException;
 	
 	public void quitarCancionUsuario(cancionVO c)
 			throws CancionNoExiste, SQLException, IOException;
-	
-	public void anyadirArtistaAlbum(artistaAlbumVO a)
-			throws ArtistaAlbumExiste, SQLException;
-	
-	public void quitarArtistaAlbum(artistaAlbumVO a)
-			throws ArtistaAlbumNoExiste, SQLException;
 	
 	public void seguir(String nombreSeguidor, String nombreSeguido)
 			throws SQLException;

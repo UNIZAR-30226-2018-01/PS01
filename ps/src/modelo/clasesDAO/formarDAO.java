@@ -140,7 +140,7 @@ public class formarDAO {
 	                connection.prepareStatement(queryString);
 			preparedStatement.setString(1, l.obtenerNombreLista());
 			preparedStatement.setString(2, l.obtenerNombreUsuario());
-			ResultSet resultado = preparedStatement.executeQuery(queryString);
+			ResultSet resultado = preparedStatement.executeQuery();
 			
 			if (!resultado.first()) {
 				throw new NoHayCanciones("La Lista " + l.obtenerNombreLista() + " del usuario"

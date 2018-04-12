@@ -85,7 +85,7 @@ public class usuarioDAO {
 			preparedStatement.setString(2, u.verHashPass());
 			
 			// Hacemos la consulta
-			ResultSet r = preparedStatement.executeQuery(q);
+			ResultSet r = preparedStatement.executeQuery();
 			
 			// Comprobamos si ha devuelto algo
 			if(!r.next()) {

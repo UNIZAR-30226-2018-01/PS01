@@ -11,7 +11,7 @@ import org.json.simple.*;
 
 public class ImplementacionFachada implements InterfazFachada {
 	@Override
-	public void iniciarSesion(String nombreUsuario, String hashPass)
+	public void existeUsuario(String nombreUsuario, String hashPass)
 			throws LoginInexistente, SQLException {
 		try {
 			new usuarioDAO().hayUsuario(new usuarioVO(nombreUsuario, hashPass),
@@ -94,42 +94,7 @@ public class ImplementacionFachada implements InterfazFachada {
 			throw e;
 		}
 	}
-	
-	@Override
-	public void megusta(gustarVO g)
-			throws ErrorAnyadirMegusta, SQLException {
-		try {
-			new gustarDAO().megusta(g,
-					FuncionesAuxiliares.obtenerConexion());
-		}
-		catch (Exception e) {
-			throw e;
-		}
-	}
-	
-	@Override
-	public void yanomegusta(gustarVO g)
-			throws ErrorQuitarMegusta, SQLException {
-		try {
-			new gustarDAO().yanomegusta(g,
-					FuncionesAuxiliares.obtenerConexion());
-		}
-		catch (Exception e) {
-			throw e;
-		}
-	}
-	
-	@Override
-	public void anyadirReproduccion(reproducirVO r)
-			throws ExcepcionReproduccion, SQLException {
-		try {
-			new reproducirDAO().anyadirReproduccion(r,
-					FuncionesAuxiliares.obtenerConexion());
-		}
-		catch (Exception e) {
-			throw e;
-		}
-	}
+
 
 	@Override
 	public void anyadirCancionALista(formarVO f)
@@ -156,18 +121,6 @@ public class ImplementacionFachada implements InterfazFachada {
 	}
 
 	@Override
-	public void anyadirAudicionLista(escucharVO e)
-			throws ExcepcionEscuchar, SQLException {
-		try {
-			new escucharDAO().anyadir(e,
-					FuncionesAuxiliares.obtenerConexion());
-		}
-		catch (Exception ex) {
-			throw ex;
-		}
-	}
-
-	@Override
 	public void anyadirCancionUsuario(cancionVO c)
 			throws CancionYaExiste, SQLException {
 		System.out.println("Insertando canción en la base de datos 2...");
@@ -187,30 +140,6 @@ public class ImplementacionFachada implements InterfazFachada {
 			throws CancionNoExiste, SQLException, IOException {
 		try {
 			new cancionDAO().quitarCancion(c,
-					FuncionesAuxiliares.obtenerConexion());
-		}
-		catch (Exception e) {
-			throw e;
-		}
-	}
-
-	@Override
-	public void anyadirArtistaAlbum(artistaAlbumVO a)
-			throws ArtistaAlbumExiste, SQLException {
-		try {
-			new artistaAlbumDAO().anyadirArtistaAlbum(a,
-					FuncionesAuxiliares.obtenerConexion());
-		}
-		catch (Exception e) {
-			throw e;
-		}
-	}
-
-	@Override
-	public void quitarArtistaAlbum(artistaAlbumVO a)
-			throws ArtistaAlbumNoExiste, SQLException {
-		try {
-			new artistaAlbumDAO().quitarArtistaAlbum(a,
 					FuncionesAuxiliares.obtenerConexion());
 		}
 		catch (Exception e) {

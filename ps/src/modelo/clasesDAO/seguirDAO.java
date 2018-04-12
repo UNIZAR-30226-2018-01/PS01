@@ -80,7 +80,7 @@ public class seguirDAO {
 			PreparedStatement preparedStatement = 
 	                connection.prepareStatement(queryString);
 			preparedStatement.setString(1, nombreSeguidor);
-			ResultSet resultado = preparedStatement.executeQuery(queryString);
+			ResultSet resultado = preparedStatement.executeQuery();
 			
 			if (!resultado.first()) {
 				throw new SinSeguidos("El usuario " + nombreSeguidor + " no sigue a nadie.");
@@ -114,7 +114,7 @@ public class seguirDAO {
 				PreparedStatement preparedStatement = 
 		                connection.prepareStatement(queryString);
 				preparedStatement.setString(1, nombreSeguido);
-				ResultSet resultado = preparedStatement.executeQuery(queryString);
+				ResultSet resultado = preparedStatement.executeQuery();
 				
 				if (!resultado.first()) {
 					throw new SinSeguidores("El usuario " + nombreSeguido + " no tiene seguidores.");
