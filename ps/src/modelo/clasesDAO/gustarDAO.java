@@ -3,7 +3,6 @@ package modelo.clasesDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
 import modelo.clasesVO.gustarVO;
 import modelo.excepcion.ErrorAnyadirMegusta;
 import modelo.excepcion.ErrorQuitarMegusta;
@@ -50,15 +49,18 @@ public class gustarDAO {
 			throws ErrorQuitarMegusta, SQLException {
 		try {
 			String queryString = "DELETE FROM Gustar"
-					+ " WHERE Gustar.nombreUsuario = '" + gustar.verNombreUsuario()
-					+ "' AND Gustar.titulo = '" + gustar.verTitulo()
-					+ "' AND Gustar.nombreAlbum = '" + gustar.verNombreAlbum()
-					+ "' AND Gustar.nombreArtista = '" + gustar.verNombreArtista()
-					+ "' AND Gustar.uploader = '" + gustar.verNombreUploader()
-					+ "';";
-			
+					+ " WHERE Gustar.nombreUsuario = ?"
+					+ " AND Gustar.titulo = ?"
+					+ " AND Gustar.nombreAlbum = ?"
+					+ " AND Gustar.nombreArtista = ?"
+					+ " AND Gustar.uploader = ?;";
 			PreparedStatement preparedStatement = 
 	                connection.prepareStatement(queryString);
+			preparedStatement.setString(1, gustar.verNombreUsuario());
+			preparedStatement.setString(2, gustar.verTitulo());
+			preparedStatement.setString(3, gustar.verNombreAlbum());
+			preparedStatement.setString(4, gustar.verNombreArtista());
+			preparedStatement.setString(5, gustar.verNombreUploader());
 			
 			int busquedaComp = preparedStatement.executeUpdate();
 	        if (busquedaComp == 0) {

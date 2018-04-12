@@ -61,12 +61,13 @@ public class listaReproduccionDAO {
 			}
 			else {
 				String queryString = "DELETE FROM ListaReproduccion"
-						+ " WHERE nombre = '" + lista.obtenerNombreLista()
-						+ "' AND nombreUsuario = '" + lista.obtenerNombreUsuario()
-						+ "'; ";
+						+ " WHERE nombre = ?"
+						+ " AND nombreUsuario = ?;";
 				
 				PreparedStatement preparedStatement = 
 		                connection.prepareStatement(queryString);
+				preparedStatement.setString(1, lista.obtenerNombreLista());
+				preparedStatement.setString(2, lista.obtenerNombreUsuario());
 				
 				preparedStatement.executeUpdate();
 			}
@@ -85,12 +86,13 @@ public class listaReproduccionDAO {
 		try {
 			String comprobacion = "SELECT *"
 					+ " FROM ListaReproduccion"
-					+ " WHERE nombre = '" + lista.obtenerNombreLista()
-					+ "' AND nombreUsuario = '" + lista.obtenerNombreUsuario() 
-					+ "';";
+					+ " WHERE nombre = ?"
+					+ " AND nombreUsuario = ?;";
 			
 			PreparedStatement preparedStatement = 
 	                connection.prepareStatement(comprobacion);
+			preparedStatement.setString(1, lista.obtenerNombreLista());
+			preparedStatement.setString(1, lista.obtenerNombreUsuario());
 	            
 	        /* Execute query. */                    
 			ResultSet busquedaComp = preparedStatement.executeQuery();
@@ -111,9 +113,9 @@ public class listaReproduccionDAO {
 		try {
 			String s = "SELECT * "
 					 + "FROM listaReproduccion "
-					 + "WHERE nombreUsuario = '"
-					 + nombreUsuario + "';";
+					 + "WHERE nombreUsuario = ?;";
 			PreparedStatement p = c.prepareStatement(s);
+			p.setString(1, nombreUsuario);
 			ResultSet r = p.executeQuery();
 			
 			// Comprobamos que exista la canción

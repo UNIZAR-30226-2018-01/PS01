@@ -56,12 +56,13 @@ public class artistaAlbumDAO {
 			}
 			else {
 				String queryString = "DELETE FROM ArtistaAlbum"
-						+ " WHERE nombreArtista = '" + aa.verNombreArtista()
-						+ "' AND nombreAlbum = '" + aa.verNombreAlbum()
-						+ "'; ";
+						+ " WHERE nombreArtista = ?"
+						+ " AND nombreAlbum = '?";
 				
 				PreparedStatement preparedStatement = 
 		                connection.prepareStatement(queryString);
+				preparedStatement.setString(1, aa.verNombreArtista());
+    			preparedStatement.setString(2, aa.verNombreAlbum());
 				
 				preparedStatement.executeUpdate();
 			}
@@ -78,14 +79,14 @@ public class artistaAlbumDAO {
 	 */
 	public boolean existeArtistaAlbum(artistaAlbumVO aa, Connection connection) throws SQLException {
 		try {
-			String comprobacion = "SELECT *"
-					+ " FROM ArtistaAlbum"
-					+ " WHERE nombreArtista = '" + aa.verNombreArtista()
-					+ "' AND nombreAlbum = '" + aa.verNombreAlbum()
-					+ "';";
+			String comprobacion = "DELETE FROM ArtistaAlbum"
+					+ " WHERE nombreArtista = ?"
+					+ " AND nombreAlbum = '?";
 			
 			PreparedStatement preparedStatement = 
 	                connection.prepareStatement(comprobacion);
+			preparedStatement.setString(1, aa.verNombreArtista());
+			preparedStatement.setString(2, aa.verNombreAlbum());
 	            
 	        /* Execute query. */                    
 			ResultSet busquedaComp = preparedStatement.executeQuery();

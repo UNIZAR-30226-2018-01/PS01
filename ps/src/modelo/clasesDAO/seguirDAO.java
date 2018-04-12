@@ -51,12 +51,13 @@ public class seguirDAO {
 			throws ErrorDejarDeSeguir, SQLException {
 		try {
 			String queryString = "DELETE FROM Seguir"
-					+ " WHERE nombreSeguidor = '" + nombreSeguidor
-					+ "' AND nombreSeguido = '" + nombreSeguido
-					+ "';";
+					+ " WHERE nombreSeguidor = ?"
+					+ " AND nombreSeguido = ?;";
 			
 			PreparedStatement preparedStatement = 
 	                connection.prepareStatement(queryString);
+			preparedStatement.setString(1, nombreSeguidor);
+			preparedStatement.setString(2, nombreSeguido);
 			
 			int busquedaComp = preparedStatement.executeUpdate();
 	        if (busquedaComp == 0) {
@@ -74,10 +75,11 @@ public class seguirDAO {
 		try {
 			String queryString =  "SELECT * "
 								+ "FROM Seguir "
-								+ "WHERE nombreSeguidor = '" + nombreSeguidor + "';";
+								+ "WHERE nombreSeguidor = ?;";
 			
 			PreparedStatement preparedStatement = 
 	                connection.prepareStatement(queryString);
+			preparedStatement.setString(1, nombreSeguidor);
 			ResultSet resultado = preparedStatement.executeQuery(queryString);
 			
 			if (!resultado.first()) {
@@ -107,10 +109,11 @@ public class seguirDAO {
 			try {
 				String queryString =  "SELECT * "
 									+ "FROM Seguir "
-									+ "WHERE nombreSeguido = '" + nombreSeguido + "';";
+									+ "WHERE nombreSeguido = ?;";
 				
 				PreparedStatement preparedStatement = 
 		                connection.prepareStatement(queryString);
+				preparedStatement.setString(1, nombreSeguido);
 				ResultSet resultado = preparedStatement.executeQuery(queryString);
 				
 				if (!resultado.first()) {

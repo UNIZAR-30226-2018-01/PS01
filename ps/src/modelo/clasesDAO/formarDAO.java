@@ -67,15 +67,19 @@ public class formarDAO {
 			}
 			else {
 				String queryString = "DELETE FROM Formar"
-						+ " WHERE titulo = '" + f.verTituloCancion()
-						+ "' AND nombreArtista = '" + f.verNombreArtista()
-						+ "' AND nombreAlbum = '" + f.verNombreAlbum()
-						+ "' AND nombreLista = '" + f.verNombreLista()
-						+ "' AND nombreUsuario = '" + f.verNombreUsuario()
-						+ "';";
+						+ " WHERE titulo = ?"
+						+ " AND nombreArtista = ?"
+						+ " AND nombreAlbum = ?"
+						+ " AND nombreLista = ?"
+						+ " AND nombreUsuario = ?;";
 				
 				PreparedStatement preparedStatement = 
 		                connection.prepareStatement(queryString);
+				preparedStatement.setString(1, f.verTituloCancion());
+				preparedStatement.setString(2, f.verNombreArtista());
+				preparedStatement.setString(3, f.verNombreAlbum());
+				preparedStatement.setString(4, f.verNombreLista());
+				preparedStatement.setString(5, f.verNombreUsuario());
 				
 				preparedStatement.executeUpdate();
 			}
@@ -92,16 +96,20 @@ public class formarDAO {
 	 */
 	public boolean existeCancionEnLista(formarVO f, Connection connection) throws SQLException {
 		try {
-			String comprobacion = "SELECT *"
-					+ " FROM Formar"
-					+ " WHERE titulo = '" + f.verTituloCancion()
-					+ "' AND nombreArtista = '" + f.verNombreArtista()
-					+ "' AND nombreAlbum = '" + f.verNombreAlbum()
-					+ "' AND nombreLista = '" + f.verNombreLista()
-					+ "' AND nombreUsuario = '" + f.verNombreUsuario()
-					+ "';";
+			String queryString = "SELECT * FROM Formar"
+					+ " WHERE titulo = ?"
+					+ " AND nombreArtista = ?"
+					+ " AND nombreAlbum = ?"
+					+ " AND nombreLista = ?"
+					+ " AND nombreUsuario = ?;";
+			
 			PreparedStatement preparedStatement = 
-	                connection.prepareStatement(comprobacion);
+	                connection.prepareStatement(queryString);
+			preparedStatement.setString(1, f.verTituloCancion());
+			preparedStatement.setString(2, f.verNombreArtista());
+			preparedStatement.setString(3, f.verNombreAlbum());
+			preparedStatement.setString(4, f.verNombreLista());
+			preparedStatement.setString(5, f.verNombreUsuario());
 	            
 	        /* Execute query. */                    
 			ResultSet busquedaComp = preparedStatement.executeQuery();
@@ -112,15 +120,26 @@ public class formarDAO {
 		}
 	}
 	
-	public JSONObject verLista(listaReproduccionVO l, Connection connection) throws SQLException, NoHayCanciones {
+	/*
+	 * Pre:
+	 * Post: Dada una lista de reproducción, devuelve un JSON con las canciones
+	 * 		 que forman dicha lista
+	 */
+	public JSONObject verLista(listaReproduccionVO l, Connection connection)
+			throws SQLException, NoHayCanciones {
 		try {
-			String queryString = "SELECT titulo, nombreArtista, nombreAlbum, genero, uploader "
-							   + "FROM Formar JOIN Cancion "
-							   + "WHERE nombreUsuario = '" + l.obtenerNombreUsuario() + "' "
-							   + "AND nombreLista = '" + l.obtenerNombreUsuario() + "' "
-							   + ";";
+			String queryString = "SELECT Cancion.titulo, Cancion.nombreArtista, "
+							   + "Cancion.nombreAlbum, Cancion.genero, "
+							   + "Cancion.uploader, Cancion.ruta "
+							   + "FROM (SELECT * FROM Formar where nombreLista= ? "
+							   + "AND nombreUsuario = ?) c1 JOIN Cancion "
+							   + "ON (c1.titulo = Cancion.titulo AND "
+							   + "c1.nombreArtista = Cancion.nombreArtista AND "
+							   + "c1.nombreAlbum = Cancion.nombreAlbum);";
 			PreparedStatement preparedStatement = 
 	                connection.prepareStatement(queryString);
+			preparedStatement.setString(1, l.obtenerNombreLista());
+			preparedStatement.setString(2, l.obtenerNombreUsuario());
 			ResultSet resultado = preparedStatement.executeQuery(queryString);
 			
 			if (!resultado.first()) {
@@ -128,6 +147,7 @@ public class formarDAO {
 						+ l.obtenerNombreUsuario() + " está vacía.");
 			}
 			else {
+				// Objetos para devolver el resultado
 				JSONObject obj = new JSONObject();
 				JSONArray array = new JSONArray();
 				resultado.beforeFirst(); // Movemos el cursor antes del 1er elemento
@@ -138,10 +158,10 @@ public class formarDAO {
 					aux.put("nombreAlbum", resultado.getString(3));
 					aux.put("genero", resultado.getString(4));
 					aux.put("uploader", resultado.getString(5));
-					aux.put("ruta", "");
+					aux.put("ruta", resultado.getString(6));
 					array.add(aux);
 				}
-				obj.put("lista", array);
+				obj.put("canciones", array);
 				return obj;
 			}
 		}

@@ -50,13 +50,15 @@ public class escucharDAO {
 		try {
 			String comprobacion = "SELECT *"
 					+ " FROM Escuchar"
-					+ " WHERE nombreLista = " + a.verNombreLista()
-					+ " AND nombreCreador = " + a.verNombreCreador()
-					+ " AND nombreListener = " + a.verNombreListener()
-					+ ";";
+					+ " WHERE nombreLista = ?"
+					+ " AND nombreCreador = ?"
+					+ " AND nombreListener = ?;";
 			
 			PreparedStatement preparedStatement = 
 	                connection.prepareStatement(comprobacion);
+			preparedStatement.setString(1, a.verNombreLista());
+			preparedStatement.setString(2, a.verNombreCreador());
+			preparedStatement.setString(3, a.verNombreListener());
 	            
 	        /* Execute query. */                    
 	        int busquedaComp = preparedStatement.executeUpdate();

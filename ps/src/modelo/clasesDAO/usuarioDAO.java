@@ -50,10 +50,11 @@ public class usuarioDAO {
 		try {
 			String comprobacion = "SELECT nombre "
 					+ "FROM Usuario "
-					+ "WHERE nombre = '" + usuario + "';";
+					+ "WHERE nombre = ?;";
 			
 			PreparedStatement preparedStatement = 
 	                connection.prepareStatement(comprobacion);
+			preparedStatement.setString(1,usuario);
 	            
 	        /* Execute query. */                    
 	        ResultSet busquedaComp = preparedStatement.executeQuery();
@@ -75,11 +76,13 @@ public class usuarioDAO {
 			throws LoginInexistente, SQLException{
 		try {
 			// Preparamos la consulta
-			String q = new String();
-			q = q + "SELECT * FROM Usuario ";
-			q = q + "WHERE nombre = '" + u.verNombre() + "' AND ";
-			q = q + "hashPass = '" + u.verHashPass() + "';";
+			String q = "SELECT nombre "
+					+ "FROM Usuario "
+					+ "WHERE nombre = ? AND "
+					+ "hashPass = ?;";
 			PreparedStatement preparedStatement = c.prepareStatement(q);
+			preparedStatement.setString(1, u.verNombre());
+			preparedStatement.setString(2, u.verHashPass());
 			
 			// Hacemos la consulta
 			ResultSet r = preparedStatement.executeQuery(q);

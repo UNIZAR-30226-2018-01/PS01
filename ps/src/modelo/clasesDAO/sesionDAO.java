@@ -25,10 +25,11 @@ public class sesionDAO {
 		}
 		catch (SesionInexistente e) {
 			String q = "INSERT INTO Sesion(hashSesion, nombreUsuario) "
-					 + "VALUES ('" + sesion.verHashSesion() + "','"
-					 + sesion.verNombreUsuario() + "');";
+					 + "VALUES (?,?);";
 			
 			PreparedStatement preparedStatement = connection.prepareStatement(q);
+			preparedStatement.setString(1, sesion.verHashSesion());
+			preparedStatement.setString(2, sesion.verNombreUsuario());
     		preparedStatement.executeUpdate();
 		}
 		catch (Exception e) {
@@ -49,10 +50,12 @@ public class sesionDAO {
 		try {
 			existeSesion(s, connection);
 			String queryString = "DELETE FROM Sesion "
-							   + "WHERE nombreUsuario = '" + s.verNombreUsuario() + "' "
-							   + "AND hashSesion = '" + s.verHashSesion() +"';";
+							   + "WHERE nombreUsuario = ? "
+							   + "AND hashSesion = ?;";
 			PreparedStatement preparedStatement = 
 	                connection.prepareStatement(queryString);
+			preparedStatement.setString(1, s.verNombreUsuario());
+			preparedStatement.setString(2, s.verHashSesion());
 	            
 	        /* Execute query. */                    
 	        preparedStatement.executeUpdate();				
@@ -64,7 +67,7 @@ public class sesionDAO {
 	
 	/*
 	 * Pre:
-	 * Post: Comprueba si existe una sesión s en la BD. Si no existe, lanza
+	 * Post: Comprueba si existe una sesión en la BD. Si no existe, lanza
 	 * 		 una excepción "SesionInexistente"
 	 */
 	public void existeSesion(sesionVO s, Connection connection) throws
@@ -72,11 +75,13 @@ public class sesionDAO {
 		try {
 			String comprobacion = "SELECT nombreUsuario "
 								+ "FROM Sesion "
-								+ "WHERE nombreUsuario = '" + s.verNombreUsuario() + "' "
-								+ "AND hashSesion = '" + s.verHashSesion() +"';";
+								+ "WHERE nombreUsuario = ? "
+								+ "AND hashSesion = ?;";
 			
 			PreparedStatement preparedStatement = 
 	                connection.prepareStatement(comprobacion);
+			preparedStatement.setString(1, s.verNombreUsuario());
+			preparedStatement.setString(2, s.verHashSesion());
 	            
 	        /* Execute query. */                    
 			ResultSet busquedaComp = preparedStatement.executeQuery();

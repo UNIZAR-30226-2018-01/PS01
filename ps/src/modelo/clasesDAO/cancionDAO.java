@@ -30,7 +30,8 @@ public class cancionDAO {
 						+ cancion.verUploader() + " ya existe.");
 			}
 			else {
-				String queryString = "INSERT INTO Cancion(titulo, nombreArtista, nombreAlbum, genero, uploader) "
+				String queryString = "INSERT INTO Cancion(titulo, nombreArtista,"
+						+ "nombreAlbum, genero, uploader) "
 						+ "VALUES (?,?,?,?,?);";
 				
 				PreparedStatement preparedStatement = 
@@ -64,31 +65,34 @@ public class cancionDAO {
 						+ cancion.verUploader() + " no existe.");
 			}
 			else {
-				String queryString1 = "SELECT ruta "
-								   + " WHERE titulo = '" + cancion.verTitulo()
-								   + "' AND nombreArtista = '" + cancion.verNombreArtista()
-								   + "' AND nombreAlbum = '" + cancion.verNombreAlbum()
-								   + "' AND uploader = '" + cancion.verUploader()
-								   + "';";
-				
-				String queryString2 = "DELETE FROM Cancion"
-						+ " WHERE titulo = '" + cancion.verTitulo()
-						+ "' AND nombreArtista = '" + cancion.verNombreArtista()
-						+ "' AND nombreAlbum = '" + cancion.verNombreAlbum()
-						+ "' AND uploader = '" + cancion.verUploader()
-						+ "';";
-				
-				PreparedStatement preparedStatement = 
-		                connection.prepareStatement(queryString1);
+				// Recuperamos la ruta del fichero y borramos el fichero físico
+				String s1 = "SELECT ruta "
+						  + "FROM Cancion"
+						  + "WHERE titulo = ? AND "
+						  + "nombreArtista = ? AND "
+						  + "nombreAlbum = ? AND "
+						  + "uploader = ?;";
+				PreparedStatement preparedStatement =  connection.prepareStatement(s1);
+				preparedStatement.setString(1, cancion.verTitulo());
+				preparedStatement.setString(2, cancion.verNombreArtista());
+				preparedStatement.setString(3, cancion.verNombreAlbum());
+				preparedStatement.setString(4, cancion.verUploader());
 				ResultSet resultado = preparedStatement.executeQuery();
+				Files.delete(new File(resultado.getString(1)).toPath());
 				
-				String ruta = resultado.getString(1);
+				// Borramos la entrada en la base de datos
+				s1 = "DELETE FROM Cancion "
+				   + "WHERE titulo = ? AND "
+				   + "nombreArtista = ? AND "
+				   + "nombreAlbum = ? AND "
+				   + "uploader = ?;";
 				
-				preparedStatement = 
-		                connection.prepareStatement(queryString2);
+				preparedStatement = connection.prepareStatement(s1);
+				preparedStatement.setString(1, cancion.verTitulo());
+				preparedStatement.setString(2, cancion.verNombreArtista());
+				preparedStatement.setString(3, cancion.verNombreAlbum());
+				preparedStatement.setString(4, cancion.verUploader());
 				preparedStatement.executeUpdate();
-				
-				Files.delete(new File(ruta).toPath());
 			}
 		}
 		catch (SQLException e) {
@@ -104,16 +108,18 @@ public class cancionDAO {
 	 */
 	public boolean existeCancion(cancionVO cancion, Connection connection) throws SQLException {
 		try {
-			String comprobacion = "SELECT *"
+			String s1 = "SELECT *"
 					+ " FROM Cancion"
-					+ " WHERE titulo = '" + cancion.verTitulo()
-					+ "' AND nombreArtista = '" + cancion.verNombreArtista()
-					+ "' AND nombreAlbum = '" + cancion.verNombreAlbum()
-					+ "' AND uploader = '" + cancion.verUploader()
-					+ "';";
+					+ " WHERE titulo = ?"
+					+ " AND nombreArtista = ?"
+					+ " AND nombreAlbum = ?"
+					+ " AND uploader = ?;";
 			
-			PreparedStatement preparedStatement = 
-	                connection.prepareStatement(comprobacion);
+			PreparedStatement preparedStatement = connection.prepareStatement(s1);
+			preparedStatement.setString(1, cancion.verTitulo());
+			preparedStatement.setString(2, cancion.verNombreArtista());
+			preparedStatement.setString(3, cancion.verNombreAlbum());
+			preparedStatement.setString(4, cancion.verUploader());
 	            
 	        /* Execute query. */                    
 			ResultSet busquedaComp = preparedStatement.executeQuery();
@@ -138,10 +144,11 @@ public class cancionDAO {
 			throws SQLException, CancionNoExiste {
 		try {
 			String s = "SELECT * FROM Cancion WHERE "
-					 + "titulo = '" + c.verTitulo() + "' AND "
-					 + "(uploader = '" + nombreUploader + "' OR "
-					 + "uploader = 'Admin');";
+					 + "titulo = ? AND "
+					 + "(uploader = ? OR uploader = 'Admin');";
 			PreparedStatement preparedStatement = cc.prepareStatement(s);
+			preparedStatement.setString(1, c.verTitulo());
+			preparedStatement.setString(2, nombreUploader);
 			ResultSet busquedaComp = preparedStatement.executeQuery();
 			
 			// Comprobamos que exista la canción
@@ -185,10 +192,11 @@ public class cancionDAO {
 			throws SQLException, CancionNoExiste {
 		try {
 			String s = "SELECT * FROM Cancion WHERE "
-					 + "nombreArtista = '" + c.verNombreArtista() + "' AND "
-					 + "(uploader = '" + nombreUploader + "' OR "
-					 + "uploader = 'Admin');";
+					 + "nombreArtista = ? AND "
+					 + "(uploader = ? OR uploader = 'Admin');";
 			PreparedStatement preparedStatement = cc.prepareStatement(s);
+			preparedStatement.setString(1, c.verNombreArtista());
+			preparedStatement.setString(2, nombreUploader);
 			ResultSet busquedaComp = preparedStatement.executeQuery();
 			
 			// Comprobamos que exista la canción
@@ -232,10 +240,11 @@ public class cancionDAO {
 			throws SQLException, CancionNoExiste {
 		try {
 			String s = "SELECT * FROM Cancion WHERE "
-					 + "nombreAlbum = '" + c.verNombreAlbum() + "' AND "
-					 + "(uploader = '" + nombreUploader + "' OR "
-					 + "uploader = 'Admin');";
+					 + "nombreAlbum = ? AND "
+					 + "(uploader = ? OR uploader = 'Admin');";
 			PreparedStatement preparedStatement = cc.prepareStatement(s);
+			preparedStatement.setString(1, c.verNombreAlbum());
+			preparedStatement.setString(2, nombreUploader);
 			ResultSet busquedaComp = preparedStatement.executeQuery();
 			
 			// Comprobamos que exista la canción
