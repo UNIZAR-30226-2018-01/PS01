@@ -1,9 +1,11 @@
 package modelo.servlets;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.net.ContentHandler;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
@@ -19,7 +21,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import org.apache.tika.exception.TikaException;
+import org.apache.tika.metadata.Metadata;
+import org.apache.tika.parser.ParseContext;
+import org.apache.tika.parser.Parser;
+import org.apache.tika.parser.mp3.Mp3Parser;
 import org.json.simple.JSONObject;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 import modelo.FuncionesAuxiliares;
 import modelo.ImplementacionFachada;
@@ -84,8 +93,22 @@ public class SubirCanciones extends HttpServlet {
 					}
 		        }
 		        else {
-			        Files.createFile(new File(rutaBase + nombreUsuario + "/" + tituloCancion + ".mp3").toPath());
-			        Files.copy(fileContent, new File(rutaBase + nombreUsuario + "/" + tituloCancion + ".mp3").toPath(), StandardCopyOption.REPLACE_EXISTING);
+		        	File mus = new File(rutaBase + nombreUsuario + "/" + tituloCancion + ".mp3");
+			        Files.createFile(mus.toPath());
+			        Files.copy(fileContent, mus.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			        InputStream input = new FileInputStream(mus);
+			        DefaultHandler handler = new DefaultHandler();
+			        Metadata metadata = new Metadata();
+			        Parser parser = new Mp3Parser();
+			        ParseContext parseCtx = new ParseContext();
+			        try {
+						parser.parse(input, handler, metadata, parseCtx);
+					} catch (SAXException | TikaException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			        input.close();
+			        String[] metadataNames = metadata.names();
 		        }
 		    }
 			System.out.println("Fichero subido");
