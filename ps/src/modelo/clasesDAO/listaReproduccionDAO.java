@@ -82,7 +82,7 @@ public class listaReproduccionDAO {
 	 * Post: Devuelve verdad si un usuario nunca antes ha creado una lista de reproducción
 	 * 		 con el mismo nombre.
 	 */
-	public boolean existeLista(listaReproduccionVO lista, Connection connection) throws SQLException{
+	public boolean existeLista(listaReproduccionVO lista, Connection connection) throws SQLException {
 		try {
 			String comprobacion = "SELECT *"
 					+ " FROM ListaReproduccion"

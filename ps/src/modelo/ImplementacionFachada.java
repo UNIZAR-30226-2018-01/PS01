@@ -244,4 +244,14 @@ public class ImplementacionFachada implements InterfazFachada {
 			throw e;
 		}
 	}
+	
+	@Override
+	public JSONObject mostrarListasUsuario(String nombreUsuario) throws SQLException, NoHayListas {
+		try {
+			return new listaReproduccionDAO().devolverListas(nombreUsuario, FuncionesAuxiliares.obtenerConexion());
+		}
+		catch (Exception e) {
+			throw e;
+		}
+	}
 }
