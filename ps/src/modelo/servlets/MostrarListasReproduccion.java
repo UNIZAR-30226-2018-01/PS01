@@ -25,18 +25,7 @@ public class MostrarListasReproduccion extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String PAGINA_ACTUAL = "inicio.jsp";
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public MostrarListasReproduccion() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-    
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// Variable para guardar los errores
 		HashMap<String, String> errors = new HashMap <String, String>();
 	

@@ -1,22 +1,19 @@
 package modelo.servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Vector;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.json.simple.JSONObject;
-
+import modelo.FuncionesAuxiliares;
 import modelo.ImplementacionFachada;
-import modelo.clasesVO.seguirVO;
+import modelo.excepcion.SesionInexistente;
 import modelo.excepcion.SinSeguidos;
 
 /**
@@ -25,50 +22,53 @@ import modelo.excepcion.SinSeguidos;
 @WebServlet("/VerSeguidos")
 public class VerSeguidos extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String PAGINA_ACTUAL = "inicio.jsp";
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// Variable para guardar los errores
-		HashMap<String, String> errors = new HashMap <String, String>();
 		
 		// Recuperamos los parámetros y las cookies
-		String nombreSeguidor = new String();
 		Cookie[] cookies = request.getCookies();
+		PrintWriter out = response.getWriter();
+		JSONObject obj = new JSONObject();
+		String nombreSeguidor = FuncionesAuxiliares.obtenerCookie(cookies, "login");
+		String idSesion = FuncionesAuxiliares.obtenerCookie(cookies, "idSesion");
 		
-		if(cookies != null){
-			for(Cookie i : cookies){
-				if(i.getName().equals("login")){
-					nombreSeguidor = i.getValue();
-					break;
-				}
-			}
-		}
-		else {
-			errors.put("CookiesNulas", "El usuario no está logueado.");
-			RequestDispatcher dispatcher=request.getRequestDispatcher("inicio.jsp");
-			dispatcher.forward(request, response);
-		}
-		
-		if(!errors.isEmpty()){
-			// Los parámetros eran incorrectos
-			request.setAttribute("errores", errors);
-			RequestDispatcher dispatcher=request.getRequestDispatcher("inicio.jsp");
-			dispatcher.forward(request, response);
+		// Comprobamos que no haya parámetros incorrecto
+		if (nombreSeguidor == null || idSesion == null){
+			// Metemos el objeto de error en el JSON
+			obj.put("error", "Usuario no logeado en el servidor");
+			
+			// Respondemos con el fichero JSON
+			out.println(obj.toJSONString());
 		}
 		else {
 			try {
-				JSONObject v = new ImplementacionFachada().listaDeSeguidos(nombreSeguidor);
-				request.setAttribute("seguidos", v);
+				ImplementacionFachada f = new ImplementacionFachada();
+				f.existeSesionUsuario(nombreSeguidor, idSesion);
+				obj = f.listaDeSeguidos(nombreSeguidor);
+				// Respondemos con el fichero JSON
+				out.println(obj.toJSONString());
+			}
+			catch(SesionInexistente e) {
+				// Metemos el objeto de error en el JSON
+				obj.put("error", "Usuario no logeado en el servidor");
+				
+				// Respondemos con el fichero JSON
+				out.println(obj.toJSONString());
 			}
 			catch (SinSeguidos s) {
-				request.setAttribute("SinSeguidos", s.toString());
-				RequestDispatcher dispatcher=request.getRequestDispatcher(PAGINA_ACTUAL);
-				dispatcher.forward(request, response);
+				obj.put("SinSeguidos", s.toString());
+
+				// Respondemos con el fichero JSON
+				out.println(obj.toJSONString());
 			}
-			catch (SQLException s) {
-				RequestDispatcher dispatcher=request.getRequestDispatcher("inicio.jsp");
-				dispatcher.forward(request, response);
+			catch(SQLException e){
+				e.printStackTrace();
+				// Metemos el objeto de error en el JSON
+				obj.put("error", "Error SQL en el servidor");
+				
+				// Respondemos con el fichero JSON
+				out.println(obj.toJSONString());
 			}
 		}
 	}
