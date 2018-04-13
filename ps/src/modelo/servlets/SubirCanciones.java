@@ -55,10 +55,10 @@ public class SubirCanciones extends HttpServlet {
 		Cookie[] cookies = request.getCookies();
 		String nombreUsuario = FuncionesAuxiliares.obtenerCookie(cookies, "login");
 		String idSesion = FuncionesAuxiliares.obtenerCookie(cookies, "idSesion");
-		String tituloCancion = "cancion_2";//request.getParameter("tituloCancion");
-		String nombreArtista = "artista_1";//request.getParameter("nombreArtista");
-		String nombreAlbum = "album_1";//request.getParameter("nombreAlbum");
-		String genero = "genero_1";//request.getParameter("genero");
+		String tituloCancion = new String();
+		String nombreArtista = new String();
+		String nombreAlbum = new String();
+		String genero = new String();
 		
 		if (nombreUsuario == null || idSesion == null){
 			// Metemos el objeto de error en el JSON
@@ -78,7 +78,11 @@ public class SubirCanciones extends HttpServlet {
 				System.out.println("Subiendo fichero...");
 		        //fileName = Paths.get(filePart.getName()).getFileName().toString();
 		        InputStream fileContent = filePart.getInputStream();
-		        if (new File("music/" + nombreUsuario + "/" + tituloCancion + ".mp3").exists()) {
+		        DefaultHandler handler = new DefaultHandler();
+		        Metadata metadata = new Metadata();
+		        Parser parser = new Mp3Parser();
+		        ParseContext parseCtx = new ParseContext();
+		        if (new File("music/" + nombreUsuario + "/" + metadata.get("title") + ".mp3").exists()) {
 		        	try {
 						throw new CancionYaExiste("La cancion " + tituloCancion + " perteneciente al álbum"
 								+ " " + nombreAlbum + " subida por el usuario "
@@ -96,19 +100,20 @@ public class SubirCanciones extends HttpServlet {
 		        	File mus = new File(rutaBase + nombreUsuario + "/" + tituloCancion + ".mp3");
 			        Files.createFile(mus.toPath());
 			        Files.copy(fileContent, mus.toPath(), StandardCopyOption.REPLACE_EXISTING);
-			        InputStream input = new FileInputStream(mus);
-			        DefaultHandler handler = new DefaultHandler();
-			        Metadata metadata = new Metadata();
-			        Parser parser = new Mp3Parser();
-			        ParseContext parseCtx = new ParseContext();
+			        //InputStream input = new FileInputStream(mus);
+			        
 			        try {
-						parser.parse(input, handler, metadata, parseCtx);
+						parser.parse(fileContent, handler, metadata, parseCtx);
 					} catch (SAXException | TikaException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-			        input.close();
-			        String[] metadataNames = metadata.names();
+			        fileContent.close();
+			        
+			        tituloCancion = metadata.get("title");
+			        nombreArtista = metadata.get("xmpDM:artist");
+			        nombreAlbum = metadata.get("xmpDM:album");
+			        genero = metadata.get("xmpDM:genre");
 		        }
 		    }
 			System.out.println("Fichero subido");
