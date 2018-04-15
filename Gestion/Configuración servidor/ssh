@@ -1,4 +1,4 @@
-ssh -p 50000 pi@192.168.1.33
-ssh -p 50000 pi@mewat1718.myddns.me
+ssh -p pi@192.168.1.33
+ssh -p pi@mewat1718.myddns.me
 
 password: gracehopper
