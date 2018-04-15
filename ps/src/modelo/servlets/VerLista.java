@@ -1,11 +1,9 @@
 package modelo.servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Vector;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -17,9 +15,9 @@ import org.json.simple.JSONObject;
 
 import modelo.FuncionesAuxiliares;
 import modelo.ImplementacionFachada;
-import modelo.clasesVO.cancionVO;
 import modelo.clasesVO.listaReproduccionVO;
 import modelo.excepcion.NoHayCanciones;
+import modelo.excepcion.SesionInexistente;
 
 /**
  * Servlet implementation class VerLista
@@ -27,14 +25,13 @@ import modelo.excepcion.NoHayCanciones;
 @WebServlet("/VerLista")
 public class VerLista extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String PAGINA_ACTUAL = "inicio.jsp";
 
 	public void doPost (HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException{
-		// Variable para guardar los errores
-		HashMap<String, String> errors = new HashMap <String, String>();
-	
+		
 		// Recuperamos los parámetros
+		PrintWriter out = response.getWriter();
+		JSONObject obj = new JSONObject();
 		Cookie[] c = request.getCookies();
 		String nombreUsuario = FuncionesAuxiliares.obtenerCookie(c, "login");
 		String idSesion = FuncionesAuxiliares.obtenerCookie(c, "idSesion");
@@ -43,25 +40,39 @@ public class VerLista extends HttpServlet {
 		
 		// Comprobamos que no haya parámetros incorrecto
 		if (nombreUsuario == null || idSesion == null){
-			errors.put("CookiesNulas", "El usuario no está logueado.");
-			RequestDispatcher dispatcher=request.getRequestDispatcher("inicio.jsp");
-			dispatcher.forward(request, response);
+			// Metemos el objeto de error en el JSON
+			obj.put("error", "Usuario no logeado en el servidor");
+			
+			// Respondemos con el fichero JSON
+			out.println(obj.toJSONString());
 		}
 		else{
 			try{
-				JSONObject canciones = new ImplementacionFachada().verLista(new listaReproduccionVO(nombreLista, creadorLista));
-				request.setAttribute("canciones", canciones);
-				RequestDispatcher dispatcher=request.getRequestDispatcher(PAGINA_ACTUAL);
-				dispatcher.forward(request, response);
+				ImplementacionFachada f = new ImplementacionFachada();
+				f.existeSesionUsuario(nombreUsuario, idSesion);
+				obj = f.verLista(new listaReproduccionVO(nombreLista, creadorLista));
+				out.println(obj.toJSONString());
+			}
+			catch(SesionInexistente e) {
+				// Metemos el objeto de error en el JSON
+				obj.put("error", "Usuario no logeado en el servidor");
+				
+				// Respondemos con el fichero JSON
+				out.println(obj.toJSONString());
 			}
 			catch(NoHayCanciones e) {
-				errors.put("NoHayCanciones", e.toString());
-				RequestDispatcher dispatcher=request.getRequestDispatcher(PAGINA_ACTUAL);
-				dispatcher.forward(request, response);
+				obj.put("NoHayCanciones", e.toString());
+
+				// Respondemos con el fichero JSON
+				out.println(obj.toJSONString());
 			}
 			catch(SQLException e){
-				RequestDispatcher dispatcher=request.getRequestDispatcher(PAGINA_ACTUAL);
-				dispatcher.forward(request, response);
+				e.printStackTrace();
+				// Metemos el objeto de error en el JSON
+				obj.put("error", "Error SQL en el servidor");
+				
+				// Respondemos con el fichero JSON
+				out.println(obj.toJSONString());
 			}
 		}
 	}

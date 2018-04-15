@@ -140,4 +140,7 @@ public interface InterfazFachada {
 	
 	public JSONObject listaDeSeguidores(String nombreSeguido)
 			throws SinSeguidores, SQLException;
+
+	JSONObject mostrarListasUsuario(String nombreUsuario)
+			throws SQLException, NoHayListas;
 }

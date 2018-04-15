@@ -258,12 +258,22 @@ public class ImplementacionFachada implements InterfazFachada {
 	
 	@Override
 	public void loSigue(String seguidor, String seguido)
-			throws SQLException, NoSeguido{
+			throws SQLException, NoSeguido {
 		try {
 			new seguirDAO().loSigue(seguidor, seguido,
 					FuncionesAuxiliares.obtenerConexion());
 		}
 		catch(Exception e) {
+			throw e;
+		}
+	}
+
+	public JSONObject mostrarListasUsuario(String nombreUsuario) throws SQLException, NoHayListas {
+		try {
+			return new listaReproduccionDAO().devolverListas(nombreUsuario,
+					FuncionesAuxiliares.obtenerConexion());
+		}
+		catch (Exception e) {
 			throw e;
 		}
 	}

@@ -16,6 +16,7 @@ import modelo.FuncionesAuxiliares;
 import modelo.ImplementacionFachada;
 import modelo.excepcion.NoHayListas;
 import modelo.excepcion.NoSeguido;
+import modelo.excepcion.CancionNoExiste;
 import modelo.excepcion.SesionInexistente;
 
 /**
@@ -31,14 +32,13 @@ import modelo.excepcion.SesionInexistente;
  */
 @WebServlet("/MostrarListasReproduccion")
 public class MostrarListasReproduccion extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-    
-    
+	private static final long serialVersionUID = 1L;    
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// Definición de variables
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// Recuperamos los parámetros
 		PrintWriter out = response.getWriter();
 		JSONObject obj = new JSONObject();
 		Cookie[] c = request.getCookies();

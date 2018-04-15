@@ -1,0 +1,17 @@
+sudo mysql_secure_installation
+	- root oassword: gracehopper
+	- remove anonymous users?: yes
+	- disallow remote root login?: no
+	- remove test database?: yes
+	- reload privilege tables?: yes
+
+sudo mysql -u root -p
+	- password: gracehopper
+	- create database if not exists music;
+	- create user pi@localhost identified by 'gracehopper';
+	- grant all privileges on music.* to pi@localhost;
+	- flush privileges;
+	- exit
+
+mysql -u pi -p
+	- password: gracehopper

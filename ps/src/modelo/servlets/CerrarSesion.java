@@ -1,6 +1,7 @@
 package modelo.servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,23 +10,26 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.json.simple.JSONObject;
+
 import modelo.ImplementacionFachada;
 import modelo.excepcion.*;
 
 @WebServlet("/CerrarSesion")
 public class CerrarSesion extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String PAGINA_ACTUAL = "inicio.jsp";
-	private static final String PAGINA_SIG = "inicio.jsp";
 	
 	public void doPost (HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
+		
+		Cookie j = null, k = null;
+		Cookie[] cookies = request.getCookies();
+		String nombreUsuario = new String();
+		String idSesion = new String();
+		PrintWriter out = response.getWriter();
+		JSONObject obj = new JSONObject();
 		try {
-			Cookie j = null, k = null;
-			Cookie[] cookies = request.getCookies();
-			String nombreUsuario = new String();
-			String idSesion = new String();
-			
 			if(cookies != null){
 				for(Cookie i : cookies){
 					if(i.getName().equals("login")){
@@ -41,18 +45,25 @@ public class CerrarSesion extends HttpServlet {
 				k.setMaxAge(0);
 				response.addCookie(j);
 				response.addCookie(k);
-				new ImplementacionFachada().cerrarSesion(nombreUsuario, idSesion);
-				response.sendRedirect(PAGINA_SIG);
+				ImplementacionFachada f = new ImplementacionFachada();
+				f.existeSesionUsuario(nombreUsuario, idSesion);
+				f.cerrarSesion(nombreUsuario, idSesion);
 			}
 		}
-		catch (SesionInexistente u) {
-			request.setAttribute("ErrorDesloguear", u.toString());
-			RequestDispatcher dispatcher = request.getRequestDispatcher(PAGINA_ACTUAL);
-			dispatcher.forward(request, response);
+		catch(SesionInexistente e) {
+			// Metemos el objeto de error en el JSON
+			obj.put("error", e.toString());
+			
+			// Respondemos con el fichero JSON
+			out.println(obj.toJSONString());
 		}
-		catch (SQLException s) {
-			RequestDispatcher dispatcher=request.getRequestDispatcher(PAGINA_ACTUAL);
-			dispatcher.forward(request, response);
+		catch(SQLException e){
+			e.printStackTrace();
+			// Metemos el objeto de error en el JSON
+			obj.put("error", "Error SQL en el servidor");
+			
+			// Respondemos con el fichero JSON
+			out.println(obj.toJSONString());
 		}
 	}
 }

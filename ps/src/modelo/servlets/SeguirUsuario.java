@@ -10,9 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONObject;
 import modelo.FuncionesAuxiliares;
 import modelo.ImplementacionFachada;
 import modelo.excepcion.YaSeguido;
+import modelo.excepcion.SesionInexistente;
 
 /*
  * Servlet que sirve para que un usuario siga a otro.
@@ -36,7 +38,6 @@ public class SeguirUsuario extends HttpServlet {
 		String nombreUsuario = FuncionesAuxiliares.obtenerCookie(c, "login");
 		String idSesion = FuncionesAuxiliares.obtenerCookie(c, "idSesion");
 		
-		
 		// Comprobamos que no haya parámetros incorrecto
 		if (nombreUsuario == null || idSesion == null){
 			// Metemos el objeto de error en el JSON
@@ -54,6 +55,7 @@ public class SeguirUsuario extends HttpServlet {
 		}
 		else {
 			try {
+				new ImplementacionFachada().existeSesionUsuario(nombreUsuario, idSesion);
 				new ImplementacionFachada().seguir(nombreUsuario, seguido);
 				
 				// Respondemos con el fichero JSON vacío
@@ -66,7 +68,16 @@ public class SeguirUsuario extends HttpServlet {
 				// Respondemos con el fichero JSON
 				out.println(obj.toJSONString());
 			}
-			catch (SQLException s) {
+			catch(SesionInexistente e) {
+				// Metemos el objeto de error en el JSON
+				obj.put("error", "Usuario no logeado en el servidor");
+				
+				// Respondemos con el fichero JSON
+				out.println(obj.toJSONString());
+			}
+			catch(SQLException e){
+				e.printStackTrace();
+				
 				// Metemos el objeto de error en el JSON
 				obj.put("error", "Error SQL en el servidor");
 				
