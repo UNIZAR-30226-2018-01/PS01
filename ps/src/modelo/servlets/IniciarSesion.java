@@ -1,11 +1,8 @@
 package modelo.servlets;
 
 import java.io.*;
-//import java.security.MessageDigest;
-//import java.security.NoSuchAlgorithmException;
+
 import java.sql.SQLException;
-//import java.util.Formatter;
-//import java.util.HashMap;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import modelo.FuncionesAuxiliares;
@@ -16,16 +13,12 @@ import javax.servlet.annotation.WebServlet;
 import org.json.simple.*;
 
 /*
- * Servlet que se utiliza para autentificar al usuario en el servidor, es decir,
- * para iniciar sesión. Los parametros que ha de recibir en el request son
- * 'nombre', que se corresponde con el nombre de usuario, y hashPass, que se
- * corresponde con el hash de la contraseña del usuario.
- * Si ha ido bien, devuelve las siguientes Cookies:
- * 	-<"login", nombre>
- *  -<"idSesion", idSesion>
- * Si ha ido mal, puede devolverá en el request el siguiente parámetro:
- *   -UsuarioInexistente, lo cual significa que ningún usuario se corresponde
- *   con el nombre y contraseña proporcionados
+ * Servlet que inicia una sesión del usuario en el servidor.
+ * Recibe como parámetros:
+ * 	-nombre, que es el nombre del usuario.
+ * 	-contrasenya, que es la contraseña del usuario.
+ * Si ha ido bien, devuelve un JSON con las claves nombre e idSesion.
+ * Si ha ido mal, devolverá un JSON con la clave "error".
  */
 @WebServlet("/IniciarSesion")
 public class IniciarSesion extends HttpServlet {
@@ -37,9 +30,9 @@ public class IniciarSesion extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		JSONObject obj = new JSONObject();
 		String nombre = request.getParameter("nombre");
-		String hashPass = request.getParameter("hashPass");
+		String hashPass = FuncionesAuxiliares.crearHash(request.getParameter("contrasenya"));
 		String idSesion = FuncionesAuxiliares.
-				crearHash(System.currentTimeMillis() + nombre); // Genera un id de sesion
+				crearHash(System.currentTimeMillis() + hashPass); // Genera un id de sesion
 	
 		// Comprobamos los parámetros recibidos
 		if ((nombre == null) || (nombre.trim().equals("")) || (hashPass == null)

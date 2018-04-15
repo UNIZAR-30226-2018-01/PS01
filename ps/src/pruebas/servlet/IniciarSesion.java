@@ -16,8 +16,6 @@ import org.json.simple.parser.*;
  * contraseña de este usuario
  */
 public class IniciarSesion {
-	public static final String NOMBRE = "Paco";
-	public static final String HASH_PW = "1";
 
 	public static void main(String[] args) {
 		try {
@@ -26,8 +24,8 @@ public class IniciarSesion {
 			Map<String, Object> params = new LinkedHashMap<>();
 	 
 			// Metemos los parámetros necesarios y los tratamos
-	        params.put("nombre", NOMBRE);
-	        params.put("hashPass", HASH_PW);
+	        params.put("nombre", Datos.USER);
+	        params.put("contrasenya", Datos.PASS);
 	        StringBuilder postData = new StringBuilder();
 	        for (Map.Entry<String, Object> param : params.entrySet()) {
 	            if (postData.length() != 0)

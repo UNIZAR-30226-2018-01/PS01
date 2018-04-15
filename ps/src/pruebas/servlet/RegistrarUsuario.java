@@ -19,8 +19,9 @@ public class RegistrarUsuario {
 			Map<String, Object> params = new LinkedHashMap<>();
 	 
 			// Metemos los parámetros necesarios y los tratamos
-	        params.put("nombre", "Paco");
-	        params.put("hashPass", "1");
+	        params.put("nombre", Datos.USER);
+	        params.put("contrasenya", Datos.PASS);
+	        params.put("contrasenyaRepetida", Datos.PASS);
 	        StringBuilder postData = new StringBuilder();
 	        for (Map.Entry<String, Object> param : params.entrySet()) {
 	            if (postData.length() != 0)

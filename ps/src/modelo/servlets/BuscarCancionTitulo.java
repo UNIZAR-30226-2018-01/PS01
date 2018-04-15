@@ -13,13 +13,13 @@ import org.json.simple.*;
 
 /*
  * Servlet que busca una canción en la BD dado un título.
- * Recibe como parámetro el título de la canción (parámetro titulo) y dos
- * cookies, la del nombre de usuario (login) y la de el id de sesión (idSesión).
- * Devuelve un json con las siguientes claves:
- * 	-error, si el usuario no está logeado en el servidor
- *  -CancionInexistente, si no existe la canción buscada
- *  -canciones, que consiste en un array en los que cada componente está
- *  compuesta por una canción
+ * Recibe como parámetro el título de la canción (parámetro título) y dos
+ * cookies, la del nombre de usuario (login) y la de el id de seiión (idSesión).
+ * Si todo ha ido bien, devuelve un JSON con la clave canciones, cuyo valor
+ * asociado será un array de JSONs. Cada uno de estos JSONs tendrá las claves
+ * tittuloCancion, nombreArtisa, nombreAlbum y genero.
+ * En caso de que haya habido algún error, no devuelve la clave canciones y,
+ * en cambio, devuelve un JSON con la clave error.
  */
 @WebServlet("/BuscarCancionTitulo")
 public class BuscarCancionTitulo extends HttpServlet {
@@ -40,6 +40,13 @@ public class BuscarCancionTitulo extends HttpServlet {
 		if (nombreUsuario == null || idSesion == null){
 			// Metemos el objeto de error en el JSON
 			obj.put("error", "Usuario no logeado en el servidor");
+			
+			// Respondemos con el fichero JSON
+			out.println(obj.toJSONString());
+		}
+		else if(titulo == null) {
+			// Metemos el objeto de error en el JSON
+			obj.put("error", "No se ha especificado título");
 			
 			// Respondemos con el fichero JSON
 			out.println(obj.toJSONString());

@@ -166,8 +166,6 @@ public class cancionDAO {
 				aux.put("nombreArtista", busquedaComp.getString(2));
 				aux.put("nombreAlbum", busquedaComp.getString(3));
 				aux.put("genero", busquedaComp.getString(4));
-				aux.put("uploader", busquedaComp.getString(5));
-				aux.put("ruta", busquedaComp.getString(6));
 				array.add(aux);
 			}
 			obj.put("canciones", array);
@@ -214,8 +212,6 @@ public class cancionDAO {
 				aux.put("nombreArtista", busquedaComp.getString(2));
 				aux.put("nombreAlbum", busquedaComp.getString(3));
 				aux.put("genero", busquedaComp.getString(4));
-				aux.put("uploader", busquedaComp.getString(5));
-				aux.put("ruta", busquedaComp.getString(6));
 				array.add(aux);
 			}
 			obj.put("canciones", array);
@@ -262,8 +258,6 @@ public class cancionDAO {
 				aux.put("nombreArtista", busquedaComp.getString(2));
 				aux.put("nombreAlbum", busquedaComp.getString(3));
 				aux.put("genero", busquedaComp.getString(4));
-				aux.put("uploader", busquedaComp.getString(5));
-				aux.put("ruta", busquedaComp.getString(6));
 				array.add(aux);
 			}
 			obj.put("canciones", array);

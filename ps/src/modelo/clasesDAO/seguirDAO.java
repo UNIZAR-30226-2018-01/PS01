@@ -5,14 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-
 import modelo.clasesVO.seguirVO;
-import modelo.excepcion.ErrorDejarDeSeguir;
-import modelo.excepcion.SinSeguidores;
-import modelo.excepcion.SinSeguidos;
+import modelo.excepcion.*;
 
 public class seguirDAO {
 	/*
@@ -22,8 +18,14 @@ public class seguirDAO {
 	 * 		 'UsuarioYaRegistrado'
 	 */
 	public void seguir(String nombreSeguidor, String nombreSeguido, Connection connection)
-			throws SQLException {
+			throws SQLException, YaSeguido {
 		try {
+			// Comprobamos si el usuario ya lo sigue
+			loSigue(nombreSeguidor, nombreSeguido, connection);
+			throw new YaSeguido(nombreSeguidor + " ya sigue a " + nombreSeguido);
+    
+		}
+		catch(NoSeguido e) {
 			String queryString = "INSERT INTO Seguir " +
 	                "(nombreSeguidor, nombreSeguido) " +
 	            		"VALUES (?,?)";
@@ -31,11 +33,10 @@ public class seguirDAO {
 			PreparedStatement preparedStatement = 
 	                connection.prepareStatement(queryString);
 			
-	        	preparedStatement = connection.prepareStatement(queryString);
-	        	preparedStatement.setString(1, nombreSeguidor);
-	        	preparedStatement.setString(2, nombreSeguido);
-	        	preparedStatement.executeUpdate();
-    
+	        preparedStatement = connection.prepareStatement(queryString);
+	        preparedStatement.setString(1, nombreSeguidor);
+	        preparedStatement.setString(2, nombreSeguido);
+	        preparedStatement.executeUpdate();
 		}
 		catch (Exception e) {
 			throw e;
@@ -137,4 +138,32 @@ public class seguirDAO {
 				throw e;
 			}
 		}
+	
+	/*
+	 * Pre:  ---
+	 * Post: Comprueba si 'seguidor' sigue a 'seguido'. Si no lo hace,
+	 * 		 lanza una excepción "NoSeguido"
+	 */
+	public void loSigue(String seguidor, String seguido, Connection c)
+			throws SQLException, NoSeguido {
+		try {
+			String q =  "SELECT * "
+					+ "FROM Seguir "
+					+ "WHERE nombreSeguido = ? AND"
+					+ "nombreSeguidor = ?;";
+
+			PreparedStatement p = c.prepareStatement(q);
+			p.setString(1, seguido);
+			p.setString(2, seguidor);
+			ResultSet resultado = p.executeQuery();
+			
+			if (!resultado.first()) {
+				throw new NoSeguido(seguidor + " no sigue a " + seguido);
+			}
+		}
+		catch(Exception e) {
+			throw e;
+		}
+	}
+		
 }

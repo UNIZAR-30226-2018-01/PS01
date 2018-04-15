@@ -3,7 +3,6 @@ package modelo;
 import modelo.excepcion.*;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Vector;
 import modelo.clasesDAO.*;
 import modelo.clasesVO.*;
 import modelo.FuncionesAuxiliares;
@@ -69,6 +68,18 @@ public class ImplementacionFachada implements InterfazFachada {
 			throw e;
 		}
 		
+	}
+	
+	@Override
+	public JSONObject obtenerListasReproducción(String nombreUsuario)
+			throws SQLException, NoHayListas{
+		try {
+			return new listaReproduccionDAO().devolverListas(nombreUsuario,
+					FuncionesAuxiliares.obtenerConexion());
+		}
+		catch (Exception e) {
+			throw e;
+		}
 	}
 	
 	@Override
@@ -152,11 +163,10 @@ public class ImplementacionFachada implements InterfazFachada {
 			String nombreUploader)
 			throws SQLException, CancionNoExiste {
 		try {
-			JSONObject v = new cancionDAO().
+			return new cancionDAO().
 					buscarCancionPorTitulo(new cancionVO(titulo, "", "", "", ""),
 							nombreUploader,
 							FuncionesAuxiliares.obtenerConexion());
-			return v;
 		}
 		catch (Exception e) {
 			throw e;
@@ -168,11 +178,10 @@ public class ImplementacionFachada implements InterfazFachada {
 			String nombreUploader)
 			throws SQLException, CancionNoExiste {
 		try {
-			JSONObject v = new cancionDAO().
+			return new cancionDAO().
 					buscarCancionPorArtista(new cancionVO("", artista, "", "", ""),
 							nombreUploader,
 							FuncionesAuxiliares.obtenerConexion());
-			return v;
 		}
 		catch (Exception e) {
 			throw e;
@@ -184,11 +193,10 @@ public class ImplementacionFachada implements InterfazFachada {
 			String nombreUploader)
 			throws SQLException, CancionNoExiste {
 		try {
-			JSONObject v = new cancionDAO().
+			return new cancionDAO().
 					buscarCancionPorAlbum(new cancionVO("", "", album, "", ""),
 							nombreUploader,
 							FuncionesAuxiliares.obtenerConexion());
-			return v;
 		}
 		catch (Exception e) {
 			throw e;
@@ -196,9 +204,11 @@ public class ImplementacionFachada implements InterfazFachada {
 	}
 
 	@Override
-	public void seguir(String nombreSeguidor, String nombreSeguido) throws SQLException {
+	public void seguir(String nombreSeguidor, String nombreSeguido)
+			throws SQLException, YaSeguido {
 		try {
-			new seguirDAO().seguir(nombreSeguidor, nombreSeguido, FuncionesAuxiliares.obtenerConexion());
+			new seguirDAO().seguir(nombreSeguidor, nombreSeguido,
+					FuncionesAuxiliares.obtenerConexion());
 		}
 		catch (Exception e) {
 			throw e;
@@ -238,9 +248,22 @@ public class ImplementacionFachada implements InterfazFachada {
 	@Override
 	public JSONObject listaDeSeguidores(String nombreSeguido) throws SinSeguidores, SQLException {
 		try {
-			return new seguirDAO().listaDeSeguidores(nombreSeguido, FuncionesAuxiliares.obtenerConexion());
+			return new seguirDAO().listaDeSeguidores(nombreSeguido,
+					FuncionesAuxiliares.obtenerConexion());
 		}
 		catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	@Override
+	public void loSigue(String seguidor, String seguido)
+			throws SQLException, NoSeguido{
+		try {
+			new seguirDAO().loSigue(seguidor, seguido,
+					FuncionesAuxiliares.obtenerConexion());
+		}
+		catch(Exception e) {
 			throw e;
 		}
 	}

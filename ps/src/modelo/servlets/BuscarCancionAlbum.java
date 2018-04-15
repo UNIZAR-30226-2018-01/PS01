@@ -15,11 +15,11 @@ import org.json.simple.*;
  * Servlet que busca una canción en la BD dado un album.
  * Recibe como parámetro el album de la canción (parámetro album) y dos
  * cookies, la del nombre de usuario (login) y la de el id de sesión (idSesión).
- * Devuelve un json con las siguientes claves:
- * 	-error, si el usuario no está logeado en el servidor
- *  -CancionInexistente, si no existe la canción buscada
- *  -canciones, que consiste en un array en los que cada componente está
- *  compuesta por una canción
+ * Si todo ha ido bien, devuelve un JSON con la clave canciones, cuyo valor
+ * asociado será un array de JSONs. Cada uno de estos JSONs tendrá las claves
+ * tittuloCancion, nombreArtisa, nombreAlbum y genero.
+ * En caso de que haya habido algún error, no devuelve la clave canciones y,
+ * en cambio, devuelve un JSON con la clave error.
  */
 @WebServlet("/BuscarCancionAlbum")
 public class BuscarCancionAlbum extends HttpServlet {
@@ -44,6 +44,13 @@ public class BuscarCancionAlbum extends HttpServlet {
 			// Respondemos con el fichero JSON
 			out.println(obj.toJSONString());
 		}
+		else if(album == null) {
+			// Metemos el objeto de error en el JSON
+			obj.put("error", "No se ha especificado album");
+			
+			// Respondemos con el fichero JSON
+			out.println(obj.toJSONString());
+		}
 		else{
 			try{
 				ImplementacionFachada f = new ImplementacionFachada();
@@ -60,7 +67,7 @@ public class BuscarCancionAlbum extends HttpServlet {
 			}
 			catch (CancionNoExiste e) {
 				// Metemos un array vacío en el JSON
-				obj.put("CancionInexistente", "La canción buscada no existe");
+				obj.put("error", "La canción buscada no existe");
 				
 				// Respondemos con el fichero JSON
 				out.println(obj.toJSONString());

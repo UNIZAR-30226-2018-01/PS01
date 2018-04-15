@@ -4,7 +4,6 @@ import modelo.clasesVO.*;
 import modelo.excepcion.*;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Vector;
 import org.json.simple.*;
 
 /*
@@ -86,6 +85,15 @@ public interface InterfazFachada {
 	public JSONObject buscarCancionPorAlbum(String album,
 			String nombreUploader)
 			throws SQLException, CancionNoExiste;
+	
+	/*
+	 * Pre:  ---
+	 * Post: Dado el nombre de un usuario, devuelve un JSON con una clave
+	 * 		 llamada "listas", cuyo valor asociado es un array de strings
+	 * 		 que contiene el nombre de las diferentes listas del usuario
+	 */
+	public JSONObject obtenerListasReproducción(String nombreUsuario)
+			throws SQLException, NoHayListas;
 
 	public void crearListaDeReproduccion(listaReproduccionVO l)
 			throws ListaYaExiste, SQLException;
@@ -105,8 +113,21 @@ public interface InterfazFachada {
 	public void quitarCancionUsuario(cancionVO c)
 			throws CancionNoExiste, SQLException, IOException;
 	
+	/*
+	 * Pre:  ---
+	 * Post: Comprueba si 'seguidor' sigue a 'seguido'. Si no lo hace,
+	 * 		 lanza una excepción "NoSeguido"
+	 */
+	public void loSigue(String seguidor, String seguido)
+			throws SQLException, NoSeguido;
+	
+	/*
+	 * Pre:  ---
+	 * Post: Hace que el usuario 'seguidor' empiece a seguir a 'nombreSeguido'.
+	 * 		 Si ya seguía al usuario, devuelve lanza una excepción 'YaSeguido'.
+	 */
 	public void seguir(String nombreSeguidor, String nombreSeguido)
-			throws SQLException;
+			throws SQLException, YaSeguido;
 	
 	public void dejarDeSeguir(String nombreSeguidor, String nombreSeguido)
 			throws ErrorDejarDeSeguir, SQLException;
