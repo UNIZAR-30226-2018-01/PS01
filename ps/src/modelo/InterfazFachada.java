@@ -85,15 +85,6 @@ public interface InterfazFachada {
 	public JSONObject buscarCancionPorAlbum(String album,
 			String nombreUploader)
 			throws SQLException, CancionNoExiste;
-	
-	/*
-	 * Pre:  ---
-	 * Post: Dado el nombre de un usuario, devuelve un JSON con una clave
-	 * 		 llamada "listas", cuyo valor asociado es un array de strings
-	 * 		 que contiene el nombre de las diferentes listas del usuario
-	 */
-	public JSONObject obtenerListasReproducción(String nombreUsuario)
-			throws SQLException, NoHayListas;
 
 	public void crearListaDeReproduccion(listaReproduccionVO l)
 			throws ListaYaExiste, SQLException;
@@ -141,6 +132,12 @@ public interface InterfazFachada {
 	public JSONObject listaDeSeguidores(String nombreSeguido)
 			throws SinSeguidores, SQLException;
 
+	/*
+	 * Pre:  ---
+	 * Post: Dado el nombre de un usuario, devuelve un JSON con una clave
+	 * 		 llamada "listas", cuyo valor asociado es un array de strings
+	 * 		 que contiene el nombre de las diferentes listas del usuario
+	 */
 	JSONObject mostrarListasUsuario(String nombreUsuario)
 			throws SQLException, NoHayListas;
 }

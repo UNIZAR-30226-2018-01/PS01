@@ -70,7 +70,7 @@ public class MostrarListasReproduccion extends HttpServlet {
 				if(!user.equals(nombreUsuario)) {
 					f.loSigue(nombreUsuario, user);
 				}
-				obj = f.obtenerListasReproducción(user);
+				obj = f.mostrarListasUsuario(user);
 				out.println(obj.toJSONString());
 			}
 			catch(SesionInexistente e) {
