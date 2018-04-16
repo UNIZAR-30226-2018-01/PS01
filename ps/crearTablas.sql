@@ -1,6 +1,10 @@
-DROP DATABASE IF EXISTS software;
-CREATE DATABASE software;
-USE software;
+DROP TABLE IF EXISTS Formar;
+DROP TABLE IF EXISTS Reproduccion;
+DROP TABLE IF EXISTS Cancion;
+DROP TABLE IF EXISTS Sesion;
+DROP TABLE IF EXISTS Seguir;
+DROP TABLE IF EXISTS ListaReproduccion;
+DROP TABLE IF EXISTS Usuario;
 
 CREATE TABLE Usuario(
 	nombre varchar(32) PRIMARY KEY,
@@ -54,7 +58,7 @@ CREATE TABLE Formar(
 	FOREIGN KEY (nombreLista, nombreUsuario) REFERENCES ListaReproduccion(nombre, nombreUsuario) ON DELETE CASCADE
 );
 
-CREATE TABLE Reproducción(
+CREATE TABLE Reproduccion(
 	nombreUsuario varchar(32) REFERENCES Usuario(nombre) ON DELETE CASCADE,
 	titulo varchar(32),
 	nombreAlbum varchar(32),
