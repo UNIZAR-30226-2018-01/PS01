@@ -7,10 +7,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.http.Cookie;
 import javax.sql.DataSource;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-
 import java.util.Vector;
 import java.sql.Connection;
 
