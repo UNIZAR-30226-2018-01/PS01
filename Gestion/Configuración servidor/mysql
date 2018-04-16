@@ -1,5 +1,5 @@
 sudo mysql_secure_installation
-	- root oassword: gracehopper
+	- root password: gracehopper
 	- remove anonymous users?: yes
 	- disallow remote root login?: no
 	- remove test database?: yes
@@ -13,5 +13,5 @@ sudo mysql -u root -p
 	- flush privileges;
 	- exit
 
-mysql -u pi -p
+mysql -u pi -p -D music
 	- password: gracehopper
