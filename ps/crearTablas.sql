@@ -74,5 +74,32 @@ CREATE TABLE Reproduccion(
 );
 
 -- Trigger que evite que se borre el usuario Admin
+
+CREATE OR REPLACE TRIGGER no_borrar_admin
+	BEFORE DELETE ON Usuario
+	FOR EACH ROW
+BEGIN
+	IF OLD.nombre = 'admin' THEN
+		SIGNAL SQLSTATE '20000' SET MESSAGE_TEXT = "Prohibido borrar el usuario 'Admin'";
+	END IF;
+END;
+
 -- Trigger que genere automáticamente una lista 'Favoritos' para cada usuario
+
+CREATE OR REPLACE TRIGGER crear_favoritos
+	AFTER INSERT ON Usuario
+	FOR EACH ROW
+BEGIN
+	INSERT INTO ListaReproduccion(nombre,nombreUsuario) VALUES ('Favoritos',NEW.nombre);
+END;
+
 -- Trigger que evite borrar las listas de nombre 'Favoritos'
+
+CREATE OR REPLACE TRIGGER no_borrar_favoritos
+	BEFORE DELETE ON ListaReproduccion
+	FOR EACH ROW
+BEGIN
+	IF OLD.nombre = 'Favoritos' THEN
+		SIGNAL SQLSTATE '20001' SET MESSAGE_TEXT = "Prohibido borrar una lista de Favoritos";
+	END IF;
+END;
