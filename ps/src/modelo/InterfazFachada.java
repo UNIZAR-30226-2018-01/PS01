@@ -41,7 +41,7 @@ public interface InterfazFachada {
 			throws SesionExistente, SQLException;
 	
 	/*
-	 * Pre:
+	 * Pre: El usuario 'nombreUsuario' ya existe
 	 * Post: Consulta si el usuario 'nombreUsuario' tiene registrada una
 	 * 		 sesión con identificador 'idSesion'. En caso de no tenerla,
 	 * 		 devuelve una excepción 'SesionInexistente'
@@ -50,6 +50,12 @@ public interface InterfazFachada {
 			throws SesionInexistente, SQLException;
 	
 	
+	/*
+	 * Pre: El usuario 'nombreUsuario' ya existe
+	 * Post: Elimina la sesión identificada por el usuario 'nombreusuario'
+	 * 		 y el id de sesión 'idSesion'
+	 * 		 Si la sesión no existe entonces lanza una excepción SesionInexistente
+	 */
 	public void cerrarSesion(String nombreusuario, String idSesion)
 			throws SesionInexistente, SQLException;
 	
@@ -86,49 +92,112 @@ public interface InterfazFachada {
 			String nombreUploader)
 			throws SQLException, CancionNoExiste;
 
+	/*
+	 * Pre:
+	 * Post: Comprueba en la BD si una lista de reproducción existe para un
+	 * 		 usuario dado
+	 */
 	public void crearListaDeReproduccion(listaReproduccionVO l)
 			throws ListaYaExiste, SQLException;
 	
+	/*
+	 * 	Pre: La lista de reproducción seleccionada ya existe
+	 * 	Post: Dada una lista de reproducción de un usuario, borra la misma
+	 * 		  de la BD
+	 * 		  Si la lista no existe, entonces lanza una excepción
+	 * 		  'ListaNoExiste'
+	 */
 	public void borrarListaDeReproduccion(listaReproduccionVO l)
 			throws ListaNoExiste, SQLException;
 	
+	/*
+	 * Pre: La canción a añadir ya existe en la biblioteca del usuario
+	 * Post: Añade una nueva canción a una lista de reproducción.
+	 * 		 Si la canción a añadir ya estaba en la lista seleccionada,
+	 * 		 entonces lanza una excepción CancionExisteEnLista
+	 */
 	public void anyadirCancionALista(formarVO f)
 			throws CancionExisteEnLista, SQLException;
 	
+	/*
+	 * Pre: La canción a eliminar existe dentro de la lista d reproducción
+	 * 		seleccionada
+	 * Post: Elimina una canción de una lista de reproducción
+	 * 		 Si no existe, entonces lanza una excepción 'CancionNoExisteEnLista'
+	 */
 	public void quitarCancionDeLista(formarVO f)
 			throws CancionNoExisteEnLista, SQLException;
 	
+	/*
+	 * Pre: La canción c no existe en la biblioteca del usuario
+	 * Post: Añade una canción a la biblioteca del usuario (lo que no implica
+	 * 		 necesariamente que esté en una lista de reproducción).
+	 * 		 Si la canción ya existe, entonces lanza una excepción
+	 * 		 CancionYaExiste
+	 */
 	public void anyadirCancionUsuario(cancionVO c)
 			throws CancionYaExiste, SQLException;
 	
+	/*
+	 * Pre: La canción c ya existe en la biblioteca del usuario.
+	 * Post: Elimina una canción de la biblioteca del usuario.
+	 * 		 Si la canción no existía, entonces lanza una excepción
+	 * 		 CancionNoExiste.
+	 */
 	public void quitarCancionUsuario(cancionVO c)
 			throws CancionNoExiste, SQLException, IOException;
 	
 	/*
-	 * Pre:  ---
-	 * Post: Comprueba si 'seguidor' sigue a 'seguido'. Si no lo hace,
-	 * 		 lanza una excepción "NoSeguido"
+	 * Pre:  Los usuarios 'seguidor' y 'seguido' ya existen
+	 * Post: Comprueba si 'seguidor' sigue a 'seguido'.
+	 * 		 Si no lo hace, lanza una excepción "NoSeguido"
 	 */
 	public void loSigue(String seguidor, String seguido)
 			throws SQLException, NoSeguido;
 	
 	/*
-	 * Pre:  ---
+	 * Pre:  El usuario 'nombreSeguidor' ya existe
 	 * Post: Hace que el usuario 'seguidor' empiece a seguir a 'nombreSeguido'.
-	 * 		 Si ya seguía al usuario, devuelve lanza una excepción 'YaSeguido'.
+	 * 		 Si ya seguía al usuario, lanza una excepción 'YaSeguido'.
 	 */
 	public void seguir(String nombreSeguidor, String nombreSeguido)
 			throws SQLException, YaSeguido;
 	
+	/*
+	 * Pre: El usuario 'nombreSeguidor' ya existe
+	 * Post: Hace que el usuario 'nombreSeguidor' empiece a seguir a 'nombreSeguido'.
+	 * 		 Si no seguía al usuario, lanza una excepción 'ErrorDejarDeSeguir'.
+	 */
 	public void dejarDeSeguir(String nombreSeguidor, String nombreSeguido)
 			throws ErrorDejarDeSeguir, SQLException;
 	
+	/*
+	 * Pre: El usuario 'nombreSeguidor' ya existe
+	 * Post: Devuelve un json con la clave "listaDeSeguidos" y una lista de los
+	 * 		 usuarios a los que 'nombreSeguidor' sigue.
+	 * 		 Si 'nombreSeguidor' no sigue a nadie, entonces lanza una
+	 * 		 excepción 'SinSeguidos'
+	 */
 	public JSONObject listaDeSeguidos(String nombreSeguidor)
 			throws SinSeguidos, SQLException;
 	
+	/*
+	 * Pre: ---
+	 * Post: Devuelve un json con la clave 'canciones' y una lista de las
+	 * 		 canciones que contiene una lista dada de un usuario dado.
+	 * 		 Si la lista de reproducción seleccionada está vacía, entonces
+	 * 		 devuelve una excepción 'NoHayCanciones'.
+	 */
 	public JSONObject verLista(listaReproduccionVO l)
 			throws NoHayCanciones, SQLException;
 	
+	/*
+	 * Pre: El usuario 'nombreSeguido' ya existe
+	 * Post: Devuelve un json con la clave "listaDeSeguidores" y una lista de los
+	 * 		 usuarios que siguen a 'nombreSeguido'.
+	 * 		 Si 'nombreSeguido' no tiene seguidores, entonces lanza una
+	 * 		 excepción 'SinSeguidores'
+	 */
 	public JSONObject listaDeSeguidores(String nombreSeguido)
 			throws SinSeguidores, SQLException;
 
