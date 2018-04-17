@@ -4,10 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Vector;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import modelo.clasesVO.seguirVO;
 import modelo.excepcion.*;
 
 public class seguirDAO {
