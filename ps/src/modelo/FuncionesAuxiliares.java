@@ -13,8 +13,6 @@ import java.util.Vector;
 import java.sql.Connection;
 
 public class FuncionesAuxiliares {
-	public static final String URL_SERVER = "mewat1718.ddns.net:80/ps/";
-
 	private FuncionesAuxiliares() {}
 	
 	/*

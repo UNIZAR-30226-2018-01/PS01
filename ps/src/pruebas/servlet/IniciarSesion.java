@@ -17,15 +17,15 @@ import org.json.simple.parser.*;
  */
 public class IniciarSesion {
 
-	public static void main(String[] args) {
+	public static String execute(String user, String pass) {
 		try {
 			// Creamos las cosas que son necesarios
-			URL url = new URL(Datos.URL_SERVER + "IniciarSesion");
+			URL url = new URL(Probar.URL_SERVER + "IniciarSesion");
 			Map<String, Object> params = new LinkedHashMap<>();
 	 
 			// Metemos los parámetros necesarios y los tratamos
-	        params.put("nombre", Datos.USER);
-	        params.put("contrasenya", Datos.PASS);
+	        params.put("nombre", user);
+	        params.put("contrasenya", pass);
 	        StringBuilder postData = new StringBuilder();
 	        for (Map.Entry<String, Object> param : params.entrySet()) {
 	            if (postData.length() != 0)
@@ -69,6 +69,7 @@ public class IniciarSesion {
 	        }
 	        else{
 	        	System.out.println("CORRECTO!");
+	        	return idSesion;
 	        }
 		}
 		catch(MalformedURLException e) {
@@ -78,6 +79,6 @@ public class IniciarSesion {
 			System.out.println("Error...");
 			e.printStackTrace();
 		}
+		return "";
 	}
-
 }

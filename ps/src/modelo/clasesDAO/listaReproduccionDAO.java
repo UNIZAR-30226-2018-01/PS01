@@ -92,7 +92,7 @@ public class listaReproduccionDAO {
 			PreparedStatement preparedStatement = 
 	                connection.prepareStatement(comprobacion);
 			preparedStatement.setString(1, lista.obtenerNombreLista());
-			preparedStatement.setString(1, lista.obtenerNombreUsuario());
+			preparedStatement.setString(2, lista.obtenerNombreUsuario());
 	            
 	        /* Execute query. */                    
 			ResultSet busquedaComp = preparedStatement.executeQuery();
@@ -123,7 +123,6 @@ public class listaReproduccionDAO {
 				throw new NoHayListas("El usuario no tiene ninguna lista asociada");
 			}
 			JSONObject obj = new JSONObject();
-			JSONArray array = new JSONArray();
 			// Obtenemos y devolvemos el nombre de las listas
 			return FuncionesAuxiliares.
 							obtenerValorColumna(r, "nombre");

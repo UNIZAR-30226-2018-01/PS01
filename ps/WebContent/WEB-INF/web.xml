@@ -28,4 +28,82 @@
   		<servlet-class>BuscarCancionTitulo</servlet-class>
 	</servlet>
 	
+	<servlet>
+  		<servlet-name>BuscarCancionAlbum</servlet-name>
+  		<servlet-class>BuscarCancionAlbum</servlet-class>
+	</servlet>
+	
+	<servlet>
+  		<servlet-name>BuscarCancionArtista</servlet-name>
+  		<servlet-class>BuscarCancionArtista</servlet-class>
+	</servlet>
+	
+	<servlet>
+  		<servlet-name>AnyadirCancionALista</servlet-name>
+  		<servlet-class>AnyadirCancionALista</servlet-class>
+	</servlet>
+	
+	<servlet>
+  		<servlet-name>BorrarCancion</servlet-name>
+  		<servlet-class>BorrarCancion</servlet-class>
+	</servlet>
+	
+	<servlet>
+  		<servlet-name>BorrarListaDeReproduccion</servlet-name>
+  		<servlet-class>BorrarListaDeReproduccion</servlet-class>
+	</servlet>
+	
+	<servlet>
+  		<servlet-name>CerrarSesion</servlet-name>
+  		<servlet-class>CerrarSesion</servlet-class>
+	</servlet>
+	
+	<servlet>
+  		<servlet-name>CrearListaDeReproduccion</servlet-name>
+  		<servlet-class>CrearListaDeReproduccion</servlet-class>
+	</servlet>
+	
+	<servlet>
+  		<servlet-name>DejarDeSeguirUsuario</servlet-name>
+  		<servlet-class>DejarDeSeguirUsuario</servlet-class>
+	</servlet>
+	
+	<servlet>
+  		<servlet-name>MostrarListasReproduccion</servlet-name>
+  		<servlet-class>MostrarListasReproduccion</servlet-class>
+	</servlet>
+	
+	<servlet>
+  		<servlet-name>QuitarCancionDeLista</servlet-name>
+  		<servlet-class>QuitarCancionDeLista</servlet-class>
+	</servlet>
+	
+	<servlet>
+  		<servlet-name>SeguirUsuario</servlet-name>
+  		<servlet-class>SeguirUsuario</servlet-class>
+	</servlet>
+	
+	<servlet>
+  		<servlet-name>SubirCanciones</servlet-name>
+  		<servlet-class>SubirCanciones</servlet-class>
+	</servlet>
+	
+	<servlet>
+  		<servlet-name>VerLista</servlet-name>
+  		<servlet-class>VerLista</servlet-class>
+	</servlet>
+	
+	<servlet>
+  		<servlet-name>VerSeguidores</servlet-name>
+  		<servlet-class>VerSeguidores</servlet-class>
+	</servlet>
+	
+	<servlet>
+  		<servlet-name>VerSeguidos</servlet-name>
+  		<servlet-class>VerSeguidos</servlet-class>
+	</servlet>
+	
+	
+	
+	
 </web-app>

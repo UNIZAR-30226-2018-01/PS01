@@ -13,16 +13,15 @@ import org.json.simple.parser.JSONParser;
 import modelo.FuncionesAuxiliares;
 
 public class BuscarCancionAlbum {
-	public static final String ALBUM = "Iros todos a tomar por culo";
 	
-	public static void main(String[] args) {
+	public static void execute(String login, String idSesion, String album) {
 		try {
 			// Creamos las cosas que son necesarias
-			URL url = new URL(FuncionesAuxiliares.URL_SERVER + "BuscarCancionAlbum");
+			URL url = new URL(Probar.URL_SERVER + "BuscarCancionAlbum");
 			Map<String, Object> params = new LinkedHashMap<>();
 	 
 			// Metemos los parámetros necesarios y los tratamos
-	        params.put("album", ALBUM);
+	        params.put("album", album);
 	        StringBuilder postData = new StringBuilder();
 	        for (Map.Entry<String, Object> param : params.entrySet()) {
 	            if (postData.length() != 0)
@@ -42,8 +41,8 @@ public class BuscarCancionAlbum {
 	        conn.setRequestProperty("Content-Length",
 	                String.valueOf(postDataBytes.length));
 	        conn.setDoOutput(true);
-	        conn.setRequestProperty("Cookie", "login=" + Datos.USER +
-	        						"; idSesion=" + Datos.SESION);
+	        conn.setRequestProperty("Cookie", "login=" + login +
+	        						"; idSesion=" + idSesion);
 	        conn.getOutputStream().write(postDataBytes);
 	        
 	        // Leemos los parámetros

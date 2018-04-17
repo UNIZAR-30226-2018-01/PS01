@@ -4,21 +4,28 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.HashMap;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.json.simple.JSONObject;
-
 import modelo.FuncionesAuxiliares;
 import modelo.ImplementacionFachada;
 import modelo.clasesVO.listaReproduccionVO;
 import modelo.excepcion.*;
 
+/*
+ * Servlet que crea una lista de reproducción para un determinado usuario.
+ * Recibe:
+ * 	-Las cookies login e idSesion
+ *  -Un parámetro 'nombreLista', que será el nombre que el nombre que se quiere
+ *  para la lista
+ * Devuelve:
+ * 	-Un JSON vacío si todo ha ido bien
+ * 	-Un JSON con la clave error si se ha producido algún error
+ */
 @WebServlet("/CrearListaDeReproduccion")
 public class CrearListaDeReproduccion extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -44,11 +51,19 @@ public class CrearListaDeReproduccion extends HttpServlet {
 			// Respondemos con el fichero JSON
 			out.println(obj.toJSONString());
 		}
+		else if(nombreLista == null) {
+			// Metemos el objeto de error en el JSON
+			obj.put("error", "Nombre de lista no proporcionado");
+			
+			// Respondemos con el fichero JSON
+			out.println(obj.toJSONString());
+		}
 		else {
 			try {
 				ImplementacionFachada f = new ImplementacionFachada();
 				f.existeSesionUsuario(nombreUsuario, idSesion);
 				f.crearListaDeReproduccion(new listaReproduccionVO(nombreLista, nombreUsuario));
+				out.println(obj.toJSONString());
 			}
 			catch(SesionInexistente e) {
 				// Metemos el objeto de error en el JSON
@@ -58,7 +73,7 @@ public class CrearListaDeReproduccion extends HttpServlet {
 				out.println(obj.toJSONString());
 			}
 			catch (ListaYaExiste l) {
-				obj.put("ListaYaExiste", l.toString());
+				obj.put("error", l.toString());
 
 				// Respondemos con el fichero JSON
 				out.println(obj.toJSONString());

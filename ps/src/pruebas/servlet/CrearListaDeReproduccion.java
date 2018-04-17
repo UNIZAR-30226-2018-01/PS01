@@ -8,20 +8,20 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import modelo.FuncionesAuxiliares;
 
-public class BuscarCancionTitulo {
-	
-	public static void execute(String login, String idSesion, String titulo) {
+public class CrearListaDeReproduccion {
+
+	public static void execute(String login, String idSesion, String lista) {
 		try {
 			// Creamos las cosas que son necesarias
-			URL url = new URL(Probar.URL_SERVER + "BuscarCancionTitulo");
+			URL url = new URL(Probar.URL_SERVER + "CrearListaDeReproduccion");
 			Map<String, Object> params = new LinkedHashMap<>();
 	 
 			// Metemos los parámetros necesarios y los tratamos
-	        params.put("titulo", titulo);
+	        params.put("nombreLista", lista);
 	        StringBuilder postData = new StringBuilder();
 	        for (Map.Entry<String, Object> param : params.entrySet()) {
 	            if (postData.length() != 0)
@@ -51,15 +51,11 @@ public class BuscarCancionTitulo {
 	        JSONObject jsonObject = (JSONObject)jsonParser.parse(
 	        	      new InputStreamReader(response, "UTF-8"));
 	        String error = (String) jsonObject.get("error");
-	        String cancionInexistente = (String) jsonObject.get("CancionInexistente");
 	        
 	        // Comprobamos los parámetros
-	        System.out.print("BuscarCancionTitulo --> ");
+	        System.out.print("CrearListaDeReproduccion --> ");
 	        if(error != null) {
 	        	System.out.println(error);
-	        }
-	        else if(cancionInexistente != null) {
-	        	System.out.println(cancionInexistente);
 	        }
 	        else{
 	        	System.out.println("CORRECTO!");
@@ -73,4 +69,5 @@ public class BuscarCancionTitulo {
 			e.printStackTrace();
 		}
 	}
+
 }

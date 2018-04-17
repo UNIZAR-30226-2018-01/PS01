@@ -19,18 +19,6 @@ import org.json.simple.JSONObject;
  * Si ha ido bien, devuelve un JSON vacío.
  * Si ha ido mal, devolverá un JSON con la clave "error".
  */
-
-/* Servlet que se utiliza para registrar a un usuario en el servidor. Los
- * parametros que ha de recibir en el request son "nombre", que se corresponde
- * con el nombre de usuario, y hashPass, que se corresponde con el hash de la
- * contraseña del usuario.
- * Si ha ido bien devuelve un json sin claves, es decir, vacío. 
- * Si ha ido mal, puede devolver las siguientes claves:
- * 	-error, lo cual significa que el usuario o contraseña proporcionados
- *   no cumplen con la sintaxis (tamaño, etc)
- *  -UsuarioRegistrado, que indica que el usuario proporcionado ya existe,
- *   con lo que no se puede registrar
- */
 @WebServlet("/RegistrarUsuario")
 public class RegistrarUsuario extends HttpServlet {
 	private static final long serialVersionUID = 1L;

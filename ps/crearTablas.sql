@@ -11,6 +11,8 @@ CREATE TABLE Usuario(
 	hashPass varchar(128) NOT NULL
 );
 
+INSERT INTO Usuario values('Admin', '1d6868c84f4ed1ee6d5f34116ab14ddb');
+
 CREATE TABLE Cancion(
 	titulo varchar(32),
 	nombreArtista varchar(32),
@@ -21,6 +23,8 @@ CREATE TABLE Cancion(
 	PRIMARY KEY (titulo, nombreArtista, nombreAlbum, uploader),
 	FOREIGN KEY (uploader) references Usuario(nombre) ON DELETE CASCADE
 );
+
+INSERT INTO Cancion values('Deltoya', 'Extremoduro', 'Iros todos a tomar por culo','Rock', 'Admin', 'Sin ruta');
 
 CREATE TABLE Sesion(
 	hashSesion varchar(128),
@@ -68,3 +72,7 @@ CREATE TABLE Reproduccion(
 	FOREIGN KEY (nombreUsuario) REFERENCES Usuario(nombre) ON DELETE CASCADE,
 	PRIMARY KEY (nombreUsuario, titulo, nombreAlbum, nombreArtista, fecha)
 );
+
+-- Trigger que evite que se borre el usuario Admin
+-- Trigger que genere automáticamente una lista 'Favoritos' para cada usuario
+-- Trigger que evite borrar las listas de nombre 'Favoritos'

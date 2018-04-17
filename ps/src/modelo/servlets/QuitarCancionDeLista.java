@@ -22,7 +22,6 @@ import modelo.excepcion.SesionInexistente;
 @WebServlet("/QuitarCancionDeLista")
 public class QuitarCancionDeLista extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String PAGINA_ACTUAL = "inicio.jsp";
 	
 	public void doPost (HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {

@@ -12,16 +12,16 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 public class RegistrarUsuario {
-	public static void main(String[] args) {
+	public static void execute(String nombreUsuario, String pass) {
 		try {
 			// Creamos las cosas que son necesarios
-			URL url = new URL(Datos.URL_SERVER + "RegistrarUsuario");
+			URL url = new URL(Probar.URL_SERVER + "RegistrarUsuario");
 			Map<String, Object> params = new LinkedHashMap<>();
 	 
 			// Metemos los parámetros necesarios y los tratamos
-	        params.put("nombre", Datos.USER);
-	        params.put("contrasenya", Datos.PASS);
-	        params.put("contrasenyaRepetida", Datos.PASS);
+	        params.put("nombre", nombreUsuario);
+	        params.put("contrasenya", pass);
+	        params.put("contrasenyaRepetida", pass);
 	        StringBuilder postData = new StringBuilder();
 	        for (Map.Entry<String, Object> param : params.entrySet()) {
 	            if (postData.length() != 0)
