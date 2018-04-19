@@ -48,6 +48,7 @@ public class AnyadirCancionALista extends HttpServlet {
 				ImplementacionFachada f = new ImplementacionFachada();
 				f.existeSesionUsuario(nombreUsuario, idSesion);
 				f.anyadirCancionALista(new formarVO(tituloCancion, nombreArtista, nombreAlbum, nombreLista, nombreUsuario));
+				out.println(obj.toJSONString());
 			}
 			catch(SesionInexistente e) {
 				// Metemos el objeto de error en el JSON

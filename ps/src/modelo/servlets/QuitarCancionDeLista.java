@@ -50,6 +50,7 @@ public class QuitarCancionDeLista extends HttpServlet {
 				ImplementacionFachada f = new ImplementacionFachada();
 				f.existeSesionUsuario(nombreUsuario, idSesion);
 				f.quitarCancionDeLista(new formarVO(tituloCancion, nombreArtista, nombreAlbum, nombreLista, nombreUsuario));
+				out.println(obj.toJSONString());
 			}
 			catch(SesionInexistente e) {
 				// Metemos el objeto de error en el JSON
