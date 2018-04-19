@@ -59,7 +59,7 @@ public class FuncionesAuxiliares {
 			JSONObject obj = new JSONObject();
 			JSONArray v = new JSONArray();
 			r.beforeFirst();
-			while(r.first()) {
+			while(r.next()) {
 				v.add(r.getString(c));
 			}
 			

@@ -26,7 +26,7 @@ public class seguirDAO {
 		catch(NoSeguido e) {
 			String queryString = "INSERT INTO Seguir " +
 	                "(nombreSeguidor, nombreSeguido) " +
-	            		"VALUES (?,?)";
+	            		"VALUES (?,?);";
 			
 			PreparedStatement preparedStatement = 
 	                connection.prepareStatement(queryString);
@@ -147,7 +147,7 @@ public class seguirDAO {
 		try {
 			String q =  "SELECT * "
 					+ "FROM Seguir "
-					+ "WHERE nombreSeguido = ? AND"
+					+ "WHERE nombreSeguido = ? AND "
 					+ "nombreSeguidor = ?;";
 
 			PreparedStatement p = c.prepareStatement(q);

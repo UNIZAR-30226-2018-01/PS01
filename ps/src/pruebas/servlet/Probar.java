@@ -8,13 +8,21 @@ public class Probar {
 	
 	public static void main(String[] args) {
 		try {
-			RegistrarUsuario.execute(USER, PASS);
-			SESION = IniciarSesion.execute(USER, PASS);
-			BuscarCancionTitulo.execute(USER, SESION, "Deltoya");
-			BuscarCancionArtista.execute(USER, SESION, "Extremoduro");
-			BuscarCancionAlbum.execute(USER, SESION, "Iros todos a tomar por culo");
-			CrearListaDeReproduccion.execute(USER, SESION, "Fiesta");
-			CerrarSesion.execute(USER, SESION);
+			//int i = 0;
+			//while (i<10) {
+				RegistrarUsuario.execute(USER, PASS);
+				SESION = IniciarSesion.execute(USER, PASS);
+				BuscarCancionTitulo.execute(USER, SESION, "Deltoya");
+				BuscarCancionArtista.execute(USER, SESION, "Extremoduro");
+				BuscarCancionAlbum.execute(USER, SESION, "Iros todos a tomar por culo");
+				CrearListaDeReproduccion.execute(USER, SESION, "Fiesta");
+				RegistrarUsuario.execute("david", "feo");
+				SeguirUsuario.execute(USER, SESION, "david");
+				DejarDeSeguirUsuario.execute(USER, SESION, "david");
+				BorrarListaDeReproduccion.execute(USER, SESION, "Fiesta");
+				MostrarListasReproduccion.execute(USER, SESION);
+				CerrarSesion.execute(USER, SESION);
+			//}
 		}
 		catch(Exception e) {
 			e.printStackTrace();

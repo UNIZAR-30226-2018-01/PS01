@@ -52,6 +52,7 @@ public class DejarDeSeguirUsuario extends HttpServlet {
 				ImplementacionFachada f = new ImplementacionFachada();
 				f.existeSesionUsuario(nombreSeguidor, idSesion);
 				f.dejarDeSeguir(nombreSeguidor, nombreSeguido);
+				out.println(obj.toJSONString());
 			}
 			catch(SesionInexistente e) {
 				// Metemos el objeto de error en el JSON

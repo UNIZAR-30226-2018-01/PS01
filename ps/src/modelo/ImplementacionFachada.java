@@ -8,6 +8,8 @@ import modelo.clasesVO.*;
 import modelo.FuncionesAuxiliares;
 import org.json.simple.*;
 
+import java.sql.Connection;
+
 public class ImplementacionFachada implements InterfazFachada {
 	/*
 	 * Pre:  'nombreUsuario' es el nombre del usuario y 'hashPass' el hash de
@@ -19,12 +21,16 @@ public class ImplementacionFachada implements InterfazFachada {
 	@Override
 	public void existeUsuario(String nombreUsuario, String hashPass)
 			throws LoginInexistente, SQLException {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
 		try {
 			new usuarioDAO().hayUsuario(new usuarioVO(nombreUsuario, hashPass),
-					FuncionesAuxiliares.obtenerConexion());
+					c);
 		}
 		catch(Exception e) {
 			throw e;
+		}
+		finally {
+			c.close();
 		}
 	}
 	
@@ -38,12 +44,16 @@ public class ImplementacionFachada implements InterfazFachada {
 	@Override
 	public void registrarUsuario(String nombreUsuario, String hashPass)
 			throws UsuarioYaRegistrado, SQLException {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
 		try {
 			new usuarioDAO().insertarUsuario(new usuarioVO(nombreUsuario, hashPass),
-					FuncionesAuxiliares.obtenerConexion());
+					c);
 		}
 		catch(Exception e) {
 			throw e;
+		}
+		finally {
+			c.close();
 		}
 	}
 	
@@ -56,12 +66,16 @@ public class ImplementacionFachada implements InterfazFachada {
 	@Override
 	public void nuevaSesion(String nombreUsuario, String idSesion)
 			throws SesionExistente, SQLException {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
 		try {
 			new sesionDAO().insertarSesion(new sesionVO(idSesion, nombreUsuario),
-					FuncionesAuxiliares.obtenerConexion());
+					c);
 		}
 		catch(Exception e) {
 			throw e;
+		}
+		finally {
+			c.close();
 		}
 	}
 	
@@ -74,12 +88,16 @@ public class ImplementacionFachada implements InterfazFachada {
 	@Override
 	public void existeSesionUsuario(String nombreUsuario, String idSesion)
 			throws SesionInexistente, SQLException{
+		Connection c = FuncionesAuxiliares.obtenerConexion();
 		try {
 			new sesionDAO().existeSesion(new sesionVO(idSesion, nombreUsuario),
-					FuncionesAuxiliares.obtenerConexion());
+					c);
 		}
 		catch(Exception e) {
 			throw e;
+		}
+		finally {
+			c.close();
 		}
 	}
 
@@ -92,14 +110,17 @@ public class ImplementacionFachada implements InterfazFachada {
 	@Override
 	public void cerrarSesion(String nombreUsuario, String idSesion)
 			throws SesionInexistente, SQLException {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
 		try {
 			new sesionDAO().cerrarSesion(new sesionVO(idSesion, nombreUsuario),
-					FuncionesAuxiliares.obtenerConexion());
+					c);
 		}
 		catch (Exception e) {
 			throw e;
 		}
-		
+		finally {
+			c.close();
+		}
 	}
 	
 	/*
@@ -110,12 +131,15 @@ public class ImplementacionFachada implements InterfazFachada {
 	@Override
 	public void crearListaDeReproduccion(listaReproduccionVO l)
 			throws ListaYaExiste, SQLException {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
 		try {
-			new listaReproduccionDAO().anyadirLista(l,
-					FuncionesAuxiliares.obtenerConexion());
+			new listaReproduccionDAO().anyadirLista(l,c);
 		}
 		catch (Exception e) {
 			throw e;
+		}
+		finally {
+			c.close();
 		}
 	}
 
@@ -129,12 +153,16 @@ public class ImplementacionFachada implements InterfazFachada {
 	@Override
 	public void borrarListaDeReproduccion(listaReproduccionVO l)
 			throws ListaNoExiste, SQLException {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
 		try {
 			new listaReproduccionDAO().quitarLista(l,
-					FuncionesAuxiliares.obtenerConexion());
+					c);
 		}
 		catch (Exception e) {
 			throw e;
+		}
+		finally {
+			c.close();
 		}
 	}
 
@@ -147,12 +175,16 @@ public class ImplementacionFachada implements InterfazFachada {
 	@Override
 	public void anyadirCancionALista(formarVO f)
 			throws CancionExisteEnLista, SQLException {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
 		try {
 			new formarDAO().anyadirCancionALista(f,
-					FuncionesAuxiliares.obtenerConexion());
+					c);
 		}
 		catch (Exception e) {
 			throw e;
+		}
+		finally {
+			c.close();
 		}
 	}
 
@@ -165,12 +197,16 @@ public class ImplementacionFachada implements InterfazFachada {
 	@Override
 	public void quitarCancionDeLista(formarVO f)
 			throws CancionNoExisteEnLista, SQLException {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
 		try {
 			new formarDAO().quitarCancionDeLista(f,
-					FuncionesAuxiliares.obtenerConexion());
+					c);
 		}
 		catch (Exception e) {
 			throw e;
+		}
+		finally {
+			c.close();
 		}
 	}
 
@@ -184,15 +220,18 @@ public class ImplementacionFachada implements InterfazFachada {
 	@Override
 	public void anyadirCancionUsuario(cancionVO c)
 			throws CancionYaExiste, SQLException {
-		System.out.println("Insertando canción en la base de datos 2...");
+		Connection cAux = FuncionesAuxiliares.obtenerConexion();
 		try {
 			System.out.println("Insertando canción en la base de datos 2.1...");
 			new cancionDAO().anyadirCancion(c,
-					FuncionesAuxiliares.obtenerConexion());
+					cAux);
 			System.out.println("Canción insertada con éxito");
 		}
 		catch (Exception e) {
 			throw e;
+		}
+		finally {
+			cAux.close();
 		}
 	}
 
@@ -205,12 +244,16 @@ public class ImplementacionFachada implements InterfazFachada {
 	@Override
 	public void quitarCancionUsuario(cancionVO c)
 			throws CancionNoExiste, SQLException, IOException {
+		Connection cAux = FuncionesAuxiliares.obtenerConexion();
 		try {
 			new cancionDAO().quitarCancion(c,
-					FuncionesAuxiliares.obtenerConexion());
+					cAux);
 		}
 		catch (Exception e) {
 			throw e;
+		}
+		finally {
+			cAux.close();
 		}
 	}
 	
@@ -225,14 +268,18 @@ public class ImplementacionFachada implements InterfazFachada {
 	public JSONObject buscarCancionPorTitulo(String titulo,
 			String nombreUploader)
 			throws SQLException, CancionNoExiste {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
 		try {
 			return new cancionDAO().
 					buscarCancionPorTitulo(new cancionVO(titulo, "", "", "", ""),
 							nombreUploader,
-							FuncionesAuxiliares.obtenerConexion());
+							c);
 		}
 		catch (Exception e) {
 			throw e;
+		}
+		finally {
+			c.close();
 		}
 	}
 	
@@ -247,14 +294,18 @@ public class ImplementacionFachada implements InterfazFachada {
 	public JSONObject buscarCancionPorArtista(String artista,
 			String nombreUploader)
 			throws SQLException, CancionNoExiste {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
 		try {
 			return new cancionDAO().
 					buscarCancionPorArtista(new cancionVO("", artista, "", "", ""),
 							nombreUploader,
-							FuncionesAuxiliares.obtenerConexion());
+							c);
 		}
 		catch (Exception e) {
 			throw e;
+		}
+		finally {
+			c.close();
 		}
 	}
 	
@@ -269,14 +320,18 @@ public class ImplementacionFachada implements InterfazFachada {
 	public JSONObject buscarCancionPorAlbum(String album,
 			String nombreUploader)
 			throws SQLException, CancionNoExiste {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
 		try {
 			return new cancionDAO().
 					buscarCancionPorAlbum(new cancionVO("", "", album, "", ""),
 							nombreUploader,
-							FuncionesAuxiliares.obtenerConexion());
+							c);
 		}
 		catch (Exception e) {
 			throw e;
+		}
+		finally {
+			c.close();
 		}
 	}
 
@@ -288,12 +343,16 @@ public class ImplementacionFachada implements InterfazFachada {
 	@Override
 	public void seguir(String nombreSeguidor, String nombreSeguido)
 			throws SQLException, YaSeguido {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
 		try {
 			new seguirDAO().seguir(nombreSeguidor, nombreSeguido,
-					FuncionesAuxiliares.obtenerConexion());
+					c);
 		}
 		catch (Exception e) {
 			throw e;
+		}
+		finally {
+			c.close();
 		}
 	}
 	
@@ -304,11 +363,15 @@ public class ImplementacionFachada implements InterfazFachada {
 	 */
 	@Override
 	public void dejarDeSeguir(String nombreSeguidor, String nombreSeguido) throws SQLException, ErrorDejarDeSeguir {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
 		try {
-			new seguirDAO().dejarDeSeguir(nombreSeguidor, nombreSeguido, FuncionesAuxiliares.obtenerConexion());
+			new seguirDAO().dejarDeSeguir(nombreSeguidor, nombreSeguido, c);
 		}
 		catch (Exception e) {
 			throw e;
+		}
+		finally {
+			c.close();
 		}
 	}
 
@@ -321,11 +384,15 @@ public class ImplementacionFachada implements InterfazFachada {
 	 */
 	@Override
 	public JSONObject listaDeSeguidos(String nombreSeguidor) throws SinSeguidos, SQLException {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
 		try {
-			return new seguirDAO().listaDeSeguidos(nombreSeguidor, FuncionesAuxiliares.obtenerConexion());
+			return new seguirDAO().listaDeSeguidos(nombreSeguidor, c);
 		}
 		catch (Exception e) {
 			throw e;
+		}
+		finally {
+			c.close();
 		}
 	}
 
@@ -338,11 +405,15 @@ public class ImplementacionFachada implements InterfazFachada {
 	 */
 	@Override
 	public JSONObject verLista(listaReproduccionVO l) throws NoHayCanciones, SQLException {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
 		try {
-			return new formarDAO().verLista(l, FuncionesAuxiliares.obtenerConexion());
+			return new formarDAO().verLista(l, c);
 		}
 		catch (Exception e) {
 			throw e;
+		}
+		finally {
+			c.close();
 		}
 	}
 	
@@ -355,12 +426,16 @@ public class ImplementacionFachada implements InterfazFachada {
 	 */
 	@Override
 	public JSONObject listaDeSeguidores(String nombreSeguido) throws SinSeguidores, SQLException {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
 		try {
 			return new seguirDAO().listaDeSeguidores(nombreSeguido,
-					FuncionesAuxiliares.obtenerConexion());
+					c);
 		}
 		catch (Exception e) {
 			throw e;
+		}
+		finally {
+			c.close();
 		}
 	}
 	
@@ -372,12 +447,16 @@ public class ImplementacionFachada implements InterfazFachada {
 	@Override
 	public void loSigue(String seguidor, String seguido)
 			throws SQLException, NoSeguido {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
 		try {
 			new seguirDAO().loSigue(seguidor, seguido,
-					FuncionesAuxiliares.obtenerConexion());
+					c);
 		}
 		catch(Exception e) {
 			throw e;
+		}
+		finally {
+			c.close();
 		}
 	}
 
@@ -388,12 +467,16 @@ public class ImplementacionFachada implements InterfazFachada {
 	 * 		 que contiene el nombre de las diferentes listas del usuario
 	 */
 	public JSONObject mostrarListasUsuario(String nombreUsuario) throws SQLException, NoHayListas {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
 		try {
 			return new listaReproduccionDAO().devolverListas(nombreUsuario,
-					FuncionesAuxiliares.obtenerConexion());
+					c);
 		}
 		catch (Exception e) {
 			throw e;
+		}
+		finally {
+			c.close();
 		}
 	}
 }

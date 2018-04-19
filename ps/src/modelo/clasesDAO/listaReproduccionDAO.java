@@ -111,7 +111,7 @@ public class listaReproduccionDAO {
 			throws SQLException, NoHayListas {
 		try {
 			String s = "SELECT * "
-					 + "FROM listaReproduccion "
+					 + "FROM ListaReproduccion "
 					 + "WHERE nombreUsuario = ?;";
 			PreparedStatement p = c.prepareStatement(s);
 			p.setString(1, nombreUsuario);
