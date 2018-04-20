@@ -66,7 +66,7 @@ public class cancionDAO {
 			else {
 				// Recuperamos la ruta del fichero y borramos el fichero físico
 				String s1 = "SELECT ruta "
-						  + "FROM Cancion"
+						  + "FROM Cancion "
 						  + "WHERE titulo = ? AND "
 						  + "nombreArtista = ? AND "
 						  + "nombreAlbum = ? AND "

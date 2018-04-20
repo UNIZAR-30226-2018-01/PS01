@@ -29,7 +29,8 @@ public class Probar {
 				VerSeguidores.execute(USER, SESION);
 				VerSeguidos.execute(USER, SESION);
 				AnyadirCancionALista.execute(USER, SESION, "Deltoya", "Extremoduro", "Iros todos a tomar por culo", "Fiesta");
-				
+				QuitarCancionDeLista.execute(USER, SESION, "Deltoya", "Extremoduro", "Iros todos a tomar por culo", "Fiesta");
+				//BorrarCancion.execute(USER, SESION, "Malibu (Basslouder Remix)", "VA", "Future Trance 81 - CD 2");
 				
 				CerrarSesion.execute("david", SESION2);
 				CerrarSesion.execute(USER, SESION);

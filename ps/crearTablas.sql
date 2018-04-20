@@ -14,12 +14,12 @@ CREATE TABLE Usuario(
 INSERT INTO Usuario values('Admin', '1d6868c84f4ed1ee6d5f34116ab14ddb');
 
 CREATE TABLE Cancion(
-	titulo varchar(32),
+	titulo varchar(64),
 	nombreArtista varchar(32),
 	nombreAlbum varchar(32) default 'Desconocido',
 	genero varchar(32) default 'Desconocido',
 	uploader varchar(32) REFERENCES Usuario(nombre),
-	ruta varchar(32) UNIQUE NOT NULL,
+	ruta varchar(128) UNIQUE NOT NULL,
 	PRIMARY KEY (titulo, nombreArtista, nombreAlbum, uploader),
 	FOREIGN KEY (uploader) references Usuario(nombre) ON DELETE CASCADE
 );
@@ -52,7 +52,7 @@ CREATE TABLE ListaReproduccion(
 );
 
 CREATE TABLE Formar(
-	titulo varchar(32),
+	titulo varchar(64),
 	nombreArtista varchar(32),
 	nombreAlbum varchar(32),
 	nombreLista varchar(32),
@@ -64,7 +64,7 @@ CREATE TABLE Formar(
 
 CREATE TABLE Reproduccion(
 	nombreUsuario varchar(32) REFERENCES Usuario(nombre) ON DELETE CASCADE,
-	titulo varchar(32),
+	titulo varchar(64),
 	nombreAlbum varchar(32),
 	nombreArtista varchar(32),
 	fecha TIMESTAMP default CURRENT_TIMESTAMP,

@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.net.ContentHandler;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
@@ -26,9 +25,9 @@ import org.apache.tika.metadata.Metadata;
 import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.Parser;
 import org.apache.tika.parser.mp3.Mp3Parser;
+import org.apache.tika.sax.BodyContentHandler;
 import org.json.simple.JSONObject;
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 
 import modelo.FuncionesAuxiliares;
 import modelo.ImplementacionFachada;
@@ -44,7 +43,7 @@ import modelo.excepcion.SesionInexistente;
 maxFileSize=1024*1024*10, maxRequestSize=1024*1024*5*5)
 public class SubirCanciones extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private String rutaBase = "/Users/albertomurrodrigo/Documents/dg/PS01/ps/music/";
+	private String rutaBase = "/usr/local/apache-tomcat-9.0.7/webapps/ps/music/";
        
 	public void doPost (HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
@@ -68,6 +67,7 @@ public class SubirCanciones extends HttpServlet {
 			out.println(obj.toJSONString());
 		}
 		else {
+			System.out.println("Comenzando subida de fichero...");
 			if (!new File(rutaBase + nombreUsuario + "/").exists()) {
 	        	Files.createDirectory(new File(rutaBase + nombreUsuario + "/").toPath());
 	        }
@@ -78,10 +78,19 @@ public class SubirCanciones extends HttpServlet {
 				System.out.println("Subiendo fichero...");
 		        //fileName = Paths.get(filePart.getName()).getFileName().toString();
 		        InputStream fileContent = filePart.getInputStream();
-		        DefaultHandler handler = new DefaultHandler();
+		        BodyContentHandler handler = new BodyContentHandler();
+		        FileInputStream inputstream = (FileInputStream) filePart.getInputStream();
 		        Metadata metadata = new Metadata();
 		        Parser parser = new Mp3Parser();
 		        ParseContext parseCtx = new ParseContext();
+		        
+		        try {
+					parser.parse(inputstream, handler, metadata, parseCtx);
+				} catch (SAXException | TikaException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		        
 		        if (new File("music/" + nombreUsuario + "/" + metadata.get("title") + ".mp3").exists()) {
 		        	try {
 						throw new CancionYaExiste("La cancion " + tituloCancion + " perteneciente al álbum"
@@ -97,57 +106,49 @@ public class SubirCanciones extends HttpServlet {
 					}
 		        }
 		        else {
-		        	File mus = new File(rutaBase + nombreUsuario + "/" + tituloCancion + ".mp3");
+		        	File mus = new File(rutaBase + nombreUsuario + "/" + metadata.get("title") + ".mp3");
 			        Files.createFile(mus.toPath());
 			        Files.copy(fileContent, mus.toPath(), StandardCopyOption.REPLACE_EXISTING);
 			        //InputStream input = new FileInputStream(mus);
-			        
-			        try {
-						parser.parse(fileContent, handler, metadata, parseCtx);
-					} catch (SAXException | TikaException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-			        fileContent.close();
 			        
 			        tituloCancion = metadata.get("title");
 			        nombreArtista = metadata.get("xmpDM:artist");
 			        nombreAlbum = metadata.get("xmpDM:album");
 			        genero = metadata.get("xmpDM:genre");
 		        }
+		        
+				try {
+					ImplementacionFachada f = new ImplementacionFachada();
+					f.existeSesionUsuario(nombreUsuario, idSesion);
+					f.anyadirCancionUsuario(new cancionVO(tituloCancion, nombreArtista,
+							nombreAlbum, genero, nombreUsuario, rutaBase + nombreUsuario + "/" + tituloCancion + ".mp3"));
+					out.println(obj.toJSONString());
+				}
+				catch(SesionInexistente e) {
+					// Metemos el objeto de error en el JSON
+					obj.put("error", "Usuario no logeado en el servidor");
+					
+					// Respondemos con el fichero JSON
+					out.println(obj.toJSONString());
+				}
+				catch (CancionYaExiste c) {
+					System.out.println("Excepción CancionYaExiste");
+					// Metemos un array vacío en el JSON
+					obj.put("CancionYaExiste", c.toString());
+					
+					// Respondemos con el fichero JSON
+					out.println(obj.toJSONString());
+				}
+				catch(SQLException e){
+					e.printStackTrace();
+					// Metemos el objeto de error en el JSON
+					obj.put("error", e.toString());
+					
+					// Respondemos con el fichero JSON
+					out.println(obj.toJSONString());
+				}
 		    }
-			System.out.println("Fichero subido");
-			System.out.println("Insertando canción en la base de datos 1...");
-			try {
-				ImplementacionFachada f = new ImplementacionFachada();
-				f.existeSesionUsuario(nombreUsuario, idSesion);
-				f.anyadirCancionUsuario(new cancionVO(tituloCancion, nombreArtista,
-						nombreAlbum, genero, nombreUsuario, "music/" + nombreUsuario + "/" + tituloCancion + ".mp3"));
-				System.out.println("Canción guardada con éxito");
-			}
-			catch(SesionInexistente e) {
-				// Metemos el objeto de error en el JSON
-				obj.put("error", "Usuario no logeado en el servidor");
 				
-				// Respondemos con el fichero JSON
-				out.println(obj.toJSONString());
-			}
-			catch (CancionYaExiste c) {
-				System.out.println("Excepción CancionYaExiste");
-				// Metemos un array vacío en el JSON
-				obj.put("CancionYaExiste", c.toString());
-				
-				// Respondemos con el fichero JSON
-				out.println(obj.toJSONString());
-			}
-			catch(SQLException e){
-				e.printStackTrace();
-				// Metemos el objeto de error en el JSON
-				obj.put("error", "Error SQL en el servidor");
-				
-				// Respondemos con el fichero JSON
-				out.println(obj.toJSONString());
-			}
 		}
 	}
 }
