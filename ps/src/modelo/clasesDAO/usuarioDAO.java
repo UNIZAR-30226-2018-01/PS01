@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import modelo.clasesVO.*;
 import modelo.excepcion.*;
 import java.sql.SQLException;
+import org.json.simple.*;
 
 public class usuarioDAO {
 	/*
@@ -88,10 +89,50 @@ public class usuarioDAO {
 			ResultSet r = preparedStatement.executeQuery();
 			
 			// Comprobamos si ha devuelto algo
-			if(!r.next()) {
+			if(!r.first()) {
 				// Si no ha devuelto significa que no el usuario no existe
 				throw new LoginInexistente("Datos de login incorrectos");
 			}
+		}
+		catch(Exception e) {
+			throw e;
+		}
+	}
+	
+	/*
+	 * Pre:  ---
+	 * Post: Dada la cadena de caracteres 'nombre' busca usuarios cuyo nombre
+	 * 		 sea igual o empiece por nombre, devolviéndolos en un JSON
+	 * 		 cuya clave es usuarios, cuyo valor asociado es un array de strings
+	 *  	 con los nombres encontrados
+	 */
+	public JSONObject buscarUsuarios(String nombre, Connection c)
+			throws SQLException, UsuarioInexistente {
+		try {
+			// Preparamos la consulta
+			String q = "SELECT nombre FROM Usuario WHERE nombre LIKE ? "
+					 + "ORDER BY(nombre);";
+			PreparedStatement p = c.prepareStatement(q);
+			p.setString(1, nombre+"%");
+			
+			// Hacemos la consulta
+			ResultSet r = p.executeQuery();
+			
+			// No ha habido resultados
+			if(!r.first()) {
+				throw new UsuarioInexistente("No hay ningún usuario cuyo nombre "
+						+ "sea o empiece por " + nombre);
+			}
+			
+			// Generamos el JSON
+			JSONObject obj = new JSONObject();
+			JSONArray array = new JSONArray();
+			r.beforeFirst(); // Movemos el cursor antes del 1er elemento
+			while (r.next()) {
+				array.add(r.getString(1));
+			}
+			obj.put("usuarios", array);
+			return obj;
 		}
 		catch(Exception e) {
 			throw e;

@@ -86,7 +86,7 @@ public class sesionDAO {
 	        /* Execute query. */                    
 			ResultSet busquedaComp = preparedStatement.executeQuery();
 			if(!busquedaComp.next()) {
-				throw new SesionInexistente("No existe una sesión con las características proporcionadas");
+				throw new SesionInexistente("Usuario no logeado en el servidor");
 			}
 		}
 		catch (Exception e) {

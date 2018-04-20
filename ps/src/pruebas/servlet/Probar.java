@@ -32,6 +32,7 @@ public class Probar {
 				QuitarCancionDeLista.execute(USER, SESION, "Deltoya", "Extremoduro", "Iros todos a tomar por culo", "Fiesta");
 				//BorrarCancion.execute(USER, SESION, "Malibu (Basslouder Remix)", "VA", "Future Trance 81 - CD 2");
 				
+				BuscarUsuarios.execute(USER, SESION, "da");
 				CerrarSesion.execute("david", SESION2);
 				CerrarSesion.execute(USER, SESION);
 			//}

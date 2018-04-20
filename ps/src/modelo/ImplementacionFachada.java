@@ -479,4 +479,18 @@ public class ImplementacionFachada implements InterfazFachada {
 			c.close();
 		}
 	}
+	
+	public JSONObject buscarUsuarios(String nombre)
+			throws SQLException,UsuarioInexistente {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
+		try {
+			return new usuarioDAO().buscarUsuarios(nombre, c);
+		}
+		catch (Exception e) {
+			throw e;
+		}
+		finally {
+			c.close();
+		}
+	}
 }

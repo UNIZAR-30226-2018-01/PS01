@@ -209,4 +209,14 @@ public interface InterfazFachada {
 	 */
 	JSONObject mostrarListasUsuario(String nombreUsuario)
 			throws SQLException, NoHayListas;
+	
+	/*
+	 * Pre:  ---
+	 * Post: Dada la cadena de caracteres 'nombre' busca usuarios cuyo nombre
+	 * 		 sea igual o empiece por nombre, devolviéndolos en un JSON
+	 * 		 cuya clave es usuarios, cuyo valor asociado es un array de strings
+	 *  	 con los nombres encontrados
+	 */
+	public JSONObject buscarUsuarios(String nombre)
+			throws SQLException,UsuarioInexistente;
 }
