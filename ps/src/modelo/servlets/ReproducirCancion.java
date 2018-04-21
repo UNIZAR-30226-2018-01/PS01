@@ -1,49 +1,50 @@
 package modelo.servlets;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.json.simple.JSONObject;
+
 import modelo.FuncionesAuxiliares;
 import modelo.ImplementacionFachada;
 
 /**
- * Servlet que implementa la búsqueda de usuarios en el servidor.
- * Recibe:
- * 	-Las cookies de login y de idSesion
- *  -Un parámetro llamado 'usuario', que es el usuario a buscar en la BD
- * Devuelve:
- * 	-Si todo ha ido bien, un JSON con una clave llamada 'usuarios', cuyo valor
- *   asociado es un array que contiene los usuarios que ha arrojado la 
- *   búsqueda, es decir, un array de Strings
- * 	-Si algo ha ido mal, un JSON con la clave "error"
+ * Servlet implementation class ReproducirCancion
  */
-@WebServlet("/BuscarUsuarios")
-public class BuscarUsuarios extends HttpServlet {
+@WebServlet("/ReproducirCancion")
+public class ReproducirCancion extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BuscarUsuarios() {
+    public ReproducirCancion() {
         super();
         // TODO Auto-generated constructor stub
     }
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// Definición de variables
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// Recuperamos los parámetros y las cookies
+		Cookie[] cookies = request.getCookies();
+		String nombreUsuario = FuncionesAuxiliares.obtenerCookie(cookies, "login");
+		String idSesion = FuncionesAuxiliares.obtenerCookie(cookies, "idSesion");
+		String titulo = request.getParameter("titulo");
+		String artista = request.getParameter("artista");
+		String album = request.getParameter("album");
 		PrintWriter out = response.getWriter();
 		JSONObject obj = new JSONObject();
-		String usuario = request.getParameter("usuario");
-		Cookie[] c = request.getCookies();
-		String nombreUsuario = FuncionesAuxiliares.obtenerCookie(c, "login");
-		String idSesion = FuncionesAuxiliares.obtenerCookie(c, "idSesion");
 		
 		// Comprobamos que no haya parámetros incorrecto
 		if (nombreUsuario == null || idSesion == null){
@@ -53,9 +54,9 @@ public class BuscarUsuarios extends HttpServlet {
 			// Respondemos con el fichero JSON
 			out.println(obj.toJSONString());
 		}
-		else if(usuario == null) {
+		else if(titulo == null || artista ==null || album == null) {
 			// Metemos el objeto de error en el JSON
-			obj.put("error", "No se ha recibido el parámetro usuario");
+			obj.put("error", "Titulo, artista y album no pueden ser nulos");
 			
 			// Respondemos con el fichero JSON
 			out.println(obj.toJSONString());
@@ -64,8 +65,19 @@ public class BuscarUsuarios extends HttpServlet {
 			try {
 				ImplementacionFachada f = new ImplementacionFachada();
 				f.existeSesionUsuario(nombreUsuario, idSesion);
-				obj = f.buscarUsuarios(usuario);
-				out.println(obj.toJSONString());
+				String ruta = f.obtenerRuta(titulo, artista, album, nombreUsuario);
+				
+				// Enviamos la canción
+				FileInputStream in = new FileInputStream(ruta);
+				byte[] buffer = new byte[4096];
+				int length;
+				while ((length = in.read(buffer)) > 0){
+					String text = new String(buffer, "UTF-8");
+					char[] chars = text.toCharArray();
+				    out.write(chars, 0, length);
+				}
+				in.close();
+				out.flush();
 			}
 			catch(Exception e) {
 				// Metemos el objeto de error en el JSON
@@ -76,5 +88,4 @@ public class BuscarUsuarios extends HttpServlet {
 			}
 		}
 	}
-
 }

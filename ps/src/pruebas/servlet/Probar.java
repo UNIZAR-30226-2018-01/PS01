@@ -33,6 +33,7 @@ public class Probar {
 				//BorrarCancion.execute(USER, SESION, "Malibu (Basslouder Remix)", "VA", "Future Trance 81 - CD 2");
 				
 				BuscarUsuarios.execute(USER, SESION, "da");
+				ReproducirCancion.execute(USER, SESION, "Deltoya", "Extremoduro", "Iros todos a tomar por culo");
 				CerrarSesion.execute("david", SESION2);
 				CerrarSesion.execute(USER, SESION);
 			//}

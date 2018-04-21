@@ -493,4 +493,19 @@ public class ImplementacionFachada implements InterfazFachada {
 			c.close();
 		}
 	}
+	
+	public String obtenerRuta(String titulo, String artista, String album,
+			String nombreUsuario) throws Exception {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
+		try {
+			return new cancionDAO().obtenerRuta(titulo, artista, album,
+					nombreUsuario, c);
+		}
+		catch (Exception e) {
+			throw e;
+		}
+		finally {
+			c.close();
+		}
+	}
 }

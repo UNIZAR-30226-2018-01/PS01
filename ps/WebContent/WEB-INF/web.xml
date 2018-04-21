@@ -82,4 +82,12 @@
     <servlet-name>VerSeguidos</servlet-name>
     <servlet-class>VerSeguidos</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>ReproducirCancion</servlet-name>
+    <servlet-class>ReproducirCancion</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>BuscarUsuarios</servlet-name>
+    <servlet-class>BuscarUsuarios</servlet-class>
+  </servlet>
 </web-app>

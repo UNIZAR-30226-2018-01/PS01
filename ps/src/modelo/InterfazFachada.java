@@ -219,4 +219,12 @@ public interface InterfazFachada {
 	 */
 	public JSONObject buscarUsuarios(String nombre)
 			throws SQLException,UsuarioInexistente;
+	
+	/*
+	 * Pre:  ---
+	 * Post: Devuelve la ruta de la canción especificada. En caso de no existir
+	 * 		 dicha canción, lanza una excepción
+	 */
+	public String obtenerRuta(String titulo, String artista, String album,
+			String nombreUsuario) throws Exception;
 }

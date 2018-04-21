@@ -266,4 +266,38 @@ public class cancionDAO {
 			throw e;
 		}
 	}
+	
+	/*
+	 * Pre:
+	 * Post: Devuelve, si existe, la ruta de la canción especificado
+	 * 		 Si la canción no existe, lanza una excepción
+	 */
+	public String obtenerRuta(String titulo, String artista,
+			String album, String nombreUsuario, Connection c) throws Exception {
+		try {
+			// Preparamos la consulta
+			String q = "SELECT ruta FROM Cancion WHERE titulo=? AND "
+					 + "nombreArtista=? AND nombreAlbum=? AND (uploader='Admin' OR "
+					 + "uploader=?);";
+			PreparedStatement p = c.prepareStatement(q);
+			p.setString(1, titulo);
+			p.setString(2, artista);
+			p.setString(3, album);
+			p.setString(4, nombreUsuario);
+			
+			// Hacemos la consulta
+			ResultSet r = p.executeQuery();
+			
+			// Comprobamos si ha habido resultado
+			if(!r.first()) {
+				throw new Exception("La canción buscada no existe en el servidor");
+			}
+			
+			// Devolvemos la ruta del fichero
+			return r.getString(1);
+		}
+		catch(Exception e) {
+			throw e;
+		}
+	}
 }
