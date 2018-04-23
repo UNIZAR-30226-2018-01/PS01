@@ -42,7 +42,7 @@ public class RegistrarUsuario extends HttpServlet {
 		}
 		// Contraseña incorrecta
 		else if(!FuncionesAuxiliares.comprobarContrasenya(pass)
-				&& !pass.equals(passR)) {
+				|| !pass.equals(passR)) {
 			// Metemos el objeto de error en el JSON
 			obj.put("error", "La contraseña no es válida");
 			
