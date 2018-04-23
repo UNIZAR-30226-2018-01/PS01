@@ -112,10 +112,11 @@ public class usuarioDAO {
 			throws SQLException, UsuarioInexistente {
 		try {
 			// Preparamos la consulta
-			String q = "SELECT nombre FROM Usuario WHERE nombre LIKE ? "
-					 + "ORDER BY(nombre);";
+			String q = "SELECT nombre FROM Usuario WHERE nombre LIKE ? AND "
+					 + "nombre <> ? ORDER BY(nombre);";
 			PreparedStatement p = c.prepareStatement(q);
 			p.setString(1, nombre+"%");
+			p.setString(1, nombre);
 			
 			// Hacemos la consulta
 			ResultSet r = p.executeQuery();

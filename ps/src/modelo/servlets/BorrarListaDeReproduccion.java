@@ -45,7 +45,9 @@ public class BorrarListaDeReproduccion extends HttpServlet {
 			try {
 				ImplementacionFachada f = new ImplementacionFachada();
 				f.existeSesionUsuario(nombreUsuario, idSesion);
-				f.borrarListaDeReproduccion(new listaReproduccionVO(nombreLista, nombreUsuario));
+				f.borrarListaDeReproduccion(
+						new listaReproduccionVO(nombreLista, nombreUsuario));
+				out.println(obj.toJSONString());
 			}
 			catch(SesionInexistente e) {
 				// Metemos el objeto de error en el JSON

@@ -90,4 +90,16 @@
     <servlet-name>BuscarUsuarios</servlet-name>
     <servlet-class>BuscarUsuarios</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>CambiarContrasenya</servlet-name>
+    <servlet-class>CambiarContrasenya</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>CambiarNombre</servlet-name>
+    <servlet-class>CambiarNombre</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>CambiarFotoPerfil</servlet-name>
+    <servlet-class>CambiarFotoPerfil</servlet-class>
+  </servlet>
 </web-app>
