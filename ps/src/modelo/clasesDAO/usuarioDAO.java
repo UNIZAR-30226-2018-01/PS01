@@ -3,6 +3,8 @@ package modelo.clasesDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+
+import modelo.FuncionesAuxiliares;
 import modelo.clasesVO.*;
 import modelo.excepcion.*;
 import java.sql.SQLException;
@@ -133,6 +135,63 @@ public class usuarioDAO {
 			}
 			obj.put("usuarios", array);
 			return obj;
+		}
+		catch(Exception e) {
+			throw e;
+		}
+	}
+	
+	/*
+	 * Pre:  ---
+	 * Post: Ha cambiado el nombre del usuario 'antiguoNombre' por 'nuevoNombre'
+	 * 		 Si algo ha ido mal, lanza una excepción
+	 */
+	public void cambiarNombre(String antiguoNombre, String nuevoNombre,
+			Connection c) throws Exception {
+		try {
+			String q = "UPDATE Usuario SET nombre = ? WHERE nombre = ?;";
+			PreparedStatement p = c.prepareStatement(q);
+			p.setString(1, antiguoNombre);
+			p.setString(2, nuevoNombre);
+			p.executeUpdate();
+		}
+		catch(Exception e) {
+			throw e;
+		}
+	}
+
+	/*
+	 * Pre:  ---
+	 * Post: Ha cambiado el nombre del usuario 'antiguoNombre' por 'nuevoNombre'
+	 * 		 Si algo ha ido mal, lanza una excepción
+	 */
+	public void cambiarPass(String usuario, String pass,
+			Connection c) throws Exception {
+		try {
+			String q = "UPDATE Usuario SET hashPass = ? WHERE nombre = ?;";
+			PreparedStatement p = c.prepareStatement(q);
+			p.setString(1, FuncionesAuxiliares.crearHash(pass));
+			p.setString(2, usuario);
+			p.executeUpdate();
+		}
+		catch(Exception e) {
+			throw e;
+		}
+	}
+	
+	/*
+	 * Pre:  ---
+	 * Post: Ha actualizado la ruta de la imagen del usuario a 'ruta'.
+	 * 		 Si algo ha ido mal, lanza una excepción
+	 */
+	public void actualizarImagen(String usuario, String ruta, Connection c)
+			throws Exception {
+		try {
+			String q = "UPDATE Usuario SET imagenPerfil = ? WHERE nombre = ?;";
+			PreparedStatement p = c.prepareStatement(q);
+			p.setString(1, ruta);
+			p.setString(2, usuario);
+			p.executeUpdate();
 		}
 		catch(Exception e) {
 			throw e;

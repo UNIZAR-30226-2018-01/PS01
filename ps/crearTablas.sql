@@ -8,9 +8,11 @@ DROP TABLE IF EXISTS Usuario;
 
 CREATE TABLE Usuario(
 	nombre varchar(32) PRIMARY KEY,
-	hashPass varchar(128) NOT NULL
+	hashPass varchar(128) NOT NULL,
+	imagenPerfil varchar(32) default NULL
 );
 
+-- Codigo hash de 'gracehopper'
 INSERT INTO Usuario values('Admin', '1d6868c84f4ed1ee6d5f34116ab14ddb');
 
 CREATE TABLE Cancion(

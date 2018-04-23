@@ -33,11 +33,18 @@ public class RegistrarUsuario extends HttpServlet {
 		String passR = request.getParameter("contrasenyaRepetida");
 	
 		// Comprobamos los parámetros recibidos
-		if ((nombre == null) || (nombre.trim().equals("")) || (pass == null)
-			  || (pass.trim().equals("")) || nombre.length()<4 || 
-			  nombre.length()>32 || (passR == null) || (!pass.equals(passR))) {
+		if (!FuncionesAuxiliares.comprobarNombre(nombre)) {
 			// Metemos el objeto de error en el JSON
-			obj.put("error", "Parámetros incorrectos");
+			obj.put("error", "El usuario no es válido");
+			
+			// Respondemos con el fichero JSON
+			out.println(obj.toJSONString());
+		}
+		// Contraseña incorrecta
+		else if(!FuncionesAuxiliares.comprobarContrasenya(pass)
+				&& !pass.equals(passR)) {
+			// Metemos el objeto de error en el JSON
+			obj.put("error", "La contraseña no es válida");
 			
 			// Respondemos con el fichero JSON
 			out.println(obj.toJSONString());

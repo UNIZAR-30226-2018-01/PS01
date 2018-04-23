@@ -34,6 +34,52 @@ public class ImplementacionFachada implements InterfazFachada {
 		}
 	}
 	
+	@Override
+	public void existeNombreUsuario(String nombreUsuario) throws Exception{
+		Connection c = FuncionesAuxiliares.obtenerConexion();
+		try {
+			if(new usuarioDAO().existeUsuario(nombreUsuario, c)) {
+				throw new Exception("Ya hay un usuario registrado con el nombre "
+						+ nombreUsuario);
+			}
+		}
+		catch(Exception e) {
+			throw e;
+		}
+		finally {
+			c.close();
+		}
+	}
+	
+	@Override
+	public void cambiarNombreUsuario(String antiguoNombre, String nuevoNombre)
+			throws Exception {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
+		try {
+			new usuarioDAO().cambiarNombre(antiguoNombre, nuevoNombre, c);
+		}
+		catch(Exception e) {
+			throw e;
+		}
+		finally {
+			c.close();
+		}
+	}
+	
+	public void cambiarContrasenyaUsuario(String usuario, String nuevaPass)
+			throws Exception {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
+		try {
+			new usuarioDAO().cambiarPass(usuario, nuevaPass, c);
+		}
+		catch(Exception e) {
+			throw e;
+		}
+		finally {
+			c.close();
+		}
+	}
+	
 	/*
 	 * Pre: 'nombreUsuario' es el nombre del usuario y 'hashPass' el hash de
 	 * 		 su contraseña
@@ -500,6 +546,21 @@ public class ImplementacionFachada implements InterfazFachada {
 		try {
 			return new cancionDAO().obtenerRuta(titulo, artista, album,
 					nombreUsuario, c);
+		}
+		catch (Exception e) {
+			throw e;
+		}
+		finally {
+			c.close();
+		}
+	}
+	
+	@Override
+	public void actualizarImagen(String usuario, String ruta)
+			throws Exception {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
+		try {
+			new usuarioDAO().actualizarImagen(usuario, ruta, c);
 		}
 		catch (Exception e) {
 			throw e;

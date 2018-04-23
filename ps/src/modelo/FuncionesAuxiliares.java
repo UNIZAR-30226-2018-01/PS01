@@ -93,4 +93,68 @@ public class FuncionesAuxiliares {
             return null;
         }
 	}
+	
+	/*
+	 * Pre:  ---
+	 * Post: Devuelve falso si:
+	 * 			-nombre es nulo
+	 * 			-nombre contiene espacios
+	 * 			-La longitud de nombre es menor que 4
+	 * 			-La longitud de nombre es mayor que 15
+	 * 			-nombre no empieza por una letra
+	 * 			-nombre contiene caracteres que no son alfanuméricos
+	 * 		  En caso contrario, devuelve verdad
+	 */
+	public static boolean comprobarNombre(String nombre) {
+		if(nombre == null || nombre.contains(" ") || nombre.length()<4 ||
+				nombre.length()>15 || !Character.isLetter(nombre.charAt(0))) {
+			return false;
+		}
+		else {
+			boolean seguir = true;
+			for(int i=1; i<nombre.length() && seguir; i++) {
+				if(!Character.isLetterOrDigit(nombre.charAt(i))) {
+					seguir = false;
+				}
+			}
+			return seguir;
+		}
+	}
+	
+	/*
+	 * Pre:  ---
+	 * Post: Devuelve falso si:
+	 * 			-contrasenya es nula
+	 * 			-contrasenya contiene espacios
+	 * 			-contrasenya tiene menos de 4 caracteres
+	 * 			-contrasenya tiene mas de 4 caracteres
+	 * 			-contrasenya tiene caracteres que no son alfanumericos
+	 * 			-contrasenya no tiene ninguna letra mayuscula
+	 * 			-contrasenya no tiene ningún número
+	 */
+	public static boolean comprobarContrasenya(String contrasenya) {
+		if(contrasenya == null || contrasenya.contains(" ") || contrasenya.length()<4 ||
+				contrasenya.length()>15) {
+			return false;
+		}
+		else {
+			boolean hayNumero = false;
+			boolean hayMayuscula = false;
+			boolean seguir = true;
+			for(int i=0; i<contrasenya.length() && seguir; i++) {
+				if(!Character.isLetterOrDigit(contrasenya.charAt(i))) {
+					seguir = false;
+				}
+				else {
+					if(Character.isUpperCase(contrasenya.charAt(i))) {
+						hayMayuscula = true;
+					}
+					else if (Character.isDigit(contrasenya.charAt(i))) {
+						hayNumero = true;
+					}
+				}
+			}
+			return hayNumero && hayMayuscula && seguir;
+		}
+	}
 }

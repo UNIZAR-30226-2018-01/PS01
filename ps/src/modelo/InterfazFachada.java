@@ -3,6 +3,7 @@ package modelo;
 import modelo.clasesVO.*;
 import modelo.excepcion.*;
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
 import org.json.simple.*;
 
@@ -20,6 +21,29 @@ public interface InterfazFachada {
 	 */
 	public void existeUsuario(String nombreUsuario, String hashPass) 
 			throws LoginInexistente, SQLException;
+	
+	/*
+	 * Pre:  ---
+	 * Post: Comprueba si existe un usuario con 'nombreUsuario' en la base de
+	 * 		 de datos. Si existe, lanza una excepción
+	 */
+	public void existeNombreUsuario(String nombreUsuario) throws Exception;
+	
+	/*
+	 * Pre:  ---
+	 * Post: Ha cambiado el nombre del usuario 'antiguoNombre' por 'nuevoNombre
+	 * 		 Si ha habido algún error, lanza una excepción
+	 */
+	public void cambiarNombreUsuario(String antiguoNombre, String nuevoNombre)
+			throws Exception;
+	
+	/*
+	 * Pre:  ---
+	 * Post: Ha cambiado la contraseña del usuario 'usuario'.
+	 * 		 Si ha habido algún error, lanza una excepción
+	 */
+	public void cambiarContrasenyaUsuario(String usuario, String nuevaPass)
+			throws Exception;
 	
 	/*
 	 * Pre: 'nombreUsuario' es el nombre del usuario y 'hashPass' el hash de
@@ -227,4 +251,11 @@ public interface InterfazFachada {
 	 */
 	public String obtenerRuta(String titulo, String artista, String album,
 			String nombreUsuario) throws Exception;
+	
+	/*
+	 * Pre:  ---
+	 * Post: Ha actualizado la ruta de la imagen del usuario a 'ruta'.
+	 * 		 Si algo ha ido mal, lanza una excepción
+	 */
+	public void actualizarImagen(String usuario, String ruta) throws Exception;
 }
