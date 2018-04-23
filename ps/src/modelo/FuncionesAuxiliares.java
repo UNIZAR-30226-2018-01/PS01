@@ -9,7 +9,9 @@ import javax.servlet.http.Cookie;
 import javax.sql.DataSource;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import java.io.*;
 import java.util.Vector;
+import java.io.BufferedInputStream;
 import java.sql.Connection;
 
 public class FuncionesAuxiliares {
@@ -156,5 +158,23 @@ public class FuncionesAuxiliares {
 			}
 			return hayNumero && hayMayuscula && seguir;
 		}
+	}
+	
+	/*
+	 * Pre:  ---
+	 * Post: Devuelve verdad si el fichero es una imagen JPG
+	 */
+	public static Boolean isJPEG(File filename) throws Exception {
+	    DataInputStream ins = new DataInputStream(new BufferedInputStream(new FileInputStream(filename)));
+	    try {
+	        if (ins.readInt() == 0xffd8ffe0) {
+	            return true;
+	        } else {
+	            return false;
+
+	        }
+	    } finally {
+	        ins.close();
+	    }
 	}
 }

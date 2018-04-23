@@ -40,7 +40,7 @@ public class CambiarFotoPerfil extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
     
-    private String rutaBase = "/usr/local/apache-tomcat-9.0.7/webapps/ps/images/";
+    private String rutaBase = "/usr/local/apache-tomcat-9.0.7/images/";
 
     public void doPost (HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
@@ -77,7 +77,9 @@ public class CambiarFotoPerfil extends HttpServlet {
 				f.existeSesionUsuario(nombreUsuario, idSesion);
 				
 				// Guardamos la imágen en el servidor
-				img = new FileOutputStream(new File(rutaBase + nombreUsuario));
+				File fi = new File(rutaBase + nombreUsuario + ".jpg");
+				fi.createNewFile();
+				img = new FileOutputStream(fi);
 				filecontent = foto.getInputStream();
 				int read = 0;
 		        final byte[] bytes = new byte[1024];
@@ -85,11 +87,19 @@ public class CambiarFotoPerfil extends HttpServlet {
 		            img.write(bytes, 0, read);
 		        }
 		        
-		        // Actualizamos la ruta de la imagen en la BD
-		        f.actualizarImagen(nombreUsuario, rutaBase + nombreUsuario);
+		        // Comprobamos si es un fichero JPG
+		        if(!FuncionesAuxiliares.isJPEG(fi)) {
+		        	// Metemos el objeto de error en el JSON
+					obj.put("error", "La imagen subida no es JPG");
+		        }
+		        else {
+			        // Actualizamos la ruta de la imagen en la BD
+			        f.actualizarImagen(nombreUsuario, rutaBase + nombreUsuario
+			        				   + ".jpg");
+		        }
 		        
-		        // Respondemos con un JSON vacío
-		        out.println(obj.toJSONString());
+		        // Respondemos con el fichero JSON
+				out.println(obj.toJSONString());
 			}
 			catch(Exception e) {
 				// Metemos el objeto de error en el JSON

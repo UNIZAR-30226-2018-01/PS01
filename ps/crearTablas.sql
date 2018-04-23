@@ -9,7 +9,7 @@ DROP TABLE IF EXISTS Usuario;
 CREATE TABLE Usuario(
 	nombre varchar(32) PRIMARY KEY,
 	hashPass varchar(128) NOT NULL,
-	imagenPerfil varchar(32) default NULL
+	imagenPerfil varchar(128) default NULL
 );
 
 -- Codigo hash de 'gracehopper'
@@ -77,7 +77,7 @@ CREATE TABLE Reproduccion(
 
 -- Trigger que evite que se borre el usuario Admin
 
-CREATE OR REPLACE TRIGGER no_borrar_admin
+CREATE OR REPLACE TRIGGER IF no_borrar_admin
 	BEFORE DELETE ON Usuario
 	FOR EACH ROW
 BEGIN
