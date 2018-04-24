@@ -116,7 +116,7 @@ public class usuarioDAO {
 					 + "nombre <> ? ORDER BY(nombre);";
 			PreparedStatement p = c.prepareStatement(q);
 			p.setString(1, nombre+"%");
-			p.setString(1, nombre);
+			p.setString(2, nombre);
 			
 			// Hacemos la consulta
 			ResultSet r = p.executeQuery();
