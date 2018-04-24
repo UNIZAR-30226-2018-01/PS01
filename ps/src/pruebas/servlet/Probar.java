@@ -33,7 +33,9 @@ public class Probar {
 			BuscarUsuarios.execute(USER, SESION, "alb");
 			//ReproducirCancion.execute(USER, SESION, "Deltoya", "Extremoduro", "Iros todos a tomar por culo");
 			CambiarContrasenya.execute(USER, SESION, "Prueba1", "Prueba2", "Prueba2");
-			CerrarSesion.execute("david", SESION2);
+			//EliminarCuenta.execute(USER, SESION);
+			EliminarCuenta.execute("albertro", SESION2);
+			//CerrarSesion.execute("albertro", SESION2);
 			CerrarSesion.execute(USER, SESION);
 		}
 		catch(Exception e) {

@@ -25,9 +25,10 @@ public interface InterfazFachada {
 	/*
 	 * Pre:  ---
 	 * Post: Comprueba si existe un usuario con 'nombreUsuario' en la base de
-	 * 		 de datos. Si existe, lanza una excepción
+	 * 		 de datos. Si existe, lanza una excepción 'UsuarioExistente'
 	 */
-	public void existeNombreUsuario(String nombreUsuario) throws Exception;
+	public void existeNombreUsuario(String nombreUsuario)
+			throws SQLException, UsuarioExistente;
 	
 	/*
 	 * Pre:  ---
@@ -258,4 +259,11 @@ public interface InterfazFachada {
 	 * 		 Si algo ha ido mal, lanza una excepción
 	 */
 	public void actualizarImagen(String usuario, String ruta) throws Exception;
+	
+	/*
+	 * Pre:  ---
+	 * Post: Borra, si existe, la cuenta asociada al nombre 'nombreUsuario'
+	 */
+	public void eliminarCuenta(String nombreUsuario)
+			throws SQLException;
 }

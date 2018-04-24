@@ -152,8 +152,8 @@ public class usuarioDAO {
 		try {
 			String q = "UPDATE Usuario SET nombre = ? WHERE nombre = ?;";
 			PreparedStatement p = c.prepareStatement(q);
-			p.setString(1, antiguoNombre);
-			p.setString(2, nuevoNombre);
+			p.setString(1, nuevoNombre);
+			p.setString(2, antiguoNombre);
 			p.executeUpdate();
 		}
 		catch(Exception e) {
@@ -192,6 +192,23 @@ public class usuarioDAO {
 			PreparedStatement p = c.prepareStatement(q);
 			p.setString(1, ruta);
 			p.setString(2, usuario);
+			p.executeUpdate();
+		}
+		catch(Exception e) {
+			throw e;
+		}
+	}
+	
+	/*
+	 * Pre:  ---
+	 * Post: Borra, si existe, la cuenta asociada al nombre 'nombreUsuario'
+	 */
+	public void eliminarCuenta(String nombreUsuario, Connection c)
+			throws SQLException {
+		try {
+			String q = "DELETE FROM Usuario WHERE nombre = ?;";
+			PreparedStatement p = c.prepareStatement(q);
+			p.setString(1, nombreUsuario);
 			p.executeUpdate();
 		}
 		catch(Exception e) {

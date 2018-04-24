@@ -65,7 +65,7 @@ public class AnyadirCancionALista extends HttpServlet {
 			}
 			catch (SQLException s) {
 				// Metemos el objeto de error en el JSON
-				obj.put("error", "Error SQL en el servidor");
+				obj.put("error", s.toString());
 				
 				// Respondemos con el fichero JSON
 				out.println(obj.toJSONString());

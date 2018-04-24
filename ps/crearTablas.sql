@@ -13,7 +13,7 @@ CREATE TABLE Usuario(
 );
 
 -- Codigo hash de 'gracehopper'
-INSERT INTO Usuario values('Admin', '1d6868c84f4ed1ee6d5f34116ab14ddb');
+INSERT INTO Usuario values('Admin', '1d6868c84f4ed1ee6d5f34116ab14ddb', NULL);
 
 CREATE TABLE Cancion(
 	titulo varchar(64),

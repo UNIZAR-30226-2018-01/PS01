@@ -35,11 +35,12 @@ public class ImplementacionFachada implements InterfazFachada {
 	}
 	
 	@Override
-	public void existeNombreUsuario(String nombreUsuario) throws Exception{
+	public void existeNombreUsuario(String nombreUsuario)
+			throws SQLException, UsuarioExistente {
 		Connection c = FuncionesAuxiliares.obtenerConexion();
 		try {
 			if(new usuarioDAO().existeUsuario(nombreUsuario, c)) {
-				throw new Exception("Ya hay un usuario registrado con el nombre "
+				throw new UsuarioExistente("Ya hay un usuario registrado con el nombre "
 						+ nombreUsuario);
 			}
 		}
@@ -561,6 +562,21 @@ public class ImplementacionFachada implements InterfazFachada {
 		Connection c = FuncionesAuxiliares.obtenerConexion();
 		try {
 			new usuarioDAO().actualizarImagen(usuario, ruta, c);
+		}
+		catch (Exception e) {
+			throw e;
+		}
+		finally {
+			c.close();
+		}
+	}
+	
+	@Override
+	public void eliminarCuenta(String nombreUsuario)
+			throws SQLException {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
+		try {
+			new usuarioDAO().eliminarCuenta(nombreUsuario, c);
 		}
 		catch (Exception e) {
 			throw e;
