@@ -269,6 +269,52 @@ public class cancionDAO {
 	
 	/*
 	 * Pre:
+	 * Post Busca en la BD si existen canciones en la BD con el título proporcionado,
+	 * 		bien sea subida por el administrador o por el usuario.
+	 * 		Además, devuelve un json con una clave canciones, cuyo
+	 * 		valor asociado será un array en el que cada componente es una
+	 * 		canción
+	 * 		De no existir, lanza una excepción CancionNoExiste
+	 */
+	public JSONObject buscarCancionPorGenero(cancionVO c,
+			String nombreUploader, Connection cc)
+			throws SQLException, CancionNoExiste {
+		try {
+			String s = "SELECT * FROM Cancion WHERE "
+					 + "genero = ? AND "
+					 + "(uploader = ? OR uploader = 'Admin');";
+			PreparedStatement preparedStatement = cc.prepareStatement(s);
+			preparedStatement.setString(1, c.verGenero());
+			preparedStatement.setString(2, nombreUploader);
+			ResultSet busquedaComp = preparedStatement.executeQuery();
+			
+			// Comprobamos que exista la canción
+			if(!busquedaComp.first()) {
+				throw new CancionNoExiste("No hay canciones con el género buscado");
+			}
+
+			// Objetos para devolver el resultado
+			JSONObject obj = new JSONObject();
+			JSONArray array = new JSONArray();
+			busquedaComp.beforeFirst(); // Movemos el cursor antes del 1er elemento
+			while (busquedaComp.next()) {
+				JSONObject aux = new JSONObject();
+				aux.put("tituloCancion", busquedaComp.getString(1));
+				aux.put("nombreArtista", busquedaComp.getString(2));
+				aux.put("nombreAlbum", busquedaComp.getString(3));
+				aux.put("genero", busquedaComp.getString(4));
+				array.add(aux);
+			}
+			obj.put("canciones", array);
+			return obj;
+		}
+		catch(Exception e) {
+			throw e;
+		}
+	}
+	
+	/*
+	 * Pre:
 	 * Post: Devuelve, si existe, la ruta de la canción especificado
 	 * 		 Si la canción no existe, lanza una excepción
 	 */
@@ -295,6 +341,34 @@ public class cancionDAO {
 			
 			// Devolvemos la ruta del fichero
 			return r.getString(1);
+		}
+		catch(Exception e) {
+			throw e;
+		}
+	}
+	
+	/*
+	 * Pre:
+	 * Post: Devuelve un JSON con la clave generos, cuyo valor asociado es un
+	 * 		 array de strings que contiene en cada componente un género
+	 */
+	public JSONObject getGeneros(Connection c) throws SQLException {
+		try {
+			// Hacemos la consulta
+			String q = "SELECT genero FROM CANCION GROUP BY(genero) "
+					 + "ORDER BY(genero);";
+			PreparedStatement p = c.prepareStatement(q);
+			ResultSet r = p.executeQuery();
+			
+			// Objetos para devolver el resultado
+			JSONObject obj = new JSONObject();
+			JSONArray array = new JSONArray();
+			r.beforeFirst(); // Movemos el cursor antes del 1er elemento
+			while (r.next()) {
+				array.add(r.getString(1));
+			}
+			obj.put("generos", array);
+			return obj;
 		}
 		catch(Exception e) {
 			throw e;

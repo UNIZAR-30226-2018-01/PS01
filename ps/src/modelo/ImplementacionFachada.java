@@ -381,6 +381,25 @@ public class ImplementacionFachada implements InterfazFachada {
 			c.close();
 		}
 	}
+	
+	@Override
+	public JSONObject buscarCancionPorGenero(String genero,
+			String nombreUploader)
+			throws SQLException, CancionNoExiste {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
+		try {
+			return new cancionDAO().
+					buscarCancionPorGenero(new cancionVO("", "", "", genero, ""),
+							nombreUploader,
+							c);
+		}
+		catch (Exception e) {
+			throw e;
+		}
+		finally {
+			c.close();
+		}
+	}
 
 	/*
 	 * Pre:  El usuario 'nombreSeguidor' ya existe
@@ -577,6 +596,20 @@ public class ImplementacionFachada implements InterfazFachada {
 		Connection c = FuncionesAuxiliares.obtenerConexion();
 		try {
 			new usuarioDAO().eliminarCuenta(nombreUsuario, c);
+		}
+		catch (Exception e) {
+			throw e;
+		}
+		finally {
+			c.close();
+		}
+	}
+	
+	@Override
+	public JSONObject getGeneros() throws SQLException {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
+		try {
+			return new cancionDAO().getGeneros(c);
 		}
 		catch (Exception e) {
 			throw e;

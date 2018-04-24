@@ -14,38 +14,42 @@ import org.json.simple.JSONObject;
 
 import modelo.FuncionesAuxiliares;
 import modelo.ImplementacionFachada;
-import modelo.excepcion.UsuarioExistente;
 
 /**
- * Servlet que elimina una cuenta del servidor
+ * Servlet que devuelve todas las canciones de un género
  * Recibe:
  * 	-Las cookies de login e idSesion
- * 	-Un parámetro 'pass', que contiene la contraseña del usuario
+ *  -El nombre del género
  * Devuelve:
- * 	-Un JSON vacío si todo ha ido bien
- *  -Un JSON con la clave error si algo ha ido mal
+ *  -Un JSON con la clave canciones, cuyo valor asociado es un array de canciones.
+ *   Cada canción contiene las claves tituloCancion, nombreArtista, nombreAlbum
+ *   y genero
+ *  -Un JSON con la clave "error" si algo ha ido mal
  */
-@WebServlet("/EliminarCuenta")
-public class EliminarCuenta extends HttpServlet {
+@WebServlet("/BuscarCancionGenero")
+public class BuscarCancionGenero extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public EliminarCuenta() {
+    public BuscarCancionGenero() {
         super();
         // TODO Auto-generated constructor stub
     }
 
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// Definición de variables
 		PrintWriter out = response.getWriter();
 		JSONObject obj = new JSONObject();
+		String genero = request.getParameter("genero");
 		Cookie[] c = request.getCookies();
 		String nombreUsuario = FuncionesAuxiliares.obtenerCookie(c, "login");
 		String idSesion = FuncionesAuxiliares.obtenerCookie(c, "idSesion");
-		String pass = request.getParameter("pass");
-		ImplementacionFachada f = new ImplementacionFachada();
 		
 		
 		// Comprobamos que no haya parámetros incorrecto
@@ -56,21 +60,18 @@ public class EliminarCuenta extends HttpServlet {
 			// Respondemos con el fichero JSON
 			out.println(obj.toJSONString());
 		}
-		else if(pass == null) {
+		else if(genero == null) {
 			// Metemos el objeto de error en el JSON
-			obj.put("error", "Contraseña no recibida");
+			obj.put("error", "No se ha especificado género");
 			
 			// Respondemos con el fichero JSON
 			out.println(obj.toJSONString());
 		}
-		else {
+		else{
 			try {
+				ImplementacionFachada f = new ImplementacionFachada();
 				f.existeSesionUsuario(nombreUsuario, idSesion);
-				f.existeUsuario(nombreUsuario,
-						FuncionesAuxiliares.crearHash(pass));
-				f.eliminarCuenta(nombreUsuario);
-				
-				// Respondemos con el fichero JSON vacío
+				obj = f.buscarCancionPorGenero(genero, nombreUsuario);
 				out.println(obj.toJSONString());
 			}
 			catch(Exception e) {

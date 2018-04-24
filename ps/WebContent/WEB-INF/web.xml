@@ -102,4 +102,12 @@
     <servlet-name>CambiarFotoPerfil</servlet-name>
     <servlet-class>CambiarFotoPerfil</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>ObtenerGeneros</servlet-name>
+    <servlet-class>ObtenerGeneros</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>BuscarCancionGenero</servlet-name>
+    <servlet-class>BuscarCancionGenero</servlet-class>
+  </servlet>
 </web-app>

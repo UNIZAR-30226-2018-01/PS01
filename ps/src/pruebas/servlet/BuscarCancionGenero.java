@@ -12,16 +12,16 @@ import java.util.Map;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-public class EliminarCuenta {
+public class BuscarCancionGenero {
 
-	public static void execute(String login, String idSesion, String pass) {
+	public static void execute(String login, String idSesion, String genero) {
 		try {
 			// Creamos las cosas que son necesarias
-			URL url = new URL(Probar.URL_SERVER + "EliminarCuenta");
+			URL url = new URL(Probar.URL_SERVER + "BuscarCancionGenero");
 			Map<String, Object> params = new LinkedHashMap<>();
-			 
+	 
 			// Metemos los parámetros necesarios y los tratamos
-	        params.put("pass", pass);
+	        params.put("genero", genero);
 	        StringBuilder postData = new StringBuilder();
 	        for (Map.Entry<String, Object> param : params.entrySet()) {
 	            if (postData.length() != 0)
@@ -31,7 +31,7 @@ public class EliminarCuenta {
 	            postData.append(URLEncoder.encode(String.valueOf(param.getValue()),
 	                    "UTF-8"));
 	        }
-			
+	        
 	        // Enviamos los parámetros
 	        byte[] postDataBytes = postData.toString().getBytes("UTF-8");
 	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -53,13 +53,13 @@ public class EliminarCuenta {
 	        String error = (String) jsonObject.get("error");
 	        
 	        // Comprobamos los parámetros
-	        System.out.print("EliminarCuenta --> ");
+	        System.out.print("BuscarCancionGenero --> ");
 	        if(error != null) {
 	        	System.out.println(error);
 	        }
 	        else{
 	        	System.out.println("CORRECTO!");
-	        }
+	        } 
 		}
 		catch(MalformedURLException e) {
 			System.out.println("URL no existente");

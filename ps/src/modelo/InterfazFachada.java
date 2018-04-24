@@ -116,6 +116,17 @@ public interface InterfazFachada {
 	public JSONObject buscarCancionPorAlbum(String album,
 			String nombreUploader)
 			throws SQLException, CancionNoExiste;
+	
+	/*
+	 * Pre:
+	 * Post: Comprueba en la BD si existe una canción del album "album".
+	 * 		 Si existe alguna, devuelve un json con una clave canciones, cuyo
+	 * 		 valor asociado será un array en el que cada componente es una
+	 * 		 canción
+	 */
+	public JSONObject buscarCancionPorGenero(String genero,
+			String nombreUploader)
+			throws SQLException, CancionNoExiste;
 
 	/*
 	 * Pre:
@@ -266,4 +277,11 @@ public interface InterfazFachada {
 	 */
 	public void eliminarCuenta(String nombreUsuario)
 			throws SQLException;
+	
+	/*
+	 * Pre:
+	 * Post: Devuelve un JSON con la clave generos, cuyo valor asociado es un
+	 * 		 array de strings que contiene en cada componente un género
+	 */
+	public JSONObject getGeneros() throws SQLException;
 }
