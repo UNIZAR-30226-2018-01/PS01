@@ -2,7 +2,12 @@ package modelo.clasesDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import modelo.clasesVO.reproduccionVO;
 import modelo.excepcion.ExcepcionReproduccion;
 
@@ -36,5 +41,43 @@ public class reproduccionDAO {
 		catch (Exception e) {
 			throw e;
 		}
+	}
+	
+	/*
+	 * Pre:  ---
+	 * Post: Devuelve un JSON con la clave canciones, cuyo valor asociado es
+	 * 		 un array de canciones (claves tituloCancion, nombreArtista, nombreAlbum y
+	 * 		 genero), que se corresponden con las 10 canciones más escuchadas la
+	 * 		 última semana.
+	 * 		 Si algo va mal, lanza una excepción
+	 */
+	public JSONObject topSemanal(Connection c) throws SQLException {
+		// Hacemos la consulta
+		String subQuery1 = "(Select * from Reproduccion where (SELECT "
+						 + "TIMESTAMPDIFF(DAY,fecha,CURRENT_TIMESTAMP))<=7 AND "
+						 + "uploader = 'Admin') ";
+		String subQuery2 = "(SELECT titulo, nombreAlbum, nombreArtista, genero, count(*) AS num "
+						 + "FROM " + subQuery1
+						 + "GROUP BY(titulo,nombreAlbum, nombreArtista)) ";
+		String q = "SELECT * FROM " + subQuery2 
+				 + " ORDER BY (num) DESC limit 10 ";
+		PreparedStatement p = c.prepareStatement(q);
+		ResultSet r = p.executeQuery();
+		
+		// Objetos para devolver el resultado
+		JSONObject obj = new JSONObject();
+		JSONArray array = new JSONArray();
+		r.beforeFirst(); // Movemos el cursor antes del 1er elemento
+		while (r.next()) {
+			JSONObject aux = new JSONObject();
+			aux.put("tituloCancion", r.getString(1));
+			aux.put("nombreArtista", r.getString(2));
+			aux.put("nombreAlbum", r.getString(3));
+			aux.put("genero", r.getString(4));
+			array.add(aux);
+		}
+		obj.put("canciones", array);
+		return obj;
+		
 	}
 }

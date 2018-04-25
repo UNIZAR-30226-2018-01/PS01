@@ -285,4 +285,30 @@ public interface InterfazFachada {
 	 * 		 pertenecientes al servidor o al usuario.
 	 */
 	public JSONObject getGeneros(String user) throws SQLException;
+	
+	/*
+	 * Pre:  ---
+	 * Post: Devuelve un JSON con la clave canciones, cuyo valor asociado es
+	 * 		 un array de canciones (claves tituloCancion, nombreArtista, nombreAlbum y
+	 * 		 genero), que se corresponden con las 10 canciones más escuchadas la
+	 * 		 última semana.
+	 * 		 Si algo va mal, lanza una excepción
+	 */
+	public JSONObject topSemanal() throws SQLException;
+	
+	/*
+	 * Pre:  ---
+	 * Post: Devuelve un JSON con la clave "artistas", cuyo valor asociado
+	 * 		 es un array de strings con todos los artistas que hay en el
+	 * 		 servidor
+	 */
+	public JSONObject getArtistas(String user) throws SQLException;
+	
+	/*
+	 * Pre:  ---
+	 * Post: Devuelve un JSON con la clave "albums", cuyo valor asociado
+	 * 		 es un array de albums. Cada uno de estos albums contiene las
+	 * 		 claves nombre y artista
+	 */
+	public JSONObject getAlbums(String user) throws SQLException;
 }

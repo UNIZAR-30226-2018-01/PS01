@@ -355,8 +355,8 @@ public class cancionDAO {
 	public JSONObject getGeneros(String user, Connection c) throws SQLException {
 		try {
 			// Hacemos la consulta
-			String q = "SELECT genero FROM Cancion WHERE (uploader='Admin' OR "
-					 + "uploader = ?) GROUP BY(genero) "
+			String q = "SELECT DISTINCT genero FROM Cancion "
+					 + "WHERE (uploader='Admin' OR uploader = ?) "
 					 + "ORDER BY(genero);";
 			PreparedStatement p = c.prepareStatement(q);
 			p.setString(1, user);
@@ -370,6 +370,71 @@ public class cancionDAO {
 				array.add(r.getString(1));
 			}
 			obj.put("generos", array);
+			return obj;
+		}
+		catch(Exception e) {
+			throw e;
+		}
+	}
+	
+	/*
+	 * Pre:  ---
+	 * Post: Devuelve un JSON con la clave "artistas", cuyo valor asociado
+	 * 		 es un array de strings con todos los artistas que hay en el
+	 * 		 servidor
+	 */
+	public JSONObject getArtistas(String user, Connection c) throws SQLException {
+		try {
+			// Hacemos la consulta
+			String q = "SELECT DISTINCT nombreArtista FROM Cancion "
+					 + "WHERE (uploader='Admin' OR uploader = ?) "
+					 + "ORDER BY(nombreArtista);";
+			PreparedStatement p = c.prepareStatement(q);
+			p.setString(1, user);
+			ResultSet r = p.executeQuery();
+			
+			// Objetos para devolver el resultado
+			JSONObject obj = new JSONObject();
+			JSONArray array = new JSONArray();
+			r.beforeFirst(); // Movemos el cursor antes del 1er elemento
+			while (r.next()) {
+				array.add(r.getString(1));
+			}
+			obj.put("artistas", array);
+			return obj;
+		}
+		catch(Exception e) {
+			throw e;
+		}
+	}
+	
+	/*
+	 * Pre:  ---
+	 * Post: Devuelve un JSON con la clave "albums", cuyo valor asociado
+	 * 		 es un array de albums. Cada uno de estos albums contiene las
+	 * 		 claves nombre y artista
+	 */
+	public JSONObject getAlbums(String user, Connection c) throws SQLException {
+		try {
+			// Hacemos la consulta
+			String q = "SELECT DISTINCT nombreAlbum, nombreArtista FROM Cancion "
+					 + "WHERE (uploader='Admin' OR uploader = ?) "
+					 + "ORDER BY(nombreAlbum);";
+			PreparedStatement p = c.prepareStatement(q);
+			p.setString(1, user);
+			ResultSet r = p.executeQuery();
+			
+			// Objetos para devolver el resultado
+			JSONObject obj = new JSONObject();
+			JSONArray array = new JSONArray();
+			r.beforeFirst(); // Movemos el cursor antes del 1er elemento
+			while (r.next()) {
+				JSONObject aux = new JSONObject();
+				aux.put("nombre", r.getString(1));
+				aux.put("artista", r.getString(2));
+				array.add(aux);
+			}
+			obj.put("artistas", array);
 			return obj;
 		}
 		catch(Exception e) {

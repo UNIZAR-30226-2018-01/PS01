@@ -69,10 +69,11 @@ CREATE TABLE Reproduccion(
 	titulo varchar(64),
 	nombreAlbum varchar(32),
 	nombreArtista varchar(32),
+	uploader varchar(32),
 	fecha TIMESTAMP default CURRENT_TIMESTAMP,
-	FOREIGN KEY (titulo, nombreAlbum, nombreArtista) REFERENCES Cancion(titulo, nombreArtista, nombreAlbum) ON DELETE CASCADE,
+	FOREIGN KEY (titulo, nombreArtista, nombreAlbum, uploader) REFERENCES Cancion(titulo, nombreArtista, nombreAlbum, uploader) ON DELETE CASCADE,
 	FOREIGN KEY (nombreUsuario) REFERENCES Usuario(nombre) ON DELETE CASCADE,
-	PRIMARY KEY (nombreUsuario, titulo, nombreAlbum, nombreArtista, fecha)
+	PRIMARY KEY (nombreUsuario, titulo, nombreAlbum, nombreArtista, uploader, fecha)
 );
 
 -- Trigger que evite que se borre el usuario Admin

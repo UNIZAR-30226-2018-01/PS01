@@ -5,14 +5,17 @@ public class reproduccionVO {
 	private String tituloCancion;
 	private String nombreAlbum;
 	private String nombreArtista;
+	private String uploader;
 	private String fecha;
 
 	public reproduccionVO(String nombreUsuario, String tituloCancion,
-			String nombreAlbum, String nombreArtista, String fecha){
+			String nombreAlbum, String nombreArtista, String uploader, 
+			String fecha){
 		this.nombreUsuario = nombreUsuario;
 		this.tituloCancion = tituloCancion;
 		this.nombreAlbum = nombreAlbum;
 		this.nombreArtista = nombreArtista;
+		this.uploader = uploader;
 		this.fecha = fecha;
 	}
 
@@ -30,6 +33,10 @@ public class reproduccionVO {
 
 	public String verNombreArtista(){
 		return nombreArtista;
+	}
+	
+	public String verUploader() {
+		return uploader;
 	}
 	
 	public String verFecha() {
@@ -58,5 +65,9 @@ public class reproduccionVO {
 		if (nuevoArtista != null){
 			nombreArtista = nuevoArtista;
 		}
+	}
+	
+	public void modificarUploader(String uploader) {
+		this.uploader = uploader;
 	}
 }

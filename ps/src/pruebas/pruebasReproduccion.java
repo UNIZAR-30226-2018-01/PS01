@@ -10,7 +10,7 @@ import modelo.clasesVO.*;
 import modelo.excepcion.*;
 
 public class pruebasReproduccion {
-	private static reproduccionVO rVO = new reproduccionVO("alberto", "cancion_1", "album_1", "artista_1", "fecha");
+	private static reproduccionVO rVO = new reproduccionVO("alberto", "cancion_1", "album_1", "artista_1", "Admin", "fecha");
 	private static reproduccionDAO rDAO = new reproduccionDAO();
 	private static Connection connection = null;
 	
