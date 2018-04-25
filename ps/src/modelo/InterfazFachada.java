@@ -289,8 +289,8 @@ public interface InterfazFachada {
 	/*
 	 * Pre:  ---
 	 * Post: Devuelve un JSON con la clave canciones, cuyo valor asociado es
-	 * 		 un array de canciones (claves tituloCancion, nombreArtista, nombreAlbum y
-	 * 		 genero), que se corresponden con las 10 canciones más escuchadas la
+	 * 		 un array de canciones (claves tituloCancion, nombreArtista y
+	 * 		 nombreAlbum), que se corresponden con las 10 canciones más escuchadas la
 	 * 		 última semana.
 	 * 		 Si algo va mal, lanza una excepción
 	 */
@@ -311,4 +311,38 @@ public interface InterfazFachada {
 	 * 		 claves nombre y artista
 	 */
 	public JSONObject getAlbums(String user) throws SQLException;
+	
+	/*
+	 * Pre:  ---
+	 * Post: Devuelve un JSON con la clave "albums", cuyo valor asociado
+	 * 		 es un array de strings, en el que cada componente se corresponde
+	 * 		 con el nombre de un album.
+	 */
+	public JSONObject getAlbumsArtista(String artista, String user)
+			throws SQLException;
+	
+	/*
+	 * Pre:  ---
+	 * Post: 
+	 */
+	//public JSONObject buscarListaReproduccion();
+	
+	/*
+	 * Pre:  ---
+	 * Post: Devuelve un JSON con la clave "artistas", cuyo valor asociado
+	 * 		 es un array de strings con todos los artistas obtenidos en la
+	 * 		 búsqueda
+	 */
+	public JSONObject buscarArtista(String artista, String user)
+			throws SQLException;
+	
+	/*
+	 * Pre:  ---
+	 * Post: Devuelve un JSON con la clave "albums", cuyo valor asociado
+	 * 		 es un array de albums. Cada uno de estos albums contiene las
+	 * 		 claves nombre y artista. El nombre de estos albums será o empezará
+	 * 		 por 'album'.
+	 */
+	public JSONObject buscarAlbum(String album, String user)
+			throws SQLException;
 }

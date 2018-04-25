@@ -29,8 +29,13 @@ public class Probar {
 			MostrarListasReproduccion.execute(USER, SESION);
 			VerLista.execute(USER, SESION, LISTA, USER);
 			QuitarCancionDeLista.execute(USER, SESION, CANCION, ARTISTA, ALBUM, LISTA);
-			BorrarListaDeReproduccion.execute(USER, SESION, "Fiesta");
+			BorrarListaDeReproduccion.execute(USER, SESION, LISTA);
 			ObtenerGeneros.execute(USER, SESION);
+			ObtenerArtistas.execute(USER, SESION);
+			ObtenerAlbums.execute(USER, SESION);
+			ObtenerAlbumsArtista.execute(USER, SESION, ARTISTA);
+			BuscarArtista.execute(USER, SESION, ARTISTA);
+			BuscarAlbum.execute(USER, SESION, ALBUM);
 			TopSemanal.execute(USER, SESION);
 			BuscarUsuarios.execute(USER, SESION, "alb");
 			SeguirUsuario.execute(USER2, SESION2, USER);

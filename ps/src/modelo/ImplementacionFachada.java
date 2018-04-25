@@ -660,4 +660,47 @@ public class ImplementacionFachada implements InterfazFachada {
 			c.close();
 		}
 	}
+	
+	@Override
+	public JSONObject getAlbumsArtista(String artista, String user)
+			throws SQLException {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
+		try {
+			return new cancionDAO().getAlbumsArtista(artista, user, c);
+		}
+		catch (Exception e) {
+			throw e;
+		}
+		finally {
+			c.close();
+		}
+	}
+	
+	public JSONObject buscarArtista(String artista, String user)
+			throws SQLException {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
+		try {
+			return new cancionDAO().buscarArtista(artista, user, c);
+		}
+		catch (Exception e) {
+			throw e;
+		}
+		finally {
+			c.close();
+		}
+	}
+	
+	public JSONObject buscarAlbum(String album, String user)
+			throws SQLException {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
+		try {
+			return new cancionDAO().buscarAlbum(album, user, c);
+		}
+		catch (Exception e) {
+			throw e;
+		}
+		finally {
+			c.close();
+		}
+	}
 }

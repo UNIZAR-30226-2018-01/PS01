@@ -104,8 +104,7 @@ public class listaReproduccionDAO {
 	
 	/*
 	 * Pre:
-	 * Post: Ha devuelto un Vector con todas las listas que un usuario ha creado
-	 * 		 y las de los usuarios a los que sigue
+	 * Post: Ha devuelto un JSON con todas las listas que un usuario ha creado
 	 */
 	public JSONObject devolverListas(String nombreUsuario, Connection c)
 			throws SQLException, NoHayListas {

@@ -46,20 +46,25 @@ public class reproduccionDAO {
 	/*
 	 * Pre:  ---
 	 * Post: Devuelve un JSON con la clave canciones, cuyo valor asociado es
-	 * 		 un array de canciones (claves tituloCancion, nombreArtista, nombreAlbum y
-	 * 		 genero), que se corresponden con las 10 canciones más escuchadas la
-	 * 		 última semana.
+	 * 		 un array de canciones (claves tituloCancion, nombreArtista y
+	 * 		 nombreAlbum), que se corresponden con las 10 canciones más
+	 * 		 escuchadas la última semana.
 	 * 		 Si algo va mal, lanza una excepción
 	 */
 	public JSONObject topSemanal(Connection c) throws SQLException {
 		// Hacemos la consulta
-		String subQuery1 = "(Select * from Reproduccion where (SELECT "
-						 + "TIMESTAMPDIFF(DAY,fecha,CURRENT_TIMESTAMP))<=7 AND "
-						 + "uploader = 'Admin') ";
-		String subQuery2 = "(SELECT titulo, nombreAlbum, nombreArtista, genero, count(*) AS num "
+		// Cogemos las reproducciones de canciones del servidor de los
+		// últimos 7 días
+		String subQuery1 = "(Select * from Reproduccion where "
+						 + "TIMESTAMPDIFF(DAY,fecha,CURRENT_TIMESTAMP)<=7 AND "
+						 + "uploader = 'Admin') q1 ";
+		// Contamos el número de reproducciones de esas canciones
+		String subQuery2 = "(SELECT *, count(*) AS num "
 						 + "FROM " + subQuery1
-						 + "GROUP BY(titulo,nombreAlbum, nombreArtista)) ";
-		String q = "SELECT * FROM " + subQuery2 
+						 + "GROUP BY titulo,nombreAlbum,nombreArtista) q2 ";
+		// Nos quedamos con las 10 canciones más escuchadas
+		String q = "SELECT q2.titulo, q2.nombreAlbum, q2.nombreArtista "
+				 + "FROM " + subQuery2 
 				 + " ORDER BY (num) DESC limit 10 ";
 		PreparedStatement p = c.prepareStatement(q);
 		ResultSet r = p.executeQuery();

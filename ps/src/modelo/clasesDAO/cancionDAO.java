@@ -434,7 +434,113 @@ public class cancionDAO {
 				aux.put("artista", r.getString(2));
 				array.add(aux);
 			}
+			obj.put("albums", array);
+			return obj;
+		}
+		catch(Exception e) {
+			throw e;
+		}
+	}
+	
+	/*
+	 * Pre:  ---
+	 * Post: Devuelve un JSON con la clave "albums", cuyo valor asociado
+	 * 		 es un array de strings, en el que cada componente se corresponde
+	 * 		 con el nombre de un album.
+	 */
+	public JSONObject getAlbumsArtista(String artista, String user, Connection c)
+			throws SQLException {
+		try {
+			// Hacemos la consulta
+			String q = "SELECT DISTINCT nombreAlbum FROM Cancion "
+					 + "WHERE (uploader='Admin' OR uploader = ?) AND "
+					 + "nombreArtista = ? "
+					 + "ORDER BY(nombreAlbum);";
+			PreparedStatement p = c.prepareStatement(q);
+			p.setString(1, user);
+			p.setString(2, artista);
+			ResultSet r = p.executeQuery();
+			
+			// Objetos para devolver el resultado
+			JSONObject obj = new JSONObject();
+			JSONArray array = new JSONArray();
+			r.beforeFirst(); // Movemos el cursor antes del 1er elemento
+			while (r.next()) {
+				array.add(r.getString(1));
+			}
+			obj.put("albums", array);
+			return obj;
+		}
+		catch(Exception e) {
+			throw e;
+		}
+	}
+	
+	/*
+	 * Pre:  ---
+	 * Post: Devuelve un JSON con la clave "artistas", cuyo valor asociado
+	 * 		 es un array de strings con todos los artistas obtenidos en la
+	 * 		 búsqueda
+	 */
+	public JSONObject buscarArtista(String artista, 
+			String user, Connection c) throws SQLException {
+		try {
+			// Hacemos la consulta
+			String q = "SELECT DISTINCT nombreArtista FROM Cancion "
+					 + "WHERE (uploader='Admin' OR uploader = ?) AND "
+					 + "nombreArtista LIKE ? "
+					 + "ORDER BY(nombreArtista);";
+			PreparedStatement p = c.prepareStatement(q);
+			p.setString(1, user);
+			p.setString(2, artista+"%");
+			ResultSet r = p.executeQuery();
+			
+			// Objetos para devolver el resultado
+			JSONObject obj = new JSONObject();
+			JSONArray array = new JSONArray();
+			r.beforeFirst(); // Movemos el cursor antes del 1er elemento
+			while (r.next()) {
+				array.add(r.getString(1));
+			}
 			obj.put("artistas", array);
+			return obj;
+		}
+		catch(Exception e) {
+			throw e;
+		}
+	}
+	
+	/*
+	 * Pre:  ---
+	 * Post: Devuelve un JSON con la clave "albums", cuyo valor asociado
+	 * 		 es un array de albums. Cada uno de estos albums contiene las
+	 * 		 claves nombre y artista. El nombre de estos albums será o empezará
+	 * 		 por 'album'.
+	 */
+	public JSONObject buscarAlbum(String album, String user,
+			Connection c) throws SQLException {
+		try {
+			// Hacemos la consulta
+			String q = "SELECT DISTINCT nombreAlbum, nombreArtista FROM Cancion "
+					 + "WHERE (uploader='Admin' OR uploader = ?) AND "
+					 + "nombreAlbum LIKE ? "
+					 + "ORDER BY(nombreAlbum);";
+			PreparedStatement p = c.prepareStatement(q);
+			p.setString(1, user);
+			p.setString(2, album+"%");
+			ResultSet r = p.executeQuery();
+			
+			// Objetos para devolver el resultado
+			JSONObject obj = new JSONObject();
+			JSONArray array = new JSONArray();
+			r.beforeFirst(); // Movemos el cursor antes del 1er elemento
+			while (r.next()) {
+				JSONObject aux = new JSONObject();
+				aux.put("nombre", r.getString(1));
+				aux.put("artista", r.getString(2));
+				array.add(aux);
+			}
+			obj.put("albums", array);
 			return obj;
 		}
 		catch(Exception e) {

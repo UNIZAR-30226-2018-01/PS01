@@ -110,4 +110,28 @@
     <servlet-name>BuscarCancionGenero</servlet-name>
     <servlet-class>BuscarCancionGenero</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>TopSemanal</servlet-name>
+    <servlet-class>TopSemanal</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ObtenerArtistas</servlet-name>
+    <servlet-class>ObtenerArtistas</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ObtenerAlbums</servlet-name>
+    <servlet-class>ObtenerAlbums</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ObtenerAlbumsArtista</servlet-name>
+    <servlet-class>ObtenerAlbumsArtista</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>BuscarAlbum</servlet-name>
+    <servlet-class>BuscarAlbum</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>BuscarArtista</servlet-name>
+    <servlet-class>BuscarArtista</servlet-class>
+  </servlet>
 </web-app>

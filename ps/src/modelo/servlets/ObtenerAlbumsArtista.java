@@ -2,37 +2,35 @@ package modelo.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.json.simple.JSONObject;
-
 import modelo.FuncionesAuxiliares;
 import modelo.ImplementacionFachada;
 
 /**
- * Servlet que devuelve las 10 canciones más escuchadas la última semana
+ * Servlet que, dado un artista, devuelve todos sus albums
  * Recibe:
  * 	-Las cookies de login e idSesion
+ * 	-El parámetro "artista"
  * Devuelve:
- * 	-Si ha ido bien, un JSON con la clave "canciones", cuyo valor asociado es
- * 	 un array de canciones. Cada una de estas canciones tiene las claves
- * 	 tituloCancion, nombreArtista y nombreAlbum
- *  -Si ha ido mal, un JSON con la clave "error".
+ * 	-Un JSON con la clave "albums", cuyo valor asociado es un array de strings
+ * 	 en el que cada componente se corresponde con el nombre de un album del
+ *   artista
+ *  -Un JSON con la clave "error" si algo ha ido mal
  */
-@WebServlet("/TopSemanal")
-public class TopSemanal extends HttpServlet {
+@WebServlet("/ObtenerAlbumsArtista")
+public class ObtenerAlbumsArtista extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public TopSemanal() {
+    public ObtenerAlbumsArtista() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -45,6 +43,7 @@ public class TopSemanal extends HttpServlet {
 		Cookie[] c = request.getCookies();
 		String nombreUsuario = FuncionesAuxiliares.obtenerCookie(c, "login");
 		String idSesion = FuncionesAuxiliares.obtenerCookie(c, "idSesion");
+		String artista = request.getParameter("artista");
 		ImplementacionFachada f = new ImplementacionFachada();
 		
 		
@@ -56,10 +55,17 @@ public class TopSemanal extends HttpServlet {
 			// Respondemos con el fichero JSON
 			out.println(obj.toJSONString());
 		}
+		else if(artista == null) {
+			// Metemos el objeto de error en el JSON
+			obj.put("error", "Artista no recibido");
+			
+			// Respondemos con el fichero JSON
+			out.println(obj.toJSONString());
+		}
 		else {
 			try {
 				f.existeSesionUsuario(nombreUsuario, idSesion);
-				obj = f.topSemanal();
+				obj = f.getAlbumsArtista(artista, nombreUsuario);
 				out.println(obj.toJSONString());
 			}
 			catch(Exception e) {
@@ -71,4 +77,5 @@ public class TopSemanal extends HttpServlet {
 			}
 		}
 	}
+
 }
