@@ -18,9 +18,7 @@ public class BorrarListaDeReproduccion {
 			URL url = new URL(Probar.URL_SERVER + "BorrarListaDeReproduccion");
 			Map<String, Object> params = new LinkedHashMap<>();
 			
-			params.put("login", login);
-			params.put("idSesion", idSesion);
-			params.put("seguido", lista);
+			params.put("nombreLista", lista);
 			StringBuilder postData = new StringBuilder();
 	        for (Map.Entry<String, Object> param : params.entrySet()) {
 	            if (postData.length() != 0)
@@ -41,25 +39,18 @@ public class BorrarListaDeReproduccion {
 	        conn.setRequestProperty("Cookie", "login=" + login +
 					"; idSesion=" + idSesion);
 	        conn.getOutputStream().write(postDataBytes);
+	        
 	        // Leemos los parámetros
 	        InputStream response = conn.getInputStream();
 	        JSONParser jsonParser = new JSONParser();
 	        JSONObject jsonObject = (JSONObject)jsonParser.parse(
 	        	      new InputStreamReader(response, "UTF-8"));
 	        String error = (String) jsonObject.get("error");
-	        String YaSeguido = (String) jsonObject.get("ListaNoExiste");
-	        String SesionInexistente = (String) jsonObject.get("SesionInexistente");
 	        
 	        // Comprobamos los parámetros
 	        System.out.print("BorrarListaDeReproduccion --> ");
 	        if(error != null) {
 	        	System.out.println(error);
-	        }
-	        else if (YaSeguido != null) {
-	        	System.out.println(YaSeguido);
-	        }
-	        else if (SesionInexistente != null) {
-	        	System.out.println(SesionInexistente);
 	        }
 	        else{
 	        	System.out.println("CORRECTO!");

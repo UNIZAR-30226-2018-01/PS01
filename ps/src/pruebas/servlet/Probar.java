@@ -30,6 +30,7 @@ public class Probar {
 			VerLista.execute(USER, SESION, LISTA, USER);
 			QuitarCancionDeLista.execute(USER, SESION, CANCION, ARTISTA, ALBUM, LISTA);
 			BorrarListaDeReproduccion.execute(USER, SESION, "Fiesta");
+			ObtenerGeneros.execute(USER, SESION);
 			BuscarUsuarios.execute(USER, SESION, "alb");
 			SeguirUsuario.execute(USER2, SESION2, USER);
 			SeguirUsuario.execute(USER, SESION, USER2);

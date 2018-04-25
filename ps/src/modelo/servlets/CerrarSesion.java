@@ -49,15 +49,7 @@ public class CerrarSesion extends HttpServlet {
 				f.cerrarSesion(nombreUsuario, idSesion);
 				out.println(obj.toJSONString());
 			}
-			catch(SesionInexistente e) {
-				// Metemos el objeto de error en el JSON
-				obj.put("error", e.toString());
-				
-				// Respondemos con el fichero JSON
-				out.println(obj.toJSONString());
-			}
-			catch(SQLException e){
-				e.printStackTrace();
+			catch(Exception e) {
 				// Metemos el objeto de error en el JSON
 				obj.put("error", e.toString());
 				

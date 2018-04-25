@@ -352,12 +352,14 @@ public class cancionDAO {
 	 * Post: Devuelve un JSON con la clave generos, cuyo valor asociado es un
 	 * 		 array de strings que contiene en cada componente un género
 	 */
-	public JSONObject getGeneros(Connection c) throws SQLException {
+	public JSONObject getGeneros(String user, Connection c) throws SQLException {
 		try {
 			// Hacemos la consulta
-			String q = "SELECT genero FROM CANCION GROUP BY(genero) "
+			String q = "SELECT genero FROM Cancion WHERE (uploader='Admin' OR "
+					 + "uploader = ?) GROUP BY(genero) "
 					 + "ORDER BY(genero);";
 			PreparedStatement p = c.prepareStatement(q);
+			p.setString(1, user);
 			ResultSet r = p.executeQuery();
 			
 			// Objetos para devolver el resultado

@@ -2,7 +2,6 @@ package modelo.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,7 +13,6 @@ import org.json.simple.JSONObject;
 import modelo.FuncionesAuxiliares;
 import modelo.ImplementacionFachada;
 import modelo.clasesVO.listaReproduccionVO;
-import modelo.excepcion.*;
 
 /*
  * Servlet que crea una lista de reproducción para un determinado usuario.
@@ -65,24 +63,9 @@ public class CrearListaDeReproduccion extends HttpServlet {
 				f.crearListaDeReproduccion(new listaReproduccionVO(nombreLista, nombreUsuario));
 				out.println(obj.toJSONString());
 			}
-			catch(SesionInexistente e) {
-				// Metemos el objeto de error en el JSON
-				obj.put("error", "Usuario no logeado en el servidor");
-				
-				// Respondemos con el fichero JSON
-				out.println(obj.toJSONString());
-			}
-			catch (ListaYaExiste l) {
+			catch (Exception l) {
 				obj.put("error", l.toString());
 
-				// Respondemos con el fichero JSON
-				out.println(obj.toJSONString());
-			}
-			catch(SQLException e){
-				e.printStackTrace();
-				// Metemos el objeto de error en el JSON
-				obj.put("error", "Error SQL en el servidor");
-				
 				// Respondemos con el fichero JSON
 				out.println(obj.toJSONString());
 			}

@@ -606,10 +606,10 @@ public class ImplementacionFachada implements InterfazFachada {
 	}
 	
 	@Override
-	public JSONObject getGeneros() throws SQLException {
+	public JSONObject getGeneros(String user) throws SQLException {
 		Connection c = FuncionesAuxiliares.obtenerConexion();
 		try {
-			return new cancionDAO().getGeneros(c);
+			return new cancionDAO().getGeneros(user, c);
 		}
 		catch (Exception e) {
 			throw e;

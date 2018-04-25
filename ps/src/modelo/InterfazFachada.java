@@ -281,7 +281,8 @@ public interface InterfazFachada {
 	/*
 	 * Pre:
 	 * Post: Devuelve un JSON con la clave generos, cuyo valor asociado es un
-	 * 		 array de strings que contiene en cada componente un género
+	 * 		 array de strings que contiene en cada componente un género de los
+	 * 		 pertenecientes al servidor o al usuario.
 	 */
-	public JSONObject getGeneros() throws SQLException;
+	public JSONObject getGeneros(String user) throws SQLException;
 }

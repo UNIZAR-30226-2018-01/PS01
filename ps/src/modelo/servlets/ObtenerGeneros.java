@@ -58,7 +58,7 @@ public class ObtenerGeneros extends HttpServlet {
 			try {
 				ImplementacionFachada f = new ImplementacionFachada();
 				f.existeSesionUsuario(nombreUsuario, idSesion);
-				obj = f.getGeneros();
+				obj = f.getGeneros(nombreUsuario);
 				out.println(obj.toJSONString());
 			}
 			catch(Exception e) {
