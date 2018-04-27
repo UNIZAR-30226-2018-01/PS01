@@ -43,6 +43,34 @@ public class AnyadirCancionALista extends HttpServlet {
 			// Respondemos con el fichero JSON
 			out.println(obj.toJSONString());
 		}
+		else if (tituloCancion == null) {
+			// Metemos el objeto de error en el JSON
+			obj.put("error", "Título de canción no válido");
+			
+			// Respondemos con el fichero JSON
+			out.println(obj.toJSONString());
+		}
+		else if (nombreArtista == null) {
+			// Metemos el objeto de error en el JSON
+			obj.put("error", "Nombre de artista no válido");
+			
+			// Respondemos con el fichero JSON
+			out.println(obj.toJSONString());
+		}
+		else if (nombreAlbum == null) {
+			// Metemos el objeto de error en el JSON
+			obj.put("error", "Nombre de álbum no válido");
+			
+			// Respondemos con el fichero JSON
+			out.println(obj.toJSONString());
+		}
+		else if (nombreLista == null) {
+			// Metemos el objeto de error en el JSON
+			obj.put("error", "Nombre de lista no válido");
+			
+			// Respondemos con el fichero JSON
+			out.println(obj.toJSONString());
+		}
 		else {
 			try {
 				ImplementacionFachada f = new ImplementacionFachada();

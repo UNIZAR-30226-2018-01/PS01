@@ -13,6 +13,8 @@ import modelo.clasesVO.listaReproduccionVO;
 import modelo.excepcion.ListaNoExiste;
 import modelo.excepcion.ListaYaExiste;
 import modelo.excepcion.NoHayListas;
+import modelo.excepcion.SinCoincidenciasListas;
+import modelo.excepcion.UsuarioInexistente;
 
 public class listaReproduccionDAO {
 	/*
@@ -109,6 +111,7 @@ public class listaReproduccionDAO {
 	public JSONObject devolverListas(String nombreUsuario, Connection c)
 			throws SQLException, NoHayListas {
 		try {
+			// Preparamos la consulta
 			String s = "SELECT * "
 					 + "FROM ListaReproduccion "
 					 + "WHERE nombreUsuario = ?;";
@@ -124,6 +127,41 @@ public class listaReproduccionDAO {
 			// Obtenemos y devolvemos el nombre de las listas
 			return FuncionesAuxiliares.
 							obtenerValorColumna(r, "nombre");
+		}
+		catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	public JSONObject buscarLista(String lista, Connection c)
+			throws SQLException, SinCoincidenciasListas {
+		try {
+			// Preparamos la consulta
+			String s = "SELECT * "
+					 + "FROM ListaReproduccion "
+					 + "WHERE nombre LIKE ?";
+			
+			PreparedStatement p = c.prepareStatement(s);
+			p.setString(1, "%" + lista + "%");
+			
+			// Hacemos la consulta			
+			ResultSet r = p.executeQuery();
+			
+			//No ha habido resultados
+			if(!r.first()) {
+				throw new SinCoincidenciasListas("No hay ninguna lista cuyo nombre "
+						+ "coincida con " + lista);
+			}
+			
+			// Generamos el JSON
+			JSONObject obj = new JSONObject();
+			JSONArray array = new JSONArray();
+			r.beforeFirst(); // Movemos el cursor antes del 1er elemento
+			while (r.next()) {
+				array.add(r.getString(1));
+			}
+			obj.put("busquedaListas", array);
+			return obj;
 		}
 		catch (Exception e) {
 			throw e;

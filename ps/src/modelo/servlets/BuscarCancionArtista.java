@@ -60,14 +60,14 @@ public class BuscarCancionArtista extends HttpServlet {
 			}
 			catch(SesionInexistente e) {
 				// Metemos el objeto de error en el JSON
-				obj.put("error", "Usuario no logeado en el servidor");
+				obj.put("error", e.toString());
 				
 				// Respondemos con el fichero JSON
 				out.println(obj.toJSONString());
 			}
 			catch (CancionNoExiste e) {
 				// Metemos un array vacío en el JSON
-				obj.put("CancionInexistente", "La canción buscada no existe");
+				obj.put("CancionInexistente", e.toString());
 				
 				// Respondemos con el fichero JSON
 				out.println(obj.toJSONString());
@@ -75,7 +75,7 @@ public class BuscarCancionArtista extends HttpServlet {
 			catch(SQLException e){
 				e.printStackTrace();
 				// Metemos el objeto de error en el JSON
-				obj.put("error", "Error SQL en el servidor");
+				obj.put("error", e.toString());
 				
 				// Respondemos con el fichero JSON
 				out.println(obj.toJSONString());

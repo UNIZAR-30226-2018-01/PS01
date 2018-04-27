@@ -16,36 +16,20 @@ import modelo.FuncionesAuxiliares;
 import modelo.ImplementacionFachada;
 
 /**
- * Servlet que devuelve las 10 canciones más escuchadas la última semana
- * Recibe:
- * 	-Las cookies de login e idSesion
- * Devuelve:
- * 	-Si ha ido bien, un JSON con la clave "canciones", cuyo valor asociado es
- * 	 un array de canciones. Cada una de estas canciones tiene las claves
- * 	 tituloCancion, nombreArtista y nombreAlbum
- *  -Si ha ido mal, un JSON con la clave "error".
+ * Servlet implementation class BuscarLista
  */
-@WebServlet("/TopSemanal")
-public class TopSemanal extends HttpServlet {
+@WebServlet("/BuscarLista")
+public class BuscarLista extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public TopSemanal() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// Definición de variables
 		PrintWriter out = response.getWriter();
 		JSONObject obj = new JSONObject();
 		Cookie[] c = request.getCookies();
 		String nombreUsuario = FuncionesAuxiliares.obtenerCookie(c, "login");
 		String idSesion = FuncionesAuxiliares.obtenerCookie(c, "idSesion");
-		ImplementacionFachada f = new ImplementacionFachada();
+		String lista = request.getParameter("nuevoNombre");
 		
 		// Comprobamos que no haya parámetros incorrecto
 		if (nombreUsuario == null || idSesion == null){
@@ -55,10 +39,14 @@ public class TopSemanal extends HttpServlet {
 			// Respondemos con el fichero JSON
 			out.println(obj.toJSONString());
 		}
+		else if (lista == null) {
+			obj.put("error", "Nombre de lista para la búsqueda no válido");
+		}
 		else {
 			try {
+				ImplementacionFachada f = new ImplementacionFachada();
 				f.existeSesionUsuario(nombreUsuario, idSesion);
-				obj = f.topSemanal();
+				obj = f.buscarLista(lista);
 				out.println(obj.toJSONString());
 			}
 			catch(Exception e) {

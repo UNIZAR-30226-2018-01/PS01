@@ -703,4 +703,17 @@ public class ImplementacionFachada implements InterfazFachada {
 			c.close();
 		}
 	}
+	
+	public JSONObject buscarLista(String lista) throws SQLException, SinCoincidenciasListas {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
+		try {
+			return new listaReproduccionDAO().buscarLista(lista, c);
+		}
+		catch (Exception e) {
+			throw e;
+		}
+		finally {
+			c.close();
+		}
+	}
 }

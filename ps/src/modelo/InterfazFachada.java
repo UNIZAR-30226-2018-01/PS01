@@ -323,12 +323,6 @@ public interface InterfazFachada {
 	
 	/*
 	 * Pre:  ---
-	 * Post: 
-	 */
-	//public JSONObject buscarListaReproduccion();
-	
-	/*
-	 * Pre:  ---
 	 * Post: Devuelve un JSON con la clave "artistas", cuyo valor asociado
 	 * 		 es un array de strings con todos los artistas obtenidos en la
 	 * 		 búsqueda
@@ -345,4 +339,13 @@ public interface InterfazFachada {
 	 */
 	public JSONObject buscarAlbum(String album, String user)
 			throws SQLException;
+	
+	/*
+	 * Pre:	 ---
+	 * Post: Devuelve un JSON con la clave "busquedaListas", cuyo valor asociado
+	 * 		 es un array de listas de reproducción que contienen el nombre de la
+	 * 		 lista y de su creador.
+	 */
+	public JSONObject buscarLista(String lista)
+			throws SQLException, SinCoincidenciasListas;
 }
