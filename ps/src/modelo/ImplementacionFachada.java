@@ -729,4 +729,18 @@ public class ImplementacionFachada implements InterfazFachada {
 			c.close();
 		}
 	}
+	
+	public void cambiarNombreLista(listaReproduccionVO listaVieja, String nombreNuevo) 
+			throws SQLException, ListaNoExiste {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
+		try {
+			new listaReproduccionDAO().cambiarNombreLista(listaVieja, nombreNuevo, c);
+		}
+		catch (Exception e) {
+			throw e;
+		}
+		finally {
+			c.close();
+		}
+	}
 }

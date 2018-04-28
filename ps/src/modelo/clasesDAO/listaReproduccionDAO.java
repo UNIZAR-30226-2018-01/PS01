@@ -167,4 +167,32 @@ public class listaReproduccionDAO {
 			throw e;
 		}
 	}
+	
+	/*
+	 * Pre: ---
+	 * Post: Cambia el nombre actual de una lista de reproducción por 'nombreNuevo' si y solo si
+	 * 		 la lista ya existe (lo cuál incluye que el usuario exista), de lo contrario, lanza
+	 * 		 una excepción 'ListaNoExiste'.
+	 */
+	public void cambiarNombreLista(listaReproduccionVO listaVieja, String nombreNuevo, Connection c)
+			throws SQLException, ListaNoExiste {
+		try {
+			if (!existeLista(listaVieja, c)) {
+				throw new ListaNoExiste("La lista " + listaVieja.obtenerNombreLista() + " no existe.");
+			}
+			else {
+				String s = "UPDATE ListaReproduccion SET nombre = ? "
+						 + "WHERE nombre = ? AND "
+						 + "nombreUsuario = ?;";
+				PreparedStatement p = c.prepareStatement(s);
+				p.setString(1, nombreNuevo);
+				p.setString(2, listaVieja.obtenerNombreLista());
+				p.setString(3, listaVieja.obtenerNombreUsuario());
+				p.executeUpdate();
+			}
+		}
+		catch (Exception e) {
+			throw e;
+		}
+	}
 }

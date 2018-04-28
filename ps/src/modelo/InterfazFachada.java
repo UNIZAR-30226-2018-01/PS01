@@ -358,4 +358,13 @@ public interface InterfazFachada {
 	 * 		 Si algo va mal, lanza una excepción
 	 */
 	public JSONObject recientes(String usuario) throws SQLException;
+	
+	/*
+	 * Pre: ---
+	 * Post: Cambia el nombre actual de una lista de reproducción por 'nombreNuevo' si y solo si
+	 * 		 la lista ya existe (lo cuál incluye que el usuario exista), de lo contrario, lanza
+	 * 		 una excepción 'ListaNoExiste'.
+	 */
+	public void cambiarNombreLista(listaReproduccionVO listaVieja, String nombreNuevo) 
+			throws SQLException, ListaNoExiste;
 }
