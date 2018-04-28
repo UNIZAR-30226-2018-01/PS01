@@ -37,6 +37,7 @@ public class Probar {
 			BuscarArtista.execute(USER, SESION, ARTISTA);
 			BuscarAlbum.execute(USER, SESION, ALBUM);
 			TopSemanal.execute(USER, SESION);
+			EscuchadasRecientemente.execute(USER, SESION);
 			BuscarUsuarios.execute(USER, SESION, "alb");
 			SeguirUsuario.execute(USER2, SESION2, USER);
 			SeguirUsuario.execute(USER, SESION, USER2);
@@ -47,7 +48,8 @@ public class Probar {
 			//ReproducirCancion.execute(USER, SESION, "Deltoya", "Extremoduro", "Iros todos a tomar por culo");
 			CerrarSesion.execute(USER, SESION);
 			CambiarContrasenya.execute(USER2, SESION2, PASS2, "Albertro2", "Albertro2");
-			EliminarCuenta.execute(USER2, SESION2, "Albertro2");
+			CambiarNombre.execute(USER2, SESION2, "Paquito");
+			EliminarCuenta.execute("Paquito", SESION2, "Albertro2");
 		}
 		catch(Exception e) {
 			e.printStackTrace();

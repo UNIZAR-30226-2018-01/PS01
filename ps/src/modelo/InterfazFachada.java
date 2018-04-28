@@ -348,4 +348,14 @@ public interface InterfazFachada {
 	 */
 	public JSONObject buscarLista(String lista)
 			throws SQLException, SinCoincidenciasListas;
+	
+	/*
+	 * Pre:  ---
+	 * Post: Devuelve un JSON con la clave canciones, cuyo valor asociado es
+	 * 		 un array de canciones (claves tituloCancion, nombreArtista y
+	 * 		 nombreAlbum), que se corresponden con las últimas 10 canciones
+	 * 		 que el usuario 'usuario' ha escuchado
+	 * 		 Si algo va mal, lanza una excepción
+	 */
+	public JSONObject recientes(String usuario) throws SQLException;
 }

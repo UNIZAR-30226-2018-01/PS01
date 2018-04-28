@@ -78,11 +78,45 @@ public class reproduccionDAO {
 			aux.put("tituloCancion", r.getString(1));
 			aux.put("nombreArtista", r.getString(2));
 			aux.put("nombreAlbum", r.getString(3));
-			aux.put("genero", r.getString(4));
 			array.add(aux);
 		}
 		obj.put("canciones", array);
 		return obj;
 		
+	}
+	
+	/*
+	 * Pre:  ---
+	 * Post: Devuelve un JSON con la clave canciones, cuyo valor asociado es
+	 * 		 un array de canciones (claves tituloCancion, nombreArtista y
+	 * 		 nombreAlbum), que se corresponden con las últimas 10 canciones
+	 * 		 que el usuario 'usuario' ha escuchado
+	 * 		 Si algo va mal, lanza una excepción
+	 */
+	public JSONObject escuchadasRecientemente(String usuario, Connection c) 
+			throws SQLException {
+		// Hacmos la consulta
+		String q = "Select titulo, nombreArtista, nombreAlbum "
+				 + "from Reproduccion "
+				 + "where nombreUsuario = ? "
+				 + "ORDER BY fecha DESC "
+				 + "limit 10;";
+		PreparedStatement p = c.prepareStatement(q);
+		p.setString(1, usuario);
+		ResultSet r = p.executeQuery();
+		
+		// Objetos para devolver el resultado
+		JSONObject obj = new JSONObject();
+		JSONArray array = new JSONArray();
+		r.beforeFirst(); // Movemos el cursor antes del 1er elemento
+		while (r.next()) {
+			JSONObject aux = new JSONObject();
+			aux.put("tituloCancion", r.getString(1));
+			aux.put("nombreArtista", r.getString(2));
+			aux.put("nombreAlbum", r.getString(3));
+			array.add(aux);
+		}
+		obj.put("canciones", array);
+		return obj;
 	}
 }

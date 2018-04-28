@@ -716,4 +716,17 @@ public class ImplementacionFachada implements InterfazFachada {
 			c.close();
 		}
 	}
+	
+	public JSONObject recientes(String usuario) throws SQLException {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
+		try {
+			return new reproduccionDAO().escuchadasRecientemente(usuario, c);
+		}
+		catch (Exception e) {
+			throw e;
+		}
+		finally {
+			c.close();
+		}
+	}
 }
