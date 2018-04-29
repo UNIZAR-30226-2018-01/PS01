@@ -717,12 +717,38 @@ public class ImplementacionFachada implements InterfazFachada {
 			c.close();
 		}
 	}
-	
+
+	public JSONObject buscarLista(String lista) throws SQLException, SinCoincidenciasListas {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
+		try {
+			return new listaReproduccionDAO().buscarLista(lista, c);
+		}
+		catch (Exception e) {
+			throw e;
+		}
+		finally {
+			c.close();
+		}
+	}
+
 	public void eliminarComparticion(compartirVO cancion)
 			throws SQLException {
 		Connection c = FuncionesAuxiliares.obtenerConexion();
 		try {
 			new compartirDAO().eliminarComparticion(cancion, c);
+		}
+		catch (Exception e) {
+			throw e;
+		}
+		finally {
+			c.close();
+		}
+	}
+
+	public JSONObject recientes(String usuario) throws SQLException {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
+		try {
+			return new reproduccionDAO().escuchadasRecientemente(usuario, c);
 		}
 		catch (Exception e) {
 			throw e;
@@ -737,6 +763,20 @@ public class ImplementacionFachada implements InterfazFachada {
 		Connection c = FuncionesAuxiliares.obtenerConexion();
 		try {
 			return new compartirDAO().devolverCompartidas(usuarioDestino, c);
+		}
+		catch (Exception e) {
+			throw e;
+		}
+		finally {
+			c.close();
+		}
+	}
+
+	public void cambiarNombreLista(listaReproduccionVO listaVieja, String nombreNuevo) 
+			throws SQLException, ListaNoExiste {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
+		try {
+			new listaReproduccionDAO().cambiarNombreLista(listaVieja, nombreNuevo, c);
 		}
 		catch (Exception e) {
 			throw e;

@@ -126,13 +126,12 @@ public class SubirCanciones extends HttpServlet {
 				}
 				catch(SesionInexistente e) {
 					// Metemos el objeto de error en el JSON
-					obj.put("error", "Usuario no logeado en el servidor");
+					obj.put("error", e.toString());
 					
 					// Respondemos con el fichero JSON
 					out.println(obj.toJSONString());
 				}
 				catch (CancionYaExiste c) {
-					System.out.println("Excepción CancionYaExiste");
 					// Metemos un array vacío en el JSON
 					obj.put("CancionYaExiste", c.toString());
 					

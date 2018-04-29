@@ -47,7 +47,6 @@ public class TopSemanal extends HttpServlet {
 		String idSesion = FuncionesAuxiliares.obtenerCookie(c, "idSesion");
 		ImplementacionFachada f = new ImplementacionFachada();
 		
-		
 		// Comprobamos que no haya parámetros incorrecto
 		if (nombreUsuario == null || idSesion == null){
 			// Metemos el objeto de error en el JSON

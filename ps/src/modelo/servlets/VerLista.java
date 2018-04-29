@@ -46,6 +46,20 @@ public class VerLista extends HttpServlet {
 			// Respondemos con el fichero JSON
 			out.println(obj.toJSONString());
 		}
+		else if (nombreLista == null) {
+			// Metemos el objeto de error en el JSON
+			obj.put("error", "Nombre de lista no válido");
+			
+			// Respondemos con el fichero JSON
+			out.println(obj.toJSONString());			
+		}
+		else if (creadorLista == null) {
+			// Metemos el objeto de error en el JSON
+			obj.put("error", "Creador de lista no válido");
+			
+			// Respondemos con el fichero JSON
+			out.println(obj.toJSONString());			
+		}
 		else{
 			try{
 				ImplementacionFachada f = new ImplementacionFachada();
@@ -55,7 +69,7 @@ public class VerLista extends HttpServlet {
 			}
 			catch(SesionInexistente e) {
 				// Metemos el objeto de error en el JSON
-				obj.put("error", "Usuario no logeado en el servidor");
+				obj.put("error", e.toString());
 				
 				// Respondemos con el fichero JSON
 				out.println(obj.toJSONString());
@@ -69,7 +83,7 @@ public class VerLista extends HttpServlet {
 			catch(SQLException e){
 				e.printStackTrace();
 				// Metemos el objeto de error en el JSON
-				obj.put("error", "Error SQL en el servidor");
+				obj.put("error", e.toString());
 				
 				// Respondemos con el fichero JSON
 				out.println(obj.toJSONString());

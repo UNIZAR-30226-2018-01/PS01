@@ -74,7 +74,7 @@ public class IniciarSesion extends HttpServlet {
 			catch(SQLException e){
 				e.printStackTrace();
 				// Metemos el objeto de error en el JSON
-				obj.put("error", "Error SQL en el servidor");
+				obj.put("error", e.toString());
 				
 				// Respondemos con el fichero JSON
 				out.println(obj.toJSONString());

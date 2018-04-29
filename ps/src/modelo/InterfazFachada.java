@@ -323,12 +323,6 @@ public interface InterfazFachada {
 	
 	/*
 	 * Pre:  ---
-	 * Post: 
-	 */
-	//public JSONObject buscarListaReproduccion();
-	
-	/*
-	 * Pre:  ---
 	 * Post: Devuelve un JSON con la clave "artistas", cuyo valor asociado
 	 * 		 es un array de strings con todos los artistas obtenidos en la
 	 * 		 búsqueda
@@ -354,4 +348,31 @@ public interface InterfazFachada {
 	
 	public JSONObject devolverCompartidas(String usuarioDestino)
 			throws SQLException, SinCompartidas;
+	/*
+	 * Pre:	 ---
+	 * Post: Devuelve un JSON con la clave "busquedaListas", cuyo valor asociado
+	 * 		 es un array de listas de reproducción que contienen el nombre de la
+	 * 		 lista y de su creador.
+	 */
+	public JSONObject buscarLista(String lista)
+			throws SQLException, SinCoincidenciasListas;
+	
+	/*
+	 * Pre:  ---
+	 * Post: Devuelve un JSON con la clave canciones, cuyo valor asociado es
+	 * 		 un array de canciones (claves tituloCancion, nombreArtista y
+	 * 		 nombreAlbum), que se corresponden con las últimas 10 canciones
+	 * 		 que el usuario 'usuario' ha escuchado
+	 * 		 Si algo va mal, lanza una excepción
+	 */
+	public JSONObject recientes(String usuario) throws SQLException;
+	
+	/*
+	 * Pre: ---
+	 * Post: Cambia el nombre actual de una lista de reproducción por 'nombreNuevo' si y solo si
+	 * 		 la lista ya existe (lo cuál incluye que el usuario exista), de lo contrario, lanza
+	 * 		 una excepción 'ListaNoExiste'.
+	 */
+	public void cambiarNombreLista(listaReproduccionVO listaVieja, String nombreNuevo) 
+			throws SQLException, ListaNoExiste;
 }
