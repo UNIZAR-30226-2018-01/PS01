@@ -83,6 +83,5 @@ public class reproduccionDAO {
 		}
 		obj.put("canciones", array);
 		return obj;
-		
 	}
 }

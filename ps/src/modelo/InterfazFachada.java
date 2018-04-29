@@ -345,4 +345,13 @@ public interface InterfazFachada {
 	 */
 	public JSONObject buscarAlbum(String album, String user)
 			throws SQLException;
+	
+	public void compartirCancion(compartirVO cancion)
+			throws SQLException;
+	
+	public void eliminarComparticion(compartirVO cancion)
+			throws SQLException;
+	
+	public JSONObject devolverCompartidas(String usuarioDestino)
+			throws SQLException, SinCompartidas;
 }

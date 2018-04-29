@@ -703,4 +703,46 @@ public class ImplementacionFachada implements InterfazFachada {
 			c.close();
 		}
 	}
+	
+	public void compartirCancion(compartirVO cancion)
+			throws SQLException {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
+		try {
+			new compartirDAO().compartirCancion(cancion, c);
+		}
+		catch (Exception e) {
+			throw e;
+		}
+		finally {
+			c.close();
+		}
+	}
+	
+	public void eliminarComparticion(compartirVO cancion)
+			throws SQLException {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
+		try {
+			new compartirDAO().eliminarComparticion(cancion, c);
+		}
+		catch (Exception e) {
+			throw e;
+		}
+		finally {
+			c.close();
+		}
+	}
+	
+	public JSONObject devolverCompartidas(String usuarioDestino)
+			throws SQLException, SinCompartidas {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
+		try {
+			return new compartirDAO().devolverCompartidas(usuarioDestino, c);
+		}
+		catch (Exception e) {
+			throw e;
+		}
+		finally {
+			c.close();
+		}
+	}
 }
