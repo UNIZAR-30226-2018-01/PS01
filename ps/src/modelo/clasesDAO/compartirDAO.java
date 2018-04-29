@@ -69,12 +69,13 @@ public class compartirDAO {
 		try {
 			String s = "SELECT Cancion.titulo, Cancion.nombreArtista, "
 					   + "Cancion.nombreAlbum, Cancion.genero, "
-					   + "Cancion.uploader, Cancion.ruta, c1.usuarioOrigen, c1.fecha "
+					   + "Cancion.uploader, Cancion.ruta, c1.usuarioOrigen "
 					   + "FROM (SELECT * FROM Compartir where usuarioDestino= ?) c1 "
 					   + "JOIN Cancion "
 					   + "ON (c1.titulo = Cancion.titulo AND "
 					   + "c1.nombreArtista = Cancion.nombreArtista AND "
-					   + "c1.nombreAlbum = Cancion.nombreAlbum);";
+					   + "c1.nombreAlbum = Cancion.nombreAlbum) "
+					   + "ORDER BY c1.fecha DESC;";
 			
 			PreparedStatement preparedStatement = c.prepareStatement(s);
 			preparedStatement.setString(1, usuarioDestino);
