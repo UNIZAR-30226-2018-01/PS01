@@ -17,7 +17,13 @@ import modelo.ImplementacionFachada;
 import modelo.clasesVO.compartirVO;
 
 /**
- * Servlet implementation class CompartirCancion
+ * Servlet que permite compartir una canción
+ * Recibe:
+ * 	-Las cookies de login e idSesion
+ *  -La información de la canción a compartir
+ * Devuelve:
+ * 	-Un JSON vacío si todo ha ido bien
+ *  -Un JSON con la clave error si algo ha ido mal
  */
 @WebServlet("/CompartirCancion")
 public class CompartirCancion extends HttpServlet {

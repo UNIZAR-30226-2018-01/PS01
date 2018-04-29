@@ -340,12 +340,29 @@ public interface InterfazFachada {
 	public JSONObject buscarAlbum(String album, String user)
 			throws SQLException;
 	
+	/*
+	 * Pre: ---
+	 * Post: Registra en la BD que el usuario 'usuarioOrigen' ha compartido una determinada
+	 * 		 canción con el usuario 'usuarioDestino'.
+	 */
 	public void compartirCancion(compartirVO cancion)
 			throws SQLException;
 	
+	/*
+	 * Pre: ---
+	 * Post: Registra en la BD que el usuario 'usuarioDestino' ha borrado una canción
+	 * 		 compartida por el usuario 'usuarioOrigen'.
+	 */
 	public void eliminarComparticion(compartirVO cancion)
 			throws SQLException;
 	
+	/*
+	 * Pre: ---
+	 * Post: Devuelve un objeto JSON que contiene la lista de todas las canciones compartidas
+	 * 		 con el usuario 'usuarioDestino'.
+	 * 		 Si nadie ha compartido canciones con el usuario 'usuarioDestino', entonces lanza
+	 * 		 una excepción 'SinCompartidas'.
+	 */
 	public JSONObject devolverCompartidas(String usuarioDestino)
 			throws SQLException, SinCompartidas;
 	/*

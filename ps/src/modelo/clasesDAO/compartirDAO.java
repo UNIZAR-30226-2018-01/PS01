@@ -13,7 +13,11 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public class compartirDAO {
-	
+	/*
+	 * Pre: ---
+	 * Post: Registra en la BD que el usuario 'usuarioOrigen' ha compartido una determinada
+	 * 		 canción con el usuario 'usuarioDestino'.
+	 */
 	public void compartirCancion(compartirVO cancion, Connection c)
 			throws SQLException {
 		try {
@@ -37,6 +41,11 @@ public class compartirDAO {
 		}
 	}
 	
+	/*
+	 * Pre: ---
+	 * Post: Registra en la BD que el usuario 'usuarioDestino' ha borrado una canción
+	 * 		 compartida por el usuario 'usuarioOrigen'.
+	 */
 	public void eliminarComparticion(compartirVO cancion, Connection c)
 			throws SQLException {
 		try {
@@ -64,6 +73,13 @@ public class compartirDAO {
 		}
 	}
 	
+	/*
+	 * Pre: ---
+	 * Post: Devuelve un objeto JSON que contiene la lista de todas las canciones compartidas
+	 * 		 con el usuario 'usuarioDestino'.
+	 * 		 Si nadie ha compartido canciones con el usuario 'usuarioDestino', entonces lanza
+	 * 		 una excepción 'SinCompartidas'.
+	 */
 	public JSONObject devolverCompartidas(String usuarioDestino, Connection c)
 			throws SQLException, SinCompartidas {
 		try {

@@ -17,7 +17,13 @@ import modelo.ImplementacionFachada;
 import modelo.clasesVO.compartirVO;
 
 /**
- * Servlet implementation class EliminarComparticion
+ * Servlet que permite compartir una canción
+ * Recibe:
+ * 	-Las cookies de login e idSesion
+ *  -La información de la canción compartida a eliminar
+ * Devuelve:
+ * 	-Un JSON vacío si todo ha ido bien
+ *  -Un JSON con la clave error si algo ha ido mal
  */
 @WebServlet("/EliminarComparticion")
 public class EliminarComparticion extends HttpServlet {

@@ -16,7 +16,12 @@ import modelo.FuncionesAuxiliares;
 import modelo.ImplementacionFachada;
 
 /**
- * Servlet implementation class DevolverCompartidas
+ * Servlet que permite ver las canciones compartidas con un usuario.
+ * Recibe:
+ * 	-Las cookies de login e idSesion
+ * Devuelve:
+ * 	-Un JSON con un listado de canciones si todo ha ido bien
+ *  -Un JSON con la clave error si algo ha ido mal
  */
 @WebServlet("/DevolverCompartidas")
 public class DevolverCompartidas extends HttpServlet {
