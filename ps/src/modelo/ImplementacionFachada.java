@@ -7,8 +7,9 @@ import modelo.clasesDAO.*;
 import modelo.clasesVO.*;
 import modelo.FuncionesAuxiliares;
 import org.json.simple.*;
-
+import java.util.Date;
 import java.sql.Connection;
+
 
 public class ImplementacionFachada implements InterfazFachada {
 	/*
@@ -777,6 +778,20 @@ public class ImplementacionFachada implements InterfazFachada {
 		Connection c = FuncionesAuxiliares.obtenerConexion();
 		try {
 			new listaReproduccionDAO().cambiarNombreLista(listaVieja, nombreNuevo, c);
+		}
+		catch (Exception e) {
+			throw e;
+		}
+		finally {
+			c.close();
+		}
+	}
+	
+	public void anyadirReproduccion(String usuario, String titulo,
+			String artista, String album , String uploader) throws Exception {
+		Connection c = FuncionesAuxiliares.obtenerConexion();
+		try {
+			new reproduccionDAO().anyadirReproduccion(new reproduccionVO(usuario, titulo, artista, album, uploader, new Date()), c);
 		}
 		catch (Exception e) {
 			throw e;

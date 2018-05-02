@@ -26,7 +26,7 @@ CREATE TABLE Cancion(
 	FOREIGN KEY (uploader) references Usuario(nombre) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-INSERT INTO Cancion values('Deltoya', 'Extremoduro', 'Iros todos a tomar por culo','Rock', 'Admin', 'Sin ruta');
+INSERT INTO Cancion values('Deltoya', 'Extremoduro', 'Iros todos a tomar por culo','Rock', 'Admin', '/home/pi/uno.mp3');
 
 CREATE TABLE Sesion(
 	hashSesion varchar(128),

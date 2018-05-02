@@ -43,6 +43,7 @@ public class ReproducirCancion extends HttpServlet {
 		String titulo = request.getParameter("titulo");
 		String artista = request.getParameter("artista");
 		String album = request.getParameter("album");
+		String uploader = request.getParameter("uploader");
 		PrintWriter out = response.getWriter();
 		JSONObject obj = new JSONObject();
 		
@@ -54,9 +55,9 @@ public class ReproducirCancion extends HttpServlet {
 			// Respondemos con el fichero JSON
 			out.println(obj.toJSONString());
 		}
-		else if(titulo == null || artista ==null || album == null) {
+		else if(titulo == null || artista == null || album == null || uploader == null) {
 			// Metemos el objeto de error en el JSON
-			obj.put("error", "Titulo, artista y album no pueden ser nulos");
+			obj.put("error", "Titulo, artista, album  y uploader no pueden ser nulos");
 			
 			// Respondemos con el fichero JSON
 			out.println(obj.toJSONString());
@@ -65,6 +66,7 @@ public class ReproducirCancion extends HttpServlet {
 			try {
 				ImplementacionFachada f = new ImplementacionFachada();
 				f.existeSesionUsuario(nombreUsuario, idSesion);
+				//f.anyadirReproduccion(nombreUsuario, titulo, artista, album, uploader);
 				String ruta = f.obtenerRuta(titulo, artista, album, nombreUsuario);
 				
 				// Enviamos la canción
