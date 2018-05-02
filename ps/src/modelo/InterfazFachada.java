@@ -392,6 +392,14 @@ public interface InterfazFachada {
 	 */
 	public void cambiarNombreLista(listaReproduccionVO listaVieja, String nombreNuevo) 
 			throws SQLException, ListaNoExiste;
-	
+
 	public int solicitarId() throws SQLException;
+
+	/*
+	 * Pre:  ---
+	 * Post: Ha añadido una reproducción de la canción identidicada por titulo,
+	 * 		 artista y album a la base de datos
+	 */
+	public void anyadirReproduccion(String usuario, String titulo,
+			String artista, String album , String uploader) throws Exception;
 }

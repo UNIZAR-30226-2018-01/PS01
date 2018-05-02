@@ -1,16 +1,18 @@
 package modelo.clasesVO;
 
+import java.util.Date;
+
 public class reproduccionVO {
 	private String nombreUsuario;
 	private String tituloCancion;
 	private String nombreAlbum;
 	private String nombreArtista;
 	private String uploader;
-	private String fecha;
+	private Date fecha;
 
 	public reproduccionVO(String nombreUsuario, String tituloCancion,
 			String nombreAlbum, String nombreArtista, String uploader, 
-			String fecha){
+			Date fecha){
 		this.nombreUsuario = nombreUsuario;
 		this.tituloCancion = tituloCancion;
 		this.nombreAlbum = nombreAlbum;
@@ -39,7 +41,7 @@ public class reproduccionVO {
 		return uploader;
 	}
 	
-	public String verFecha() {
+	public Date verFecha() {
 		return fecha;
 	}
 

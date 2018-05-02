@@ -24,6 +24,7 @@ public class ReproducirCancion {
 			params.put("titulo", titulo);
 			params.put("artista", artista);
 			params.put("album", album);
+			params.put("uploader", "Admin");
 			StringBuilder postData = new StringBuilder();
 	        for (Map.Entry<String, Object> param : params.entrySet()) {
 	            if (postData.length() != 0)
@@ -47,7 +48,7 @@ public class ReproducirCancion {
 	        
 	        // Leemos la canción
 	        InputStream response = conn.getInputStream();
-	        byte[] array = new byte[1000]; // buffer temporal de lectura.
+	        byte[] array = new byte[4096]; // buffer temporal de lectura.
 			int leido = response.read(array);
 			FileOutputStream fos = new FileOutputStream("/home/david/music.mp3");
 			while (leido > 0) {
