@@ -392,4 +392,6 @@ public interface InterfazFachada {
 	 */
 	public void cambiarNombreLista(listaReproduccionVO listaVieja, String nombreNuevo) 
 			throws SQLException, ListaNoExiste;
+	
+	public int solicitarId() throws SQLException;
 }

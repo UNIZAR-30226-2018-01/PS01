@@ -16,12 +16,13 @@ CREATE TABLE Usuario(
 INSERT INTO Usuario values('Admin', '1d6868c84f4ed1ee6d5f34116ab14ddb', NULL);
 
 CREATE TABLE Cancion(
-	titulo varchar(64),
+	titulo varchar(64) default 'Cancion',
 	nombreArtista varchar(32),
 	nombreAlbum varchar(32) default 'Desconocido',
 	genero varchar(32) default 'Desconocido',
 	uploader varchar(32),
-	ruta varchar(128) UNIQUE NOT NULL,
+	ruta varchar(128) UNIQUE NOT NULL DEFAULT 'nada',
+	next_id int unique auto_increment,
 	PRIMARY KEY (titulo, nombreArtista, nombreAlbum, uploader),
 	FOREIGN KEY (uploader) references Usuario(nombre) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -118,5 +119,15 @@ BEGIN
 	IF OLD.nombre = 'Favoritos' THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Prohibido borrar lista de favoritos';
 	END IF;
+END; //
+DELIMITER ;
+
+-- Trigger que evite borrar las listas de nombre 'Favoritos'
+DELIMITER //
+CREATE OR REPLACE TRIGGER introducirCancion
+BEFORE INSERT ON Cancion
+FOR EACH ROW
+BEGIN
+	set NEW.titulo = NEW.titulo + NEW.next_id;
 END; //
 DELIMITER ;

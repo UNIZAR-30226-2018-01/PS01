@@ -85,7 +85,7 @@ public class compartirDAO {
 		try {
 			String s = "SELECT Cancion.titulo, Cancion.nombreArtista, "
 					   + "Cancion.nombreAlbum, Cancion.genero, "
-					   + "Cancion.uploader, Cancion.ruta, c1.usuarioOrigen "
+					   + "Cancion.uploader, Cancion.ruta "
 					   + "FROM (SELECT * FROM Compartir where usuarioDestino= ?) c1 "
 					   + "JOIN Cancion "
 					   + "ON (c1.titulo = Cancion.titulo AND "
@@ -114,7 +114,6 @@ public class compartirDAO {
 					aux.put("genero", resultado.getString(4));
 					aux.put("uploader", resultado.getString(5));
 					aux.put("ruta", resultado.getString(6));
-					aux.put("usuarioOrigen", resultado.getString(7));
 					array.add(aux);
 				}
 				obj.put("canciones", array);

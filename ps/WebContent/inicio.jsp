@@ -5,7 +5,7 @@
 </head>
 <body>
 	<form name="eyy" action="SubirCanciones" method="post" enctype="multipart/form-data">
-	    <input type="file" name="file" mutiple="multiple"/>
+	    <input type="file" name="fichero" mutiple="multiple"/>
 	    <input type="submit" />
 	</form>
 </body>

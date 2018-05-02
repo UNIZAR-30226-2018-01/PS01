@@ -21,7 +21,6 @@ public class cancionDAO {
 	 */
 	public void anyadirCancion(cancionVO cancion, Connection connection)
 			throws CancionYaExiste, SQLException {
-		System.out.println("Insertando canción en la base de datos 3...");
 		try {
 			if (existeCancion(cancion, connection)) {
 				throw new CancionYaExiste("La cancion " + cancion.verTitulo() + " perteneciente al álbum"
@@ -30,8 +29,8 @@ public class cancionDAO {
 			}
 			else {
 				String queryString = "INSERT INTO Cancion(titulo, nombreArtista,"
-						+ "nombreAlbum, genero, uploader) "
-						+ "VALUES (?,?,?,?,?);";
+						+ "nombreAlbum, genero, uploader, ruta) "
+						+ "VALUES (?,?,?,?,?,?);";
 				
 				PreparedStatement preparedStatement = 
 		                connection.prepareStatement(queryString);
@@ -41,6 +40,7 @@ public class cancionDAO {
 	    			preparedStatement.setString(3, cancion.verNombreAlbum());
 	    			preparedStatement.setString(4, cancion.verGenero());
 	    			preparedStatement.setString(5, cancion.verUploader());
+	    			preparedStatement.setString(6, cancion.verRuta());
 	    			preparedStatement.executeUpdate();
 	        	}
 		}
@@ -542,6 +542,28 @@ public class cancionDAO {
 			}
 			obj.put("albums", array);
 			return obj;
+		}
+		catch(Exception e) {
+			throw e;
+		}
+	}
+	
+	public int solicitarId(Connection c) throws SQLException {
+		try {
+			int i = 0;
+			// Hacemos la consulta
+			String q = "SELECT MAX(next_id) "
+					 + "FROM Cancion;";
+			PreparedStatement p = c.prepareStatement(q);
+			ResultSet r = p.executeQuery();
+			
+			r.beforeFirst(); // Movemos el cursor antes del 1er elemento
+			boolean boo = r.next();
+			if (boo) {
+				i = r.getInt(1) + 1;
+			}
+			
+			return i;
 		}
 		catch(Exception e) {
 			throw e;

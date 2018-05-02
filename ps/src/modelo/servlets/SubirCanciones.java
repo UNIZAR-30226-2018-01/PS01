@@ -40,7 +40,7 @@ import modelo.excepcion.SesionInexistente;
  */
 @WebServlet("/SubirCanciones")
 @MultipartConfig(fileSizeThreshold=1024*1024, 
-maxFileSize=1024*1024*10, maxRequestSize=1024*1024*5*5)
+maxFileSize=1024*1024*20, maxRequestSize=1024*1024*5*5)
 public class SubirCanciones extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private String rutaBase = "/usr/local/apache-tomcat-9.0.7/webapps/ps/music/";
@@ -73,7 +73,7 @@ public class SubirCanciones extends HttpServlet {
 	        }
 			
 			// Retrieves <input type="file" name="file" multiple="true">
-			List<Part> fileParts = request.getParts().stream().filter(part -> "file".equals(part.getName())).collect(Collectors.toList());
+			List<Part> fileParts = request.getParts().stream().filter(part -> "fichero".equals(part.getName())).collect(Collectors.toList());
 			for (Part filePart : fileParts) {
 				System.out.println("Subiendo fichero...");
 		        //fileName = Paths.get(filePart.getName()).getFileName().toString();
@@ -88,10 +88,11 @@ public class SubirCanciones extends HttpServlet {
 					parser.parse(inputstream, handler, metadata, parseCtx);
 				} catch (SAXException | TikaException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					obj.put("error", e.toString());
+					out.println(obj.toJSONString());
 				}
-		        
-		        if (new File("music/" + nombreUsuario + "/" + metadata.get("title") + ".mp3").exists()) {
+			        
+		        if (metadata.get("title") != null && new File("music/" + nombreUsuario + "/" + metadata.get("title") + ".mp3").exists()) {
 		        	try {
 						throw new CancionYaExiste("La cancion " + tituloCancion + " perteneciente al álbum"
 								+ " " + nombreAlbum + " subida por el usuario "
@@ -106,12 +107,23 @@ public class SubirCanciones extends HttpServlet {
 					}
 		        }
 		        else {
+		        	if (metadata.get("title") == null) {
+		        		try {
+							tituloCancion = "Cancion" + new ImplementacionFachada().solicitarId();
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+		        	}
+		        	else {
+		        		tituloCancion = metadata.get("title");
+		        	}
 		        	File mus = new File(rutaBase + nombreUsuario + "/" + metadata.get("title") + ".mp3");
+		        	out.println(mus.toPath());
 			        Files.createFile(mus.toPath());
 			        Files.copy(fileContent, mus.toPath(), StandardCopyOption.REPLACE_EXISTING);
 			        //InputStream input = new FileInputStream(mus);
 			        
-			        tituloCancion = metadata.get("title");
 			        nombreArtista = metadata.get("xmpDM:artist");
 			        nombreAlbum = metadata.get("xmpDM:album");
 			        genero = metadata.get("xmpDM:genre");
@@ -133,7 +145,7 @@ public class SubirCanciones extends HttpServlet {
 				}
 				catch (CancionYaExiste c) {
 					// Metemos un array vacío en el JSON
-					obj.put("CancionYaExiste", c.toString());
+					obj.put("error", c.toString());
 					
 					// Respondemos con el fichero JSON
 					out.println(obj.toJSONString());
