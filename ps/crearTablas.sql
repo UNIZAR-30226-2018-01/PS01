@@ -16,7 +16,7 @@ CREATE TABLE Usuario(
 INSERT INTO Usuario values('Admin', '1d6868c84f4ed1ee6d5f34116ab14ddb', NULL);
 
 CREATE TABLE Cancion(
-	titulo varchar(64) default 'Cancion',
+	titulo varchar(64),
 	nombreArtista varchar(32),
 	nombreAlbum varchar(32) default 'Desconocido',
 	genero varchar(32) default 'Desconocido',
@@ -122,12 +122,11 @@ BEGIN
 END; //
 DELIMITER ;
 
--- Trigger que evite borrar las listas de nombre 'Favoritos'
 DELIMITER //
 CREATE OR REPLACE TRIGGER introducirCancion
 BEFORE INSERT ON Cancion
 FOR EACH ROW
 BEGIN
-	set NEW.titulo = NEW.titulo + NEW.next_id;
+	set NEW.titulo = CONCAT('Cancion', (select max(next_id) from Cancion));
 END; //
 DELIMITER ;

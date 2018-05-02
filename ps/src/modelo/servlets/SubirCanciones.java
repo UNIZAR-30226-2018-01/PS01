@@ -109,7 +109,9 @@ public class SubirCanciones extends HttpServlet {
 		        else {
 		        	if (metadata.get("title") == null) {
 		        		try {
+		        			out.println("Solicitando id...");
 							tituloCancion = "Cancion" + new ImplementacionFachada().solicitarId();
+							out.println("Nuevo título de canción -> " + tituloCancion);
 						} catch (SQLException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -118,8 +120,8 @@ public class SubirCanciones extends HttpServlet {
 		        	else {
 		        		tituloCancion = metadata.get("title");
 		        	}
-		        	File mus = new File(rutaBase + nombreUsuario + "/" + metadata.get("title") + ".mp3");
-		        	out.println(mus.toPath());
+		        	File mus = new File(rutaBase + nombreUsuario + "/" + tituloCancion + ".mp3");
+		        	out.println("Ruta del nuevo fichero -> " + mus.toPath());
 			        Files.createFile(mus.toPath());
 			        Files.copy(fileContent, mus.toPath(), StandardCopyOption.REPLACE_EXISTING);
 			        //InputStream input = new FileInputStream(mus);
