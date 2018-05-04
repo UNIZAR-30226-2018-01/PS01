@@ -3,7 +3,6 @@ package modelo;
 import modelo.clasesVO.*;
 import modelo.excepcion.*;
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
 import org.json.simple.*;
 
@@ -43,8 +42,8 @@ public interface InterfazFachada {
 	 * Post: Ha cambiado la contraseña del usuario 'usuario'.
 	 * 		 Si ha habido algún error, lanza una excepción
 	 */
-	public void cambiarContrasenyaUsuario(String usuario, String nuevaPass)
-			throws Exception;
+	public void cambiarContrasenyaUsuario(String usuario, String viejaPass, String nuevaPass)
+			throws SQLException, ErrorCambiarPass;
 	
 	/*
 	 * Pre: 'nombreUsuario' es el nombre del usuario y 'hashPass' el hash de

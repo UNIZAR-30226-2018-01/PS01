@@ -2,6 +2,8 @@ package modelo.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -11,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONObject;
 import modelo.FuncionesAuxiliares;
 import modelo.ImplementacionFachada;
+import modelo.excepcion.ErrorCambiarPass;
+import modelo.excepcion.SesionInexistente;
 
 /**
  * Servlet que cambia la contraseña del usuario
@@ -70,10 +74,24 @@ public class CambiarContrasenya extends HttpServlet {
 			try {
 				ImplementacionFachada f = new ImplementacionFachada();
 				f.existeSesionUsuario(nombreUsuario, idSesion);
-				f.cambiarContrasenyaUsuario(nombreUsuario, nuevaPass);
+				f.cambiarContrasenyaUsuario(nombreUsuario, viejaPass, nuevaPass);
 				out.println(obj.toJSONString());
 			}
-			catch (Exception e) {
+			catch (SesionInexistente e) {
+				// Metemos el objeto de error en el JSON
+				obj.put("error", e.toString());
+				
+				// Respondemos con el fichero JSON
+				out.println(obj.toJSONString());
+			}
+			catch (ErrorCambiarPass e) {
+				// Metemos el objeto de error en el JSON
+				obj.put("error", e.toString());
+				
+				// Respondemos con el fichero JSON
+				out.println(obj.toJSONString());
+			}
+			catch (SQLException e) {
 				// Metemos el objeto de error en el JSON
 				obj.put("error", e.toString());
 				

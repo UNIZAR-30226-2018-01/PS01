@@ -68,11 +68,11 @@ public class ImplementacionFachada implements InterfazFachada {
 		}
 	}
 	
-	public void cambiarContrasenyaUsuario(String usuario, String nuevaPass)
-			throws Exception {
+	public void cambiarContrasenyaUsuario(String usuario, String viejaPass, String nuevaPass)
+			throws SQLException, ErrorCambiarPass {
 		Connection c = FuncionesAuxiliares.obtenerConexion();
 		try {
-			new usuarioDAO().cambiarPass(usuario, nuevaPass, c);
+			new usuarioDAO().cambiarPass(usuario, viejaPass, nuevaPass, c);
 		}
 		catch(Exception e) {
 			throw e;

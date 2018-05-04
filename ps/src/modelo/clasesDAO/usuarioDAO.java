@@ -147,7 +147,7 @@ public class usuarioDAO {
 	 * 		 Si algo ha ido mal, lanza una excepción
 	 */
 	public void cambiarNombre(String antiguoNombre, String nuevoNombre,
-			Connection c) throws Exception {
+			Connection c) throws SQLException {
 		try {
 			String q = "UPDATE Usuario SET nombre = ? WHERE nombre = ?;";
 			PreparedStatement p = c.prepareStatement(q);
@@ -165,12 +165,26 @@ public class usuarioDAO {
 	 * Post: Ha cambiado el nombre del usuario 'antiguoNombre' por 'nuevoNombre'
 	 * 		 Si algo ha ido mal, lanza una excepción
 	 */
-	public void cambiarPass(String usuario, String pass,
-			Connection c) throws Exception {
+	public void cambiarPass(String usuario, String viejaPass, String nuevaPass,
+			Connection c) throws SQLException, ErrorCambiarPass {
 		try {
+			//Obtenemos el hash de la pass vieja
+			String s = "SELECT hashPass "
+					 + "FROM Usuario "
+					 + "WHERE nombre = ?;";
+			
+			PreparedStatement aux = c.prepareStatement(s);
+			aux.setString(1, usuario);
+			ResultSet r = aux.executeQuery();
+			//Comprobamos si el hash recuperado es igual al hash de la contraseña
+			//introducida por el usuario
+			if (!r.getString(1).equals(FuncionesAuxiliares.crearHash(viejaPass))) {
+				throw new ErrorCambiarPass("La contraseña actual y la introducida no son iguales");
+			}			
+			
 			String q = "UPDATE Usuario SET hashPass = ? WHERE nombre = ?;";
 			PreparedStatement p = c.prepareStatement(q);
-			p.setString(1, FuncionesAuxiliares.crearHash(pass));
+			p.setString(1, FuncionesAuxiliares.crearHash(nuevaPass));
 			p.setString(2, usuario);
 			p.executeUpdate();
 		}

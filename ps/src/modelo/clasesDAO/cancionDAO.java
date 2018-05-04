@@ -143,7 +143,7 @@ public class cancionDAO {
 			throws SQLException, CancionNoExiste {
 		try {
 			String s = "SELECT * FROM Cancion WHERE "
-					 + "titulo = ? AND "
+					 + "titulo LIKE %?% AND "
 					 + "(uploader = ? OR uploader = 'Admin');";
 			PreparedStatement preparedStatement = cc.prepareStatement(s);
 			preparedStatement.setString(1, c.verTitulo());
@@ -165,6 +165,7 @@ public class cancionDAO {
 				aux.put("nombreArtista", busquedaComp.getString(2));
 				aux.put("nombreAlbum", busquedaComp.getString(3));
 				aux.put("genero", busquedaComp.getString(4));
+				aux.put("ruta", busquedaComp.getString(6));
 				array.add(aux);
 			}
 			obj.put("canciones", array);
@@ -189,7 +190,7 @@ public class cancionDAO {
 			throws SQLException, CancionNoExiste {
 		try {
 			String s = "SELECT * FROM Cancion WHERE "
-					 + "nombreArtista = ? AND "
+					 + "nombreArtista LIKE %?% AND "
 					 + "(uploader = ? OR uploader = 'Admin');";
 			PreparedStatement preparedStatement = cc.prepareStatement(s);
 			preparedStatement.setString(1, c.verNombreArtista());
@@ -211,6 +212,7 @@ public class cancionDAO {
 				aux.put("nombreArtista", busquedaComp.getString(2));
 				aux.put("nombreAlbum", busquedaComp.getString(3));
 				aux.put("genero", busquedaComp.getString(4));
+				aux.put("ruta", busquedaComp.getString(6));
 				array.add(aux);
 			}
 			obj.put("canciones", array);
@@ -235,7 +237,7 @@ public class cancionDAO {
 			throws SQLException, CancionNoExiste {
 		try {
 			String s = "SELECT * FROM Cancion WHERE "
-					 + "nombreAlbum = ? AND "
+					 + "nombreAlbum LIKE %?% AND "
 					 + "(uploader = ? OR uploader = 'Admin');";
 			PreparedStatement preparedStatement = cc.prepareStatement(s);
 			preparedStatement.setString(1, c.verNombreAlbum());
@@ -257,6 +259,7 @@ public class cancionDAO {
 				aux.put("nombreArtista", busquedaComp.getString(2));
 				aux.put("nombreAlbum", busquedaComp.getString(3));
 				aux.put("genero", busquedaComp.getString(4));
+				aux.put("ruta", busquedaComp.getString(6));
 				array.add(aux);
 			}
 			obj.put("canciones", array);
@@ -281,7 +284,7 @@ public class cancionDAO {
 			throws SQLException, CancionNoExiste {
 		try {
 			String s = "SELECT * FROM Cancion WHERE "
-					 + "genero = ? AND "
+					 + "genero LIKE %?% AND "
 					 + "(uploader = ? OR uploader = 'Admin');";
 			PreparedStatement preparedStatement = cc.prepareStatement(s);
 			preparedStatement.setString(1, c.verGenero());
@@ -303,6 +306,7 @@ public class cancionDAO {
 				aux.put("nombreArtista", busquedaComp.getString(2));
 				aux.put("nombreAlbum", busquedaComp.getString(3));
 				aux.put("genero", busquedaComp.getString(4));
+				aux.put("ruta", busquedaComp.getString(6));
 				array.add(aux);
 			}
 			obj.put("canciones", array);
@@ -523,11 +527,11 @@ public class cancionDAO {
 			// Hacemos la consulta
 			String q = "SELECT DISTINCT nombreAlbum, nombreArtista FROM Cancion "
 					 + "WHERE (uploader='Admin' OR uploader = ?) AND "
-					 + "nombreAlbum LIKE ? "
+					 + "nombreAlbum LIKE %?% "
 					 + "ORDER BY(nombreAlbum);";
 			PreparedStatement p = c.prepareStatement(q);
 			p.setString(1, user);
-			p.setString(2, album+"%");
+			p.setString(2, album);
 			ResultSet r = p.executeQuery();
 			
 			// Objetos para devolver el resultado
