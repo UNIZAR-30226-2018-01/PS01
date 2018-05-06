@@ -133,7 +133,8 @@ public class formarDAO {
 							   + "AND nombreUsuario = ?) c1 JOIN Cancion "
 							   + "ON (c1.titulo = Cancion.titulo AND "
 							   + "c1.nombreArtista = Cancion.nombreArtista AND "
-							   + "c1.nombreAlbum = Cancion.nombreAlbum);";
+							   + "c1.nombreAlbum = Cancion.nombreAlbum AND "
+							   + "c1.nombreUsuario = Cancion.uploader);";
 			PreparedStatement preparedStatement = 
 	                connection.prepareStatement(queryString);
 			preparedStatement.setString(1, l.obtenerNombreLista());

@@ -133,16 +133,21 @@ public class listaReproduccionDAO {
 		}
 	}
 	
-	public JSONObject buscarLista(String lista, Connection c)
+	public JSONObject buscarLista(String lista, String yo, Connection c)
 			throws SQLException, SinCoincidenciasListas {
 		try {
 			// Preparamos la consulta
 			String s = "SELECT * "
 					 + "FROM ListaReproduccion "
-					 + "WHERE nombre LIKE ?";
+					 + "WHERE nombre LIKE ? AND "
+					 + "nombreUsuario IN "
+					 + "	(SELECT nombreSeguido "
+					 + "	 FROM Seguir"
+					 + "	 WHERE nombreSeguidor = ?);";
 			
 			PreparedStatement p = c.prepareStatement(s);
 			p.setString(1, "%" + lista + "%");
+			p.setString(2, yo);
 			
 			// Hacemos la consulta			
 			ResultSet r = p.executeQuery();
@@ -158,7 +163,10 @@ public class listaReproduccionDAO {
 			JSONArray array = new JSONArray();
 			r.beforeFirst(); // Movemos el cursor antes del 1er elemento
 			while (r.next()) {
-				array.add(r.getString(1));
+				JSONObject aux = new JSONObject();
+				aux.put("nombre",r.getString(1));
+				aux.put("nombreUsuario",r.getString(2));
+				array.add(aux);
 			}
 			obj.put("busquedaListas", array);
 			return obj;

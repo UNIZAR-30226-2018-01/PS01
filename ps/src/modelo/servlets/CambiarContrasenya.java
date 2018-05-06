@@ -98,8 +98,6 @@ public class CambiarContrasenya extends HttpServlet {
 				// Respondemos con el fichero JSON
 				out.println(obj.toJSONString());
 			}
-		}
-				
+		}	
 	}
-
 }

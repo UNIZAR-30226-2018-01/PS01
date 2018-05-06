@@ -266,13 +266,12 @@ public class ImplementacionFachada implements InterfazFachada {
 	 * 		 CancionYaExiste
 	 */
 	@Override
-	public void anyadirCancionUsuario(cancionVO c)
-			throws CancionYaExiste, SQLException {
+	public void anyadirCancionUsuario(cancionVO c, String lista)
+			throws CancionYaExiste, CancionExisteEnLista, SQLException {
 		Connection cAux = FuncionesAuxiliares.obtenerConexion();
 		try {
 			System.out.println("Insertando canción en la base de datos 2.1...");
-			new cancionDAO().anyadirCancion(c,
-					cAux);
+			new cancionDAO().anyadirCancion(c, lista, cAux);
 			System.out.println("Canción insertada con éxito");
 		}
 		catch (Exception e) {
@@ -719,10 +718,10 @@ public class ImplementacionFachada implements InterfazFachada {
 		}
 	}
 
-	public JSONObject buscarLista(String lista) throws SQLException, SinCoincidenciasListas {
+	public JSONObject buscarLista(String lista, String yo) throws SQLException, SinCoincidenciasListas {
 		Connection c = FuncionesAuxiliares.obtenerConexion();
 		try {
-			return new listaReproduccionDAO().buscarLista(lista, c);
+			return new listaReproduccionDAO().buscarLista(lista, yo, c);
 		}
 		catch (Exception e) {
 			throw e;

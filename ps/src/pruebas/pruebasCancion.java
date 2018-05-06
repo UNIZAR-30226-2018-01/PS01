@@ -34,7 +34,7 @@ public class pruebasCancion {
 	
 	public void pruebaAnyadirCancion() throws CancionYaExiste, SQLException {
 		try {
-			cDAO.anyadirCancion(cVO, connection);
+			cDAO.anyadirCancion(cVO, null, connection);
 			System.out.println("Canción " + cVO.verTitulo() + " subida por el usuario " + cVO.verUploader() + " correctamente.");
 		}
 		catch (Exception e) {

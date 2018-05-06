@@ -170,8 +170,8 @@ public interface InterfazFachada {
 	 * 		 Si la canción ya existe, entonces lanza una excepción
 	 * 		 CancionYaExiste
 	 */
-	public void anyadirCancionUsuario(cancionVO c)
-			throws CancionYaExiste, SQLException;
+	public void anyadirCancionUsuario(cancionVO c, String lista)
+			throws CancionYaExiste, CancionExisteEnLista, SQLException;
 	
 	/*
 	 * Pre: La canción c ya existe en la biblioteca del usuario.
@@ -370,7 +370,7 @@ public interface InterfazFachada {
 	 * 		 es un array de listas de reproducción que contienen el nombre de la
 	 * 		 lista y de su creador.
 	 */
-	public JSONObject buscarLista(String lista)
+	public JSONObject buscarLista(String lista, String yo)
 			throws SQLException, SinCoincidenciasListas;
 	
 	/*
