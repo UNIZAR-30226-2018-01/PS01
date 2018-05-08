@@ -178,7 +178,8 @@ public class usuarioDAO {
 			ResultSet r = aux.executeQuery();
 			//Comprobamos si el hash recuperado es igual al hash de la contraseña
 			//introducida por el usuario
-			if (!r.getString(1).equals(FuncionesAuxiliares.crearHash(viejaPass))) {
+			r.beforeFirst();
+			if (r.next() && !r.getString(1).equals(FuncionesAuxiliares.crearHash(viejaPass))) {
 				throw new ErrorCambiarPass("La contraseña actual y la introducida no son iguales");
 			}			
 			
