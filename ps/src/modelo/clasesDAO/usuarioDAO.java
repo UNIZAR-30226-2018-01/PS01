@@ -107,15 +107,15 @@ public class usuarioDAO {
 	 * 		 cuya clave es usuarios, cuyo valor asociado es un array de strings
 	 *  	 con los nombres encontrados
 	 */
-	public JSONObject buscarUsuarios(String nombre, Connection c)
-			throws SQLException, UsuarioInexistente {
+	public JSONObject buscarUsuarios(String nombreBuscado, String nombreBuscador,
+			Connection c) throws SQLException, UsuarioInexistente {
 		try {
 			// Preparamos la consulta
 			String q = "SELECT nombre FROM Usuario WHERE nombre LIKE ? AND "
 					 + "nombre <> ? ORDER BY(nombre);";
 			PreparedStatement p = c.prepareStatement(q);
-			p.setString(1, nombre+"%");
-			p.setString(2, nombre);
+			p.setString(1, nombreBuscado+"%");
+			p.setString(2, nombreBuscador);
 			
 			// Hacemos la consulta
 			ResultSet r = p.executeQuery();
@@ -123,7 +123,7 @@ public class usuarioDAO {
 			// No ha habido resultados
 			if(!r.first()) {
 				throw new UsuarioInexistente("No hay ningún usuario cuyo nombre "
-						+ "sea o empiece por " + nombre);
+						+ "sea o empiece por " + nombreBuscado);
 			}
 			
 			// Generamos el JSON

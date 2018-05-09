@@ -87,9 +87,7 @@ CREATE TABLE Compartir(
 	usuarioDestino varchar(32) REFERENCES Usuario(nombre) ON DELETE CASCADE,
 	fecha TIMESTAMP default CURRENT_TIMESTAMP,
 	PRIMARY KEY (usuarioOrigen, titulo, nombreAlbum, nombreArtista, usuarioDestino, fecha),
-	FOREIGN KEY (titulo, nombreArtista, nombreAlbum, usuarioOrigen)
-		REFERENCES Cancion(titulo, nombreArtista, nombreAlbum, uploader) ON DELETE CASCADE,
-	FOREIGN KEY (nombreUsuario) REFERENCES Usuario(nombre) ON DELETE CASCADE	
+	FOREIGN KEY (titulo, nombreArtista, nombreAlbum, usuarioOrigen) REFERENCES Cancion(titulo, nombreArtista, nombreAlbum, uploader) ON DELETE CASCADE
 );
 
 -- Trigger que evite que se borre el usuario Admin

@@ -270,9 +270,7 @@ public class ImplementacionFachada implements InterfazFachada {
 			throws CancionYaExiste, CancionExisteEnLista, SQLException {
 		Connection cAux = FuncionesAuxiliares.obtenerConexion();
 		try {
-			System.out.println("Insertando canción en la base de datos 2.1...");
 			new cancionDAO().anyadirCancion(c, lista, cAux);
-			System.out.println("Canción insertada con éxito");
 		}
 		catch (Exception e) {
 			throw e;
@@ -546,11 +544,11 @@ public class ImplementacionFachada implements InterfazFachada {
 		}
 	}
 	
-	public JSONObject buscarUsuarios(String nombre)
+	public JSONObject buscarUsuarios(String nombreBuscado, String nombreBuscador)
 			throws SQLException,UsuarioInexistente {
 		Connection c = FuncionesAuxiliares.obtenerConexion();
 		try {
-			return new usuarioDAO().buscarUsuarios(nombre, c);
+			return new usuarioDAO().buscarUsuarios(nombreBuscado, nombreBuscador, c);
 		}
 		catch (Exception e) {
 			throw e;

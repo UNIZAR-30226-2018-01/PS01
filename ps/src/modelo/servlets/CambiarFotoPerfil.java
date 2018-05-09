@@ -40,7 +40,7 @@ public class CambiarFotoPerfil extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
     
-    private String rutaBase = "/usr/local/apache-tomcat-9.0.7/images/";
+    private String rutaBase = "/usr/local/apache-tomcat-9.0.7/webapps/ps/images/";
 
     public void doPost (HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
@@ -110,7 +110,7 @@ public class CambiarFotoPerfil extends HttpServlet {
 			}
 			finally {
 		        if (img != null) {
-		            out.close();
+		            img.close();
 		        }
 		        if (filecontent != null) {
 		            filecontent.close();

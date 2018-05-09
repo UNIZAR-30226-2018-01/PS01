@@ -17,8 +17,13 @@ import modelo.ImplementacionFachada;
 import modelo.clasesVO.compartirVO;
 
 /**
- * Servlet implementation class VerCompartidas
- */
+* Servlet que permite ver las canciones que han compartido con el usuario.
+* Recibe:
+* 	-Las cookies de login e idSesion
+* Devuelve:
+* 	-Un JSON con un listado de canciones si todo ha ido bien
+*   -Un JSON con la clave error si algo ha ido mal
+*/
 @WebServlet("/VerCompartidas")
 public class VerCompartidas extends HttpServlet {
 	private static final long serialVersionUID = 1L;

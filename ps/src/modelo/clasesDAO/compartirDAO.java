@@ -98,10 +98,10 @@ public class compartirDAO {
 			
 			ResultSet resultado = preparedStatement.executeQuery();
 			
-			if (!resultado.first()) {
-				throw new SinCompartidas("Nadie ha compartido canciones con el usuario " + usuarioDestino);
-			}
-			else {
+//			if (!resultado.first()) {
+//				throw new SinCompartidas("Nadie ha compartido canciones con el usuario " + usuarioDestino);
+//			}
+//			else {
 				// Objetos para devolver el resultado
 				JSONObject obj = new JSONObject();
 				JSONArray array = new JSONArray();
@@ -118,7 +118,7 @@ public class compartirDAO {
 				}
 				obj.put("canciones", array);
 				return obj;
-			}
+//			}
 		}
 		catch (Exception e) {
 			throw e;

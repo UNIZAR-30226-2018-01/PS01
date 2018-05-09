@@ -252,7 +252,7 @@ public interface InterfazFachada {
 	 * 		 cuya clave es usuarios, cuyo valor asociado es un array de strings
 	 *  	 con los nombres encontrados
 	 */
-	public JSONObject buscarUsuarios(String nombre)
+	public JSONObject buscarUsuarios(String nombreBuscado, String nombreBuscador)
 			throws SQLException,UsuarioInexistente;
 	
 	/*

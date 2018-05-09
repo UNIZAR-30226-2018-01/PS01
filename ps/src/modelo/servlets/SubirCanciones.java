@@ -7,10 +7,8 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -19,22 +17,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-
-import org.apache.tika.exception.TikaException;
 import org.apache.tika.metadata.Metadata;
 import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.Parser;
 import org.apache.tika.parser.mp3.Mp3Parser;
 import org.apache.tika.sax.BodyContentHandler;
 import org.json.simple.JSONObject;
-import org.xml.sax.SAXException;
-
 import modelo.FuncionesAuxiliares;
 import modelo.ImplementacionFachada;
 import modelo.clasesVO.cancionVO;
-import modelo.excepcion.CancionExisteEnLista;
 import modelo.excepcion.CancionYaExiste;
-import modelo.excepcion.SesionInexistente;
 
 /**
  * Servlet implementation class SubirCanciones
@@ -93,7 +85,7 @@ public class SubirCanciones extends HttpServlet {
 								+ nombreUsuario + " ya existe.");
 			        }
 			        else {
-			        	if (metadata.get("title") == null) {
+			        	if (metadata.get("title") == null || metadata.get("title").replaceAll("\\s","").equals("")) {
 							tituloCancion = "Cancion" + new ImplementacionFachada().solicitarId();
 			        	}
 			        	else {
@@ -103,9 +95,27 @@ public class SubirCanciones extends HttpServlet {
 				        Files.createFile(mus.toPath());
 				        Files.copy(fileContent, mus.toPath(), StandardCopyOption.REPLACE_EXISTING);
 				        
-				        nombreArtista = metadata.get("xmpDM:artist");
-				        nombreAlbum = metadata.get("xmpDM:album");
-				        genero = metadata.get("xmpDM:genre");
+				        String aux1 = metadata.get("xmpDM:artist");
+				        String aux2 = metadata.get("xmpDM:album");
+				        String aux3 = metadata.get("xmpDM:genre");
+				        if(aux1 == null || aux1.replaceAll("\\s","").equals("")) {
+				        	nombreArtista = "Desconocido";
+				        }
+				        else {
+				        	nombreArtista = aux1;
+				        }
+				        if(aux2 == null || aux2.replaceAll("\\s","").equals("")) {
+				        	nombreAlbum = "Desconocido";
+				        }
+				        else {
+				        	nombreAlbum = aux2;
+				        }
+				        if(aux3 == null || aux3.replaceAll("\\s","").equals("")) {
+				        	genero = "Desconocido";
+				        }
+				        else {
+				        	genero = aux3;
+				        }     
 			        }
 		        
 				
@@ -115,36 +125,11 @@ public class SubirCanciones extends HttpServlet {
 							nombreAlbum, genero, nombreUsuario, rutaBase + nombreUsuario + "/" + tituloCancion + ".mp3"), lista);
 					out.println(obj.toJSONString());
 				}
-				catch(SesionInexistente e) {
+				catch(Exception e) {
 					// Metemos el objeto de error en el JSON
 					obj.put("error", e.toString());
 					
 					// Respondemos con el fichero JSON
-					out.println(obj.toJSONString());
-				}
-				catch (CancionYaExiste c) {
-					// Metemos un array vacío en el JSON
-					obj.put("error", c.toString());
-					
-					// Respondemos con el fichero JSON
-					out.println(obj.toJSONString());
-				}
-				catch(SQLException e){
-					// Metemos el objeto de error en el JSON
-					obj.put("error", e.toString());
-					
-					// Respondemos con el fichero JSON
-					out.println(obj.toJSONString());
-				} catch (CancionExisteEnLista e) {
-					// Metemos el objeto de error en el JSON
-					obj.put("error", e.toString());
-					
-					// Respondemos con el fichero JSON
-					out.println(obj.toJSONString());
-				}
-			    catch (SAXException | TikaException e) {
-					// TODO Auto-generated catch block
-					obj.put("error", e.toString());
 					out.println(obj.toJSONString());
 				}
 		    }

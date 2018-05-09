@@ -16,7 +16,7 @@ import modelo.FuncionesAuxiliares;
 import modelo.ImplementacionFachada;
 
 /**
- * Servlet que permite ver las canciones compartidas con un usuario.
+ * Servlet que permite ver las canciones que el usuario ha compartido.
  * Recibe:
  * 	-Las cookies de login e idSesion
  * Devuelve:
