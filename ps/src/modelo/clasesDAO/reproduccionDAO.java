@@ -21,29 +21,12 @@ public class reproduccionDAO {
 	public void anyadirReproduccion (String ruta, String nombreUsuario,
 			Connection connection) throws Exception {
 		try {
-			// Obtenemos los valores asociados a la ruta
-			String q = "SELECT titulo, nombreArtista, nombreAlbum "
-					 + "FROM Cancion "
-					 + "WHERE ruta=?;";
-			PreparedStatement p = connection.prepareStatement(q);
-			p.setString(1, ruta);
-			ResultSet r = p.executeQuery();
-			if(!r.first()) {
-				throw new Exception("La ruta proporcionada no es válida");
-			}
-			
 			// Guardamos la reproducción
-			q = "INSERT INTO Reproduccion(nombreUsuario, titulo, nombreAlbum, nombreArtista) "
-			  + "VALUES (?,?,?,?);";
-			p = connection.prepareStatement(q);
+			String q = "INSERT INTO Reproduccion(nombreUsuario, ruta) VALUES (?,?);";
+			PreparedStatement p = connection.prepareStatement(q);
 			p.setString(1, nombreUsuario);
-			p.setString(2, r.getString(1));
-			p.setString(3, r.getString(3));
-			p.setString(4, r.getString(2));
-			int b = p.executeUpdate();
-			if(b != 0) {
-				throw new Exception("No se pudo añadir la reproducción");
-			}
+			p.setString(2, ruta);
+			p.executeUpdate();
 		}
 		catch (Exception e) {
 			throw e;
@@ -60,19 +43,14 @@ public class reproduccionDAO {
 	 */
 	public JSONObject topSemanal(Connection c) throws SQLException {
 		// Hacemos la consulta
-		// Cogemos las reproducciones de canciones del servidor de los
-		// últimos 7 días
-		String subQuery1 = "(Select * from Reproduccion where "
-						 + "TIMESTAMPDIFF(DAY,fecha,CURRENT_TIMESTAMP)<=7 AND "
-						 + "uploader = 'Admin') q1 ";
-		// Contamos el número de reproducciones de esas canciones
-		String subQuery2 = "(SELECT *, count(*) AS num "
-						 + "FROM " + subQuery1
-						 + "GROUP BY titulo,nombreAlbum,nombreArtista) q2 ";
-		// Nos quedamos con las 10 canciones más escuchadas
-		String q = "SELECT q2.titulo, q2.nombreAlbum, q2.nombreArtista "
-				 + "FROM " + subQuery2 
-				 + " ORDER BY (num) DESC limit 10 ";
+		String q =  "Select t1.titulo, t1.nombreArtista, t1.nombreAlbum, t1.genero, t1.ruta\n" + 
+					"FROM\n" + 
+					"(Select c.titulo, c.nombreArtista, c.nombreAlbum, c.genero, c.ruta, count(*) as numReproducciones\n" + 
+					"from Reproduccion r JOIN Cancion c ON r.ruta=c.ruta\n" + 
+					"where TIMESTAMPDIFF(DAY,fecha,CURRENT_TIMESTAMP)<7 and nombreUsuario='Admin'\n" + 
+					"GROUP BY c.titulo, c.nombreArtista, c.nombreAlbum, c.genero, c.ruta) t1\n" + 
+					"ORDER BY (numReproducciones) DESC\n" + 
+					"LIMIT 10;";
 		PreparedStatement p = c.prepareStatement(q);
 		ResultSet r = p.executeQuery();
 		
@@ -85,6 +63,8 @@ public class reproduccionDAO {
 			aux.put("tituloCancion", r.getString(1));
 			aux.put("nombreArtista", r.getString(2));
 			aux.put("nombreAlbum", r.getString(3));
+			aux.put("genero", r.getString(4));
+			aux.put("ruta", r.getString(5));
 			array.add(aux);
 		}
 		obj.put("canciones", array);
@@ -102,11 +82,17 @@ public class reproduccionDAO {
 	public JSONObject escuchadasRecientemente(String usuario, Connection c) 
 			throws SQLException {
 		// Hacmos la consulta
-		String q = "Select titulo, nombreArtista, nombreAlbum "
-				 + "from Reproduccion "
-				 + "where nombreUsuario = ? "
-				 + "ORDER BY fecha DESC "
-				 + "limit 10;";
+		String q = "SELECT titulo, nombreArtista, nombreAlbum, genero, ruta "
+				 + "FROM "
+				   + "(SELECT titulo, nombreArtista, nombreAlbum, genero, ruta, max(fecha) as fecha "
+				   + "FROM "
+				     + "(SELECT c.titulo, c.nombreArtista, c.nombreAlbum, c.genero, c.ruta, r.fecha "
+				     + "from Reproduccion r JOIN Cancion c ON r.ruta=c.ruta "
+				     + "where r.nombreUsuario = ?) t1 "
+				     + "GROUP BY titulo, nombreArtista, nombreAlbum, genero, ruta "
+				   + ") t2 "
+				   + "ORDER BY (fecha) DESC "
+				   + "LIMIT 10;";
 		PreparedStatement p = c.prepareStatement(q);
 		p.setString(1, usuario);
 		ResultSet r = p.executeQuery();
@@ -120,6 +106,8 @@ public class reproduccionDAO {
 			aux.put("tituloCancion", r.getString(1));
 			aux.put("nombreArtista", r.getString(2));
 			aux.put("nombreAlbum", r.getString(3));
+			aux.put("genero", r.getString(4));
+			aux.put("ruta", r.getString(5));
 			array.add(aux);
 		}
 		obj.put("canciones", array);

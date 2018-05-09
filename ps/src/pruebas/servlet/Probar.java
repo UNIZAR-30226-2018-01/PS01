@@ -50,7 +50,7 @@ public class Probar {
 //			CambiarContrasenya.execute(USER2, SESION2, PASS2, "Albertro2", "Albertro2");
 //			CambiarNombre.execute(USER2, SESION2, "Paquito");
 //			EliminarCuenta.execute("Paquito", SESION2, "Albertro2");
-			ReproducirCancion.execute(USER, SESION, CANCION, ARTISTA, ALBUM);
+//			ReproducirCancion.execute(USER, SESION, CANCION, ARTISTA, ALBUM);
 		}
 		catch(Exception e) {
 			e.printStackTrace();

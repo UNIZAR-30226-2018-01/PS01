@@ -66,16 +66,13 @@ CREATE TABLE Formar(
 );
 
 CREATE TABLE Reproduccion(
-	nombreUsuario varchar(32) REFERENCES Usuario(nombre) ON DELETE CASCADE ON UPDATE CASCADE,
-	titulo varchar(64),
-	nombreAlbum varchar(32),
-	nombreArtista varchar(32),
-	uploader varchar(32),
+	numReproduccion BIGINT AUTO_INCREMENT,
+	ruta varchar(128) not null,
+	nombreUsuario varchar(32),
 	fecha TIMESTAMP default CURRENT_TIMESTAMP,
-	PRIMARY KEY (nombreUsuario, titulo, nombreAlbum, nombreArtista, uploader, fecha),
-	FOREIGN KEY (titulo, nombreArtista, nombreAlbum, uploader)
-		REFERENCES Cancion(titulo, nombreArtista, nombreAlbum, uploader) ON DELETE CASCADE,
-	FOREIGN KEY (nombreUsuario) REFERENCES Usuario(nombre) ON DELETE CASCADE
+	PRIMARY KEY(numReproduccion),
+	FOREIGN KEY (ruta) REFERENCES Cancion(ruta) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (nombreUsuario) REFERENCES Usuario(nombre) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE Compartir(

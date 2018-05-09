@@ -20,7 +20,18 @@ import modelo.excepcion.NoHayCanciones;
 import modelo.excepcion.SesionInexistente;
 
 /**
- * Servlet implementation class VerLista
+ * Servlet para ver el contenido de una lista de reproducción
+ * Recibe:
+ * 	-Las cookies de login e idSesion
+ *  -"nombreLista", que se corresponde con el nombre de la lista
+ *  -"nombreCreadorLista", que se corresponde con el nombre del creador de la lista
+ * Devuelve:
+ *  -Un JSON con la clave "canciones", cuyo valor asociado es un array de
+ *   canciones, en el que cada canción contiene un array de strings con
+ *   los valores "tituloCancion", "nombreArtista", "nombreAlbum", "genero"
+ *   y "ruta".
+ *  -Un JSON con la clave "NoHayCanciones" o "error" si algo ha ido mal
+ *  
  */
 @WebServlet("/VerLista")
 public class VerLista extends HttpServlet {
