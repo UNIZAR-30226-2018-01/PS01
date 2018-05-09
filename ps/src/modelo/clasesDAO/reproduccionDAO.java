@@ -18,25 +18,32 @@ public class reproduccionDAO {
 	 * 		 Si y solo si se produce algún problema al registrar la audición, entonces
 	 * 		 lanza una excepción ExcepcionReproduccion.
 	 */
-	public void anyadirReproduccion (reproduccionVO repro, Connection connection)
-			throws ExcepcionReproduccion, SQLException {
+	public void anyadirReproduccion (String ruta, String nombreUsuario,
+			Connection connection) throws Exception {
 		try {
-			String queryString = "INSERT INTO Reproduccion(nombreUsuario, titulo, nombreAlbum, nombreArtista) "
-					+ "VALUES (?,?,?,?);";
+			// Obtenemos los valores asociados a la ruta
+			String q = "SELECT titulo, nombreArtista, nombreAlbum "
+					 + "FROM Cancion "
+					 + "WHERE ruta=?;";
+			PreparedStatement p = connection.prepareStatement(q);
+			p.setString(1, ruta);
+			ResultSet r = p.executeQuery();
+			if(!r.first()) {
+				throw new Exception("La ruta proporcionada no es válida");
+			}
 			
-			PreparedStatement preparedStatement = 
-	                connection.prepareStatement(queryString);
-			
-			preparedStatement.setString(1, repro.verNombreUsuario());
-			preparedStatement.setString(2, repro.verTituloCancion());
-			preparedStatement.setString(3, repro.verNombreAlbum());
-			preparedStatement.setString(4, repro.verNombreArtista());
-			
-			int busquedaComp = preparedStatement.executeUpdate();
-	        if (busquedaComp != 0) {
-	        		throw new ExcepcionReproduccion("Error al marcar la canción " + repro.verTituloCancion() + " como reproducida "
-	        				+ "para el usuario" + repro.verNombreUsuario() + ".");
-	        }
+			// Guardamos la reproducción
+			q = "INSERT INTO Reproduccion(nombreUsuario, titulo, nombreAlbum, nombreArtista) "
+			  + "VALUES (?,?,?,?);";
+			p = connection.prepareStatement(q);
+			p.setString(1, nombreUsuario);
+			p.setString(2, r.getString(1));
+			p.setString(3, r.getString(3));
+			p.setString(4, r.getString(2));
+			int b = p.executeUpdate();
+			if(b != 0) {
+				throw new Exception("No se pudo añadir la reproducción");
+			}
 		}
 		catch (Exception e) {
 			throw e;

@@ -797,11 +797,11 @@ public class ImplementacionFachada implements InterfazFachada {
 		}
 	}
 
-	public void anyadirReproduccion(String usuario, String titulo,
-			String artista, String album , String uploader) throws Exception {
+	public void anyadirReproduccion(String ruta, String nombreUsuario)
+			throws Exception {
 		Connection c = FuncionesAuxiliares.obtenerConexion();
 		try {
-			new reproduccionDAO().anyadirReproduccion(new reproduccionVO(usuario, titulo, artista, album, uploader, new Date()), c);
+			new reproduccionDAO().anyadirReproduccion(ruta, nombreUsuario, c);
 		}
 		catch (Exception e) {
 			throw e;

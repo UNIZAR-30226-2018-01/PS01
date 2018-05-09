@@ -17,7 +17,7 @@ public class pruebasReproduccion {
 	
 	public static void pruebaAnyadirReproduccion() throws ExcepcionReproduccion, SQLException {
 		try {
-			rDAO.anyadirReproduccion(rVO, connection);
+			rDAO.anyadirReproduccion("","", connection);
 			System.out.println("Sesión creada correctamente.");
 		}
 		catch (Exception e) {

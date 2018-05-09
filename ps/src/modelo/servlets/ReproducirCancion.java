@@ -18,7 +18,13 @@ import modelo.FuncionesAuxiliares;
 import modelo.ImplementacionFachada;
 
 /**
- * Servlet implementation class ReproducirCancion
+ * Servlet que añade la reproducción de una canción
+ * Recibe:
+ * 	-Las cookies de login e idSesion
+ * 	-El parámetro "ruta", que contiene la ruta de la canción reproducida
+ * Devuelve:
+ * 	-Un JSON vacío si todo ha ido bien
+ *  -Un JSON con la clave error si ha habido algún problema
  */
 @WebServlet("/ReproducirCancion")
 public class ReproducirCancion extends HttpServlet {
@@ -40,10 +46,7 @@ public class ReproducirCancion extends HttpServlet {
 		Cookie[] cookies = request.getCookies();
 		String nombreUsuario = FuncionesAuxiliares.obtenerCookie(cookies, "login");
 		String idSesion = FuncionesAuxiliares.obtenerCookie(cookies, "idSesion");
-		String titulo = request.getParameter("titulo");
-		String artista = request.getParameter("artista");
-		String album = request.getParameter("album");
-		String uploader = request.getParameter("uploader");
+		String ruta = request.getParameter("ruta");
 		PrintWriter out = response.getWriter();
 		JSONObject obj = new JSONObject();
 		
@@ -55,9 +58,9 @@ public class ReproducirCancion extends HttpServlet {
 			// Respondemos con el fichero JSON
 			out.println(obj.toJSONString());
 		}
-		else if(titulo == null || artista == null || album == null || uploader == null) {
+		else if(ruta == null) {
 			// Metemos el objeto de error en el JSON
-			obj.put("error", "Titulo, artista, album  y uploader no pueden ser nulos");
+			obj.put("error", "No se ha recibido la ruta");
 			
 			// Respondemos con el fichero JSON
 			out.println(obj.toJSONString());
@@ -66,20 +69,8 @@ public class ReproducirCancion extends HttpServlet {
 			try {
 				ImplementacionFachada f = new ImplementacionFachada();
 				f.existeSesionUsuario(nombreUsuario, idSesion);
-				//f.anyadirReproduccion(nombreUsuario, titulo, artista, album, uploader);
-				String ruta = f.obtenerRuta(titulo, artista, album, nombreUsuario);
-				
-				// Enviamos la canción
-				FileInputStream in = new FileInputStream(ruta);
-				byte[] buffer = new byte[4096];
-				int length;
-				while ((length = in.read(buffer)) > 0){
-					String text = new String(buffer, "UTF-8");
-					char[] chars = text.toCharArray();
-				    out.write(chars, 0, length);
-				}
-				in.close();
-				out.flush();
+				f.anyadirReproduccion(ruta, nombreUsuario);
+				out.println(obj.toJSONString());
 			}
 			catch(Exception e) {
 				// Metemos el objeto de error en el JSON

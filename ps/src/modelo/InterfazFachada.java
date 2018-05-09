@@ -399,6 +399,6 @@ public interface InterfazFachada {
 	 * Post: Ha añadido una reproducción de la canción identidicada por titulo,
 	 * 		 artista y album a la base de datos
 	 */
-	public void anyadirReproduccion(String usuario, String titulo,
-			String artista, String album , String uploader) throws Exception;
+	public void anyadirReproduccion(String ruta, String nombreUsuario)
+			throws Exception;
 }
