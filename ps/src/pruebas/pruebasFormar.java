@@ -10,7 +10,7 @@ import modelo.excepcion.CancionExisteEnLista;
 import modelo.excepcion.CancionNoExisteEnLista;
 
 public class pruebasFormar {
-	private formarVO fVO = new formarVO("cancion_1", "artista_1", "album_1", "lista_1", "alberto");
+	private formarVO fVO = new formarVO("ruta", "lista_1", "alberto");
 	private formarDAO fDAO = new formarDAO();
 	private Connection connection = null;
 	
@@ -21,10 +21,10 @@ public class pruebasFormar {
 	public void pruebaExisteCancionEnLista() throws SQLException {
 		try {
 			if (fDAO.existeCancionEnLista(fVO, connection)) {
-				System.out.println("La canción " + fVO.verTituloCancion() + " ya existe en la lista " + fVO.verNombreLista() + ".");
+				System.out.println("La canción ya está en la lista");
 			}
 			else {
-				System.out.println("La canción " + fVO.verTituloCancion() + " no existe en la lista " + fVO.verNombreLista() + ".");
+				System.out.println("La canción no está en la lista");
 			}
 		}
 		catch (Exception e) {
@@ -35,7 +35,7 @@ public class pruebasFormar {
 	public void pruebaAnyadirCancionALista() throws CancionExisteEnLista, SQLException {
 		try {
 			fDAO.anyadirCancionALista(fVO, connection);
-			System.out.println("Canción " + fVO.verTituloCancion() + " añadida a la lista " + fVO.verNombreLista() + " correctamente.");
+			System.out.println("Canción añadida a la lista");
 		}
 		catch (Exception e) {
 			System.out.println(e.toString());
@@ -45,7 +45,7 @@ public class pruebasFormar {
 	public void pruebaQuitarCancionDeLista() throws CancionNoExisteEnLista, SQLException {
 		try {
 			fDAO.quitarCancionDeLista(fVO, connection);
-			System.out.println("Canción " + fVO.verTituloCancion() + " eliminada de la lista " + fVO.verNombreLista() + " correctamente.");
+			System.out.println("Canción eliminada de la lista");
 		}
 		catch (Exception e) {
 			System.out.println(e.toString());

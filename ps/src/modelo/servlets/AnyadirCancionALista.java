@@ -19,6 +19,17 @@ import modelo.clasesVO.formarVO;
 import modelo.excepcion.CancionExisteEnLista;
 import modelo.excepcion.SesionInexistente;
 
+/*
+ * Servlet que añade una canción a una lista de reproducción
+ * Recibe:
+ * 	-Las cookies de login e idSesion
+ *  -El parámetro "ruta", que es la ruta de la canción a meter en la lista
+ *  -El parámetro "nombreLista", que es el nombre de la lista en donde se añadirá
+ *   la canción.
+ * Devuelve:
+ *  -Un JSON vacío si todo ha ido bien
+ * 	-Un JSON con la clave "error" o "CancionYaExisteEnLista" si algo ha ido mal
+ */
 @WebServlet("/AnyadirCancionALista")
 public class AnyadirCancionALista extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -29,9 +40,7 @@ public class AnyadirCancionALista extends HttpServlet {
 		Cookie[] cookies = request.getCookies();
 		String nombreUsuario = FuncionesAuxiliares.obtenerCookie(cookies, "login");
 		String idSesion = FuncionesAuxiliares.obtenerCookie(cookies, "idSesion");
-		String tituloCancion = request.getParameter("tituloCancion");
-		String nombreArtista = request.getParameter("nombreArtista");
-		String nombreAlbum = request.getParameter("nombreAlbum");
+		String ruta = request.getParameter("ruta");
 		String nombreLista = request.getParameter("nombreLista");
 		PrintWriter out = response.getWriter();
 		JSONObject obj = new JSONObject();
@@ -43,23 +52,9 @@ public class AnyadirCancionALista extends HttpServlet {
 			// Respondemos con el fichero JSON
 			out.println(obj.toJSONString());
 		}
-		else if (tituloCancion == null) {
+		else if (ruta == null) {
 			// Metemos el objeto de error en el JSON
-			obj.put("error", "Título de canción no válido");
-			
-			// Respondemos con el fichero JSON
-			out.println(obj.toJSONString());
-		}
-		else if (nombreArtista == null) {
-			// Metemos el objeto de error en el JSON
-			obj.put("error", "Nombre de artista no válido");
-			
-			// Respondemos con el fichero JSON
-			out.println(obj.toJSONString());
-		}
-		else if (nombreAlbum == null) {
-			// Metemos el objeto de error en el JSON
-			obj.put("error", "Nombre de álbum no válido");
+			obj.put("error", "Ruta no válida");
 			
 			// Respondemos con el fichero JSON
 			out.println(obj.toJSONString());
@@ -75,14 +70,7 @@ public class AnyadirCancionALista extends HttpServlet {
 			try {
 				ImplementacionFachada f = new ImplementacionFachada();
 				f.existeSesionUsuario(nombreUsuario, idSesion);
-				f.anyadirCancionALista(new formarVO(tituloCancion, nombreArtista, nombreAlbum, nombreLista, nombreUsuario));
-				out.println(obj.toJSONString());
-			}
-			catch(SesionInexistente e) {
-				// Metemos el objeto de error en el JSON
-				obj.put("error", "Usuario no logeado en el servidor");
-				
-				// Respondemos con el fichero JSON
+				f.anyadirCancionALista(new formarVO(ruta, nombreLista, nombreUsuario));
 				out.println(obj.toJSONString());
 			}
 			catch (CancionExisteEnLista l) {
@@ -91,9 +79,9 @@ public class AnyadirCancionALista extends HttpServlet {
 				// Respondemos con el fichero JSON
 				out.println(obj.toJSONString());
 			}
-			catch (SQLException s) {
+			catch (Exception e) {
 				// Metemos el objeto de error en el JSON
-				obj.put("error", s.toString());
+				obj.put("error", e.toString());
 				
 				// Respondemos con el fichero JSON
 				out.println(obj.toJSONString());

@@ -12,8 +12,8 @@ CREATE TABLE Usuario(
 	imagenPerfil varchar(128) default NULL
 );
 
--- Codigo hash de 'gracehopper'
-INSERT INTO Usuario values('Admin', '1d6868c84f4ed1ee6d5f34116ab14ddb', NULL);
+-- Codigo hash de 'Gracehopper1'
+INSERT INTO Usuario values('Admin', 'fd119e3d4ab1344a55ba8567cb33ce9d', NULL);
 
 CREATE TABLE Cancion(
 	titulo varchar(64),
@@ -26,8 +26,6 @@ CREATE TABLE Cancion(
 	PRIMARY KEY (titulo, nombreArtista, nombreAlbum, uploader),
 	FOREIGN KEY (uploader) references Usuario(nombre) ON DELETE CASCADE ON UPDATE CASCADE
 );
-
-INSERT INTO Cancion values('Deltoya', 'Extremoduro', 'Iros todos a tomar por culo','Rock', 'Admin', '/home/pi/uno.mp3');
 
 CREATE TABLE Sesion(
 	hashSesion varchar(128),
@@ -55,13 +53,10 @@ CREATE TABLE ListaReproduccion(
 );
 
 CREATE TABLE Formar(
-	titulo varchar(64),
-	nombreArtista varchar(32),
-	nombreAlbum varchar(32),
+	ruta varchar(128) REFERENCES Cancion(ruta) ON DELETE CASCADE ON UPDATE CASCADE,
 	nombreLista varchar(32),
 	nombreUsuario varchar(32),
-	PRIMARY KEY (titulo, nombreArtista, nombreAlbum, nombreLista, nombreUsuario),
-	FOREIGN KEY (titulo, nombreArtista, nombreAlbum) REFERENCES Cancion(titulo, nombreArtista, nombreAlbum) ON DELETE CASCADE,
+	PRIMARY KEY (ruta, nombreLista, nombreUsuario),
 	FOREIGN KEY (nombreLista, nombreUsuario) REFERENCES ListaReproduccion(nombre, nombreUsuario) ON DELETE CASCADE ON UPDATE CASCADE
 );
 

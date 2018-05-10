@@ -13,18 +13,13 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 public class AnyadirCancionALista {
-	public static void execute(String login, String idSesion,
-			String tituloCancion, String nombreArtista, String nombreAlbum,
+	public static void execute(String login, String idSesion, String ruta,
 			String nombreLista) {
 		try {
 			URL url = new URL(Probar.URL_SERVER + "AnyadirCancionALista");
 			Map<String, Object> params = new LinkedHashMap<>();
 			
-			params.put("login", login);
-			params.put("idSesion", idSesion);
-			params.put("tituloCancion", tituloCancion);
-			params.put("nombreArtista", nombreArtista);
-			params.put("nombreAlbum", nombreAlbum);
+			params.put("ruta", ruta);
 			params.put("nombreLista", nombreLista);
 			
 			StringBuilder postData = new StringBuilder();
@@ -47,6 +42,7 @@ public class AnyadirCancionALista {
 	        conn.setRequestProperty("Cookie", "login=" + login +
 					"; idSesion=" + idSesion);
 	        conn.getOutputStream().write(postDataBytes);
+	        
 	        // Leemos los parámetros
 	        InputStream response = conn.getInputStream();
 	        JSONParser jsonParser = new JSONParser();

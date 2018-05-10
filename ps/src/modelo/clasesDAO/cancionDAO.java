@@ -47,8 +47,7 @@ public class cancionDAO {
     			
     			if (lista != null) {
 					new formarDAO().anyadirCancionALista(
-							new formarVO(cancion.verTitulo(), cancion.verNombreArtista(),
-										 cancion.verNombreAlbum(), lista,
+							new formarVO(cancion.verRuta(), lista,
 										 cancion.verUploader()), connection);
 				}
         	}

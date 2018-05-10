@@ -26,21 +26,19 @@ public class formarDAO {
 			throws CancionExisteEnLista, SQLException {
 		try {
 			if (existeCancionEnLista(f, connection)) {
-				throw new CancionExisteEnLista("La canción " + f.verTituloCancion() + " ya existe"
-						+ " en la lista " + f.verNombreLista() + ".");
+				throw new CancionExisteEnLista("La canción de ruta " + 
+						f.getRuta() + " ya existe en la lista " + 
+						f.getNombreLista());
 			}
 			else {
-				String queryString = "INSERT INTO Formar(titulo, nombreArtista, nombreAlbum, nombreLista, nombreUsuario)"
-						+ " VALUES(?,?,?,?,?);";
+				String queryString = "INSERT INTO Formar(ruta, nombreLista, nombreUsuario)"
+						+ " VALUES(?,?,?);";
 				PreparedStatement preparedStatement = 
 		                connection.prepareStatement(queryString);
 				
-				preparedStatement.setString(1, f.verTituloCancion());
-				preparedStatement.setString(2, f.verNombreArtista());
-				preparedStatement.setString(3, f.verNombreAlbum());
-				preparedStatement.setString(4, f.verNombreLista());
-				preparedStatement.setString(5, f.verNombreUsuario());
-				
+				preparedStatement.setString(1, f.getRuta());
+				preparedStatement.setString(2, f.getNombreLista());
+				preparedStatement.setString(3, f.getNombreUsuario());
 				preparedStatement.executeUpdate();
 			}
 		}
@@ -60,25 +58,21 @@ public class formarDAO {
 			throws CancionNoExisteEnLista, SQLException {
 		try {
 			if (!existeCancionEnLista(f, connection)) {
-				throw new CancionNoExisteEnLista("La canción " + f.verTituloCancion() + " no existe"
-						+ " en la lista " + f.verNombreLista() + ".");
+				throw new CancionNoExisteEnLista("La canción de ruta " + 
+						f.getRuta() + " no existe en la lista " + 
+						f.getNombreLista());
 			}
 			else {
 				String queryString = "DELETE FROM Formar"
-						+ " WHERE titulo = ?"
-						+ " AND nombreArtista = ?"
-						+ " AND nombreAlbum = ?"
+						+ " WHERE ruta = ?"
 						+ " AND nombreLista = ?"
 						+ " AND nombreUsuario = ?;";
 				
 				PreparedStatement preparedStatement = 
 		                connection.prepareStatement(queryString);
-				preparedStatement.setString(1, f.verTituloCancion());
-				preparedStatement.setString(2, f.verNombreArtista());
-				preparedStatement.setString(3, f.verNombreAlbum());
-				preparedStatement.setString(4, f.verNombreLista());
-				preparedStatement.setString(5, f.verNombreUsuario());
-				
+				preparedStatement.setString(1, f.getRuta());
+				preparedStatement.setString(2, f.getNombreLista());
+				preparedStatement.setString(3, f.getNombreUsuario());
 				preparedStatement.executeUpdate();
 			}
 		}
@@ -95,23 +89,19 @@ public class formarDAO {
 	public boolean existeCancionEnLista(formarVO f, Connection connection) throws SQLException {
 		try {
 			String queryString = "SELECT * FROM Formar"
-					+ " WHERE titulo = ?"
-					+ " AND nombreArtista = ?"
-					+ " AND nombreAlbum = ?"
+					+ " WHERE ruta = ?"
 					+ " AND nombreLista = ?"
 					+ " AND nombreUsuario = ?;";
 			
 			PreparedStatement preparedStatement = 
 	                connection.prepareStatement(queryString);
-			preparedStatement.setString(1, f.verTituloCancion());
-			preparedStatement.setString(2, f.verNombreArtista());
-			preparedStatement.setString(3, f.verNombreAlbum());
-			preparedStatement.setString(4, f.verNombreLista());
-			preparedStatement.setString(5, f.verNombreUsuario());
+			preparedStatement.setString(1, f.getRuta());
+			preparedStatement.setString(2, f.getNombreLista());
+			preparedStatement.setString(3, f.getNombreUsuario());
 	            
 	        /* Execute query. */                    
 			ResultSet busquedaComp = preparedStatement.executeQuery();
-	        return (busquedaComp.next());			
+	        return (busquedaComp.first());			
 		}
 		catch (Exception e) {
 			throw e;
@@ -126,20 +116,19 @@ public class formarDAO {
 	public JSONObject verLista(listaReproduccionVO l, Connection connection)
 			throws SQLException, NoHayCanciones {
 		try {
-			String queryString = "SELECT Cancion.titulo, Cancion.nombreArtista, "
-							   + "Cancion.nombreAlbum, Cancion.genero, "
-							   + "Cancion.uploader, Cancion.ruta "
-							   + "FROM (SELECT * FROM Formar where nombreLista= ? "
-							   + "AND nombreUsuario = ?) c1 JOIN Cancion "
-							   + "ON (c1.titulo = Cancion.titulo AND "
-							   + "c1.nombreArtista = Cancion.nombreArtista AND "
-							   + "c1.nombreAlbum = Cancion.nombreAlbum AND "
-							   + "c1.nombreUsuario = Cancion.uploader);";
-			PreparedStatement preparedStatement = 
-	                connection.prepareStatement(queryString);
-			preparedStatement.setString(1, l.obtenerNombreLista());
-			preparedStatement.setString(2, l.obtenerNombreUsuario());
-			ResultSet resultado = preparedStatement.executeQuery();
+			// Hacemos la consulta
+			String q = "SELECT titulo, nombreArtista, nombreAlbum, genero, uploader, c.ruta\n" + 
+					"FROM\n" + 
+					"	(SELECT ruta\n" + 
+					"	FROM Formar\n" + 
+					"	WHERE nombreLista = ? AND nombreUsuario = ?) s1\n" + 
+					"	JOIN\n" + 
+					"	Cancion c\n" + 
+					"	ON s1.ruta = c.ruta;";
+			PreparedStatement p = connection.prepareStatement(q);
+			p.setString(1, l.obtenerNombreLista());
+			p.setString(2, l.obtenerNombreUsuario());
+			ResultSet resultado = p.executeQuery();
 			
 			if (!resultado.first()) {
 				throw new NoHayCanciones("La Lista " + l.obtenerNombreLista() + " del usuario"

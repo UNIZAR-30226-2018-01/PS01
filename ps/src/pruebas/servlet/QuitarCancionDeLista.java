@@ -13,18 +13,13 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 public class QuitarCancionDeLista {
-	public static void execute(String login, String idSesion,
-			String tituloCancion, String nombreArtista, String nombreAlbum,
+	public static void execute(String login, String idSesion, String ruta, 
 			String nombreLista) {
 		try {
 			URL url = new URL(Probar.URL_SERVER + "QuitarCancionDeLista");
 			Map<String, Object> params = new LinkedHashMap<>();
 			
-			params.put("login", login);
-			params.put("idSesion", idSesion);
-			params.put("tituloCancion", tituloCancion);
-			params.put("nombreArtista", nombreArtista);
-			params.put("nombreAlbum", nombreAlbum);
+			params.put("ruta", ruta);
 			params.put("nombreLista", nombreLista);
 			StringBuilder postData = new StringBuilder();
 	        for (Map.Entry<String, Object> param : params.entrySet()) {

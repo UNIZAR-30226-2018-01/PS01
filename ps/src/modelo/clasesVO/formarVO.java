@@ -1,67 +1,42 @@
 package modelo.clasesVO;
 
 public class formarVO {
-	private String tituloCancion;
-	private String nombreArtista;
-	private String nombreAlbum;
+	// Parámetros
+	private String ruta;
 	private String nombreLista;
 	private String nombreUsuario;
-
-	public formarVO(String tituloCancion, String nombreArtista, String nombreAlbum, String nombreLista, String nombreUsuario){
-		this.tituloCancion = tituloCancion;
-		this.nombreArtista = nombreArtista;
-		this.nombreAlbum = nombreAlbum;
+	
+	// Contructor
+	public formarVO(String ruta, String nombreLista, String nombreUsuario) {
+		super();
+		this.ruta = ruta;
 		this.nombreLista = nombreLista;
 		this.nombreUsuario = nombreUsuario;
 	}
 
-	public String verTituloCancion(){
-		return tituloCancion;
+	// Getters y setters
+	
+	public String getRuta() {
+		return ruta;
 	}
 
-	public String verNombreArtista(){
-		return nombreArtista;
+	public void setRuta(String ruta) {
+		this.ruta = ruta;
 	}
 
-	public String verNombreAlbum(){
-		return nombreAlbum;
-	}
-
-	public String verNombreLista(){
+	public String getNombreLista() {
 		return nombreLista;
 	}
 
-	public String verNombreUsuario(){
+	public void setNombreLista(String nombreLista) {
+		this.nombreLista = nombreLista;
+	}
+
+	public String getNombreUsuario() {
 		return nombreUsuario;
 	}
 
-	public void modificarTituloCancion(String nuevoTitulo){
-		if (nuevoTitulo != null){
-			tituloCancion = nuevoTitulo;
-		}
-	}
-
-	public void modificarNombreArtista(String nuevoArtista){
-		if (nuevoArtista != null){
-			nombreArtista = nuevoArtista;
-		}
-	}
-
-	public void modificarNombreAlbum(String nuevoAlbum){
-		if (nuevoAlbum != null){
-			nombreAlbum = nuevoAlbum;
-		}
-	}
-
-	public void modificarNombreLista(String nuevaLista){
-		if (nuevaLista != null){
-			nombreLista = nuevaLista;
-		}
-	}
-
-	public void modificarNombreUsuario(String nuevoUsuario){
-		if (nuevoUsuario != null){
-			nombreUsuario = nuevoUsuario;
-		}
+	public void setNombreUsuario(String nombreUsuario) {
+		this.nombreUsuario = nombreUsuario;
 	}
 }
