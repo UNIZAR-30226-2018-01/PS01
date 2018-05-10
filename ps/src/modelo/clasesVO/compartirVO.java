@@ -1,50 +1,62 @@
 package modelo.clasesVO;
 
+import java.util.Date;
+
 public class compartirVO {
+	private String ruta;
 	private String usuarioOrigen;
-	private String tituloCancion;
-	private String nombreAlbum;
-	private String nombreArtista;
-	private String genero;
 	private String usuarioDestino;
-	private String fecha;
+	private Date fecha;
 	
-	public compartirVO(String usuarioOrigen, String tituloCancion, String nombreAlbum,
-					   String nombreArtista, String genero, String usuarioDestino, String fecha) {
+	// Constructores
+	public compartirVO(String ruta, String usuarioOrigen,
+			String usuarioDestino) {
+		super();
+		this.ruta = ruta;
 		this.usuarioOrigen = usuarioOrigen;
-		this.tituloCancion = tituloCancion;
-		this.nombreAlbum = nombreAlbum;
-		this.nombreArtista = nombreArtista;
-		this.genero = genero;
+		this.usuarioDestino = usuarioDestino;
+	}
+	
+	public compartirVO(String ruta, String usuarioOrigen, String usuarioDestino,
+			Date fecha) {
+		super();
+		this.ruta = ruta;
+		this.usuarioOrigen = usuarioOrigen;
 		this.usuarioDestino = usuarioDestino;
 		this.fecha = fecha;
 	}
+
 	
-	public String verUsuarioOrigen () {
+	// Getters y setters
+	public String getRuta() {
+		return ruta;
+	}
+
+	public void setRuta(String ruta) {
+		this.ruta = ruta;
+	}
+
+	public String getUsuarioOrigen() {
 		return usuarioOrigen;
 	}
-	
-	public String verTituloCancion () {
-		return tituloCancion;
+
+	public void setUsuarioOrigen(String usuarioOrigen) {
+		this.usuarioOrigen = usuarioOrigen;
 	}
-	
-	public String verNombreAlbum () {
-		return nombreAlbum;
-	}
-	
-	public String verNombreArtista () {
-		return nombreArtista;
-	}
-	
-	public String verGenero () {
-		return genero;
-	}
-	
-	public String verUsuarioDestino () {
+
+	public String getUsuarioDestino() {
 		return usuarioDestino;
 	}
-	
-	public String verFecha() {
+
+	public void setUsuarioDestino(String usuarioDestino) {
+		this.usuarioDestino = usuarioDestino;
+	}
+
+	public Date getFecha() {
 		return fecha;
+	}
+
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
 	}
 }

@@ -703,7 +703,7 @@ public class ImplementacionFachada implements InterfazFachada {
 	}
 	
 	public void compartirCancion(compartirVO cancion)
-			throws SQLException {
+			throws Exception {
 		Connection c = FuncionesAuxiliares.obtenerConexion();
 		try {
 			new compartirDAO().compartirCancion(cancion, c);
@@ -730,7 +730,7 @@ public class ImplementacionFachada implements InterfazFachada {
 	}
 
 	public void eliminarComparticion(compartirVO cancion)
-			throws SQLException {
+			throws Exception {
 		Connection c = FuncionesAuxiliares.obtenerConexion();
 		try {
 			new compartirDAO().eliminarComparticion(cancion, c);

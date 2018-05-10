@@ -22,7 +22,8 @@ import modelo.clasesVO.compartirVO;
  * Servlet que permite compartir una canción
  * Recibe:
  * 	-Las cookies de login e idSesion
- *  -La información de la canción a compartir
+ *  -"usuarioDestino", que es el usuario con el que se compartirá la canción
+ *  -"ruta", que es la ruta de la canción a compartir
  * Devuelve:
  * 	-Un JSON vacío si todo ha ido bien
  *  -Un JSON con la clave error si algo ha ido mal
@@ -41,10 +42,7 @@ public class CompartirCancion extends HttpServlet {
 		Cookie[] c = request.getCookies();
 		String nombreUsuario = FuncionesAuxiliares.obtenerCookie(c, "login");
 		String idSesion = FuncionesAuxiliares.obtenerCookie(c, "idSesion");
-		String titulo = request.getParameter("titulo");
-		String nombreAlbum = request.getParameter("nombreAlbum");
-		String nombreArtista = request.getParameter("nombreArtista");
-		String genero = request.getParameter("genero");
+		String ruta = request.getParameter("ruta");
 		String usuarioDestino = request.getParameter("usuarioDestino");
 		
 		if (nombreUsuario == null || idSesion == null) {
@@ -54,12 +52,15 @@ public class CompartirCancion extends HttpServlet {
 			// Respondemos con el fichero JSON
 			out.println(obj.toJSONString());
 		}
+		else if(ruta == null || usuarioDestino == null) {
+			obj.put("error", "No se ha recibido o la ruta o el usuario destino");
+			out.println(obj.toJSONString());
+		}
 		else {
 			try {
 				ImplementacionFachada f = new ImplementacionFachada();
 				f.existeSesionUsuario(nombreUsuario, idSesion);
-				f.compartirCancion(new compartirVO(nombreUsuario, titulo, nombreAlbum,
-					    nombreArtista,  genero,  usuarioDestino, null));
+				f.compartirCancion(new compartirVO(ruta, nombreUsuario, usuarioDestino));
 				out.println(obj.toJSONString());
 			}
 			catch (Exception e) {

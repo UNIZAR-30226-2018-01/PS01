@@ -345,7 +345,7 @@ public interface InterfazFachada {
 	 * 		 canción con el usuario 'usuarioDestino'.
 	 */
 	public void compartirCancion(compartirVO cancion)
-			throws SQLException;
+			throws Exception;
 	
 	/*
 	 * Pre: ---
@@ -353,7 +353,7 @@ public interface InterfazFachada {
 	 * 		 compartida por el usuario 'usuarioOrigen'.
 	 */
 	public void eliminarComparticion(compartirVO cancion)
-			throws SQLException;
+			throws Exception;
 	
 	/*
 	 * Pre: ---

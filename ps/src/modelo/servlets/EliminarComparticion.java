@@ -19,10 +19,10 @@ import modelo.ImplementacionFachada;
 import modelo.clasesVO.compartirVO;
 
 /**
- * Servlet que permite compartir una canción
+ * Servlet que permite eliminar una compartición de una canción
  * Recibe:
  * 	-Las cookies de login e idSesion
- *  -La información de la canción compartida a eliminar
+ *  -"ruta", que es la ruta de la canción a descompartir
  * Devuelve:
  * 	-Un JSON vacío si todo ha ido bien
  *  -Un JSON con la clave error si algo ha ido mal
@@ -41,11 +41,7 @@ public class EliminarComparticion extends HttpServlet {
 		Cookie[] c = request.getCookies();
 		String nombreUsuario = FuncionesAuxiliares.obtenerCookie(c, "login");
 		String idSesion = FuncionesAuxiliares.obtenerCookie(c, "idSesion");
-		String titulo = request.getParameter("titulo");
-		String nombreAlbum = request.getParameter("nombreAlbum");
-		String nombreArtista = request.getParameter("nombreArtista");
-		String usuarioDestino = request.getParameter("usuarioDestino");
-		String fecha = request.getParameter("fecha");
+		String ruta = request.getParameter("ruta");
 		
 		if (nombreUsuario == null || idSesion == null) {
 			// Metemos el objeto de error en el JSON
@@ -54,12 +50,15 @@ public class EliminarComparticion extends HttpServlet {
 			// Respondemos con el fichero JSON
 			out.println(obj.toJSONString());
 		}
+		else if(ruta == null) {
+			obj.put("error", "Parámetro \"ruta\" no recibido");
+			out.println(obj.toJSONString());
+		}
 		else {
 			try {
 				ImplementacionFachada f = new ImplementacionFachada();
 				f.existeSesionUsuario(nombreUsuario, idSesion);
-				f.eliminarComparticion(new compartirVO(nombreUsuario, titulo, nombreAlbum,
-					    nombreArtista,  null,  usuarioDestino, fecha));
+				f.eliminarComparticion(new compartirVO(ruta, "", nombreUsuario));
 				out.println(obj.toJSONString());
 			}
 			catch (Exception e) {

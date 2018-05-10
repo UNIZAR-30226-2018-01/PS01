@@ -53,11 +53,12 @@ CREATE TABLE ListaReproduccion(
 );
 
 CREATE TABLE Formar(
-	ruta varchar(128) REFERENCES Cancion(ruta) ON DELETE CASCADE ON UPDATE CASCADE,
+	ruta varchar(128),
 	nombreLista varchar(32),
 	nombreUsuario varchar(32),
 	PRIMARY KEY (ruta, nombreLista, nombreUsuario),
-	FOREIGN KEY (nombreLista, nombreUsuario) REFERENCES ListaReproduccion(nombre, nombreUsuario) ON DELETE CASCADE ON UPDATE CASCADE
+	FOREIGN KEY (nombreLista, nombreUsuario) REFERENCES ListaReproduccion(nombre, nombreUsuario) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY(ruta) REFERENCES Cancion(ruta) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE Reproduccion(
@@ -71,15 +72,14 @@ CREATE TABLE Reproduccion(
 );
 
 CREATE TABLE Compartir(
-	usuarioOrigen varchar(32) REFERENCES Usuario(nombre) ON DELETE CASCADE,
-	titulo varchar(64),
-	nombreAlbum varchar(32),
-	nombreArtista varchar(32),
-	genero varchar(32) default 'Desconocido',
-	usuarioDestino varchar(32) REFERENCES Usuario(nombre) ON DELETE CASCADE,
-	fecha TIMESTAMP default CURRENT_TIMESTAMP,
-	PRIMARY KEY (usuarioOrigen, titulo, nombreAlbum, nombreArtista, usuarioDestino, fecha),
-	FOREIGN KEY (titulo, nombreArtista, nombreAlbum, usuarioOrigen) REFERENCES Cancion(titulo, nombreArtista, nombreAlbum, uploader) ON DELETE CASCADE
+	ruta varchar(128),
+	usuarioOrigen varchar(32),
+	usuarioDestino varchar(32),
+	fecha TIMESTAMP default CURRENT_TIMESTAMP NOT NULL,
+	PRIMARY KEY (usuarioOrigen, usuarioDestino, ruta),
+	FOREIGN KEY(usuarioOrigen) REFERENCES Usuario(nombre) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY(usuarioDestino) REFERENCES Usuario(nombre) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY(ruta) REFERENCES Cancion(ruta) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Trigger que evite que se borre el usuario Admin

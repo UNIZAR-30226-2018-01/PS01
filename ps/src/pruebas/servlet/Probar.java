@@ -46,6 +46,8 @@ public class Probar {
 			VerSeguidores.execute(USER, SESION);
 			VerSeguidos.execute(USER, SESION);
 			DejarDeSeguirUsuario.execute(USER, SESION, USER2);
+			CompartirCancion.execute(USER, SESION, RUTA, USER2);
+			DevolverCompartidas.execute(USER2, SESION2);
 			CerrarSesion.execute(USER, SESION);
 			CambiarContrasenya.execute(USER2, SESION2, PASS2, "Albertro2", "Albertro2");
 			CambiarNombre.execute(USER2, SESION2, "Paquito");

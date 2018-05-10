@@ -19,20 +19,16 @@ public class compartirDAO {
 	 * 		 canción con el usuario 'usuarioDestino'.
 	 */
 	public void compartirCancion(compartirVO cancion, Connection c)
-			throws SQLException {
+			throws Exception {
 		try {
-			String s = "INSERT INTO Compartir (usuarioOrigen, titulo, nombreAlbum,"
-					+ "nombreArtista, genero, usuarioDestino) "
-					+ "VALUES (?,?,?,?,?,?);";
+			String s = "INSERT INTO Compartir(ruta,usuarioOrigen,usuarioDestino) "
+					+ "VALUES (?,?,?);";
 			
 			PreparedStatement preparedStatement = c.prepareStatement(s);
 			
-			preparedStatement.setString(1, cancion.verUsuarioOrigen());
-			preparedStatement.setString(2, cancion.verTituloCancion());
-			preparedStatement.setString(3, cancion.verNombreAlbum());
-			preparedStatement.setString(4, cancion.verNombreArtista());
-			preparedStatement.setString(5, cancion.verGenero());
-			preparedStatement.setString(6, cancion.verUsuarioDestino());
+			preparedStatement.setString(1, cancion.getRuta());
+			preparedStatement.setString(2, cancion.getUsuarioOrigen());
+			preparedStatement.setString(3, cancion.getUsuarioDestino());
 			
 			preparedStatement.executeUpdate();
 		}
@@ -47,29 +43,20 @@ public class compartirDAO {
 	 * 		 compartida por el usuario 'usuarioOrigen'.
 	 */
 	public void eliminarComparticion(compartirVO cancion, Connection c)
-			throws SQLException {
+			throws Exception {
 		try {
 			String s = "DELETE FROM Compartir "
-					 + "WHERE usuarioOrigen = ? AND "
-					 + "titulo = ? AND "
-					 + "nombreAlbum = ? AND "
-					 + "nombreArtista = ? AND "
 					 + "usuarioDestino = ? AND "
-					 + "fecha = ?;";
+					 + "ruta = ?;";
 			
 			PreparedStatement p = c.prepareStatement(s);
 			
-			p.setString(1, cancion.verUsuarioOrigen());
-			p.setString(2, cancion.verTituloCancion());
-			p.setString(3, cancion.verNombreAlbum());
-			p.setString(4, cancion.verNombreArtista());
-			p.setString(5, cancion.verUsuarioDestino());
-			p.setString(6, cancion.verFecha());
-			
+			p.setString(1, cancion.getUsuarioDestino());
+			p.setString(2, cancion.getRuta());
 			p.executeUpdate();
 		}
 		catch (Exception e) {
-			throw e;
+			throw new Exception("La canción no estaba compartida");
 		}
 	}
 	
@@ -83,16 +70,17 @@ public class compartirDAO {
 	public JSONObject devolverCompartidas(String usuarioDestino, Connection c)
 			throws SQLException, SinCompartidas {
 		try {
-			String s = "SELECT Cancion.titulo, Cancion.nombreArtista, "
-					   + "Cancion.nombreAlbum, Cancion.genero, "
-					   + "Cancion.uploader, Cancion.ruta "
-					   + "FROM (SELECT * FROM Compartir where usuarioDestino= ?) c1 "
-					   + "JOIN Cancion "
-					   + "ON (c1.titulo = Cancion.titulo AND "
-					   + "c1.nombreArtista = Cancion.nombreArtista AND "
-					   + "c1.nombreAlbum = Cancion.nombreAlbum) "
-					   + "ORDER BY c1.fecha DESC;";
-			
+			String s =  "SELECT c2.titulo, c2.nombreArtista, c2.nombreAlbum,\n" + 
+						"       c2.genero, c2.uploader, c2.ruta\n" + 
+						"FROM \n" + 
+						"	(SELECT ruta, max(fecha) as fecha\n" + 
+						"	FROM Compartir\n" + 
+						"	WHERE usuarioDestino = ?\n" + 
+						"	GROUP BY ruta) c1 \n" + 
+						"	JOIN Cancion c2 ON c1.ruta=c2.ruta\n" + 
+						"ORDER BY(c1.fecha) DESC " +
+						"LIMIT 10;";
+				
 			PreparedStatement preparedStatement = c.prepareStatement(s);
 			preparedStatement.setString(1, usuarioDestino);
 			
