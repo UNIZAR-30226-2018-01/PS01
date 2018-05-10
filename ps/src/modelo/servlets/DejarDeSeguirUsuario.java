@@ -1,6 +1,8 @@
 package modelo.servlets;
 
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 
@@ -32,7 +34,7 @@ public class DejarDeSeguirUsuario extends HttpServlet {
 			throws ServletException, IOException {
 
 		// Recuperamos los parámetros y las cookies
-		PrintWriter out = response.getWriter();
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8), true);
 		JSONObject obj = new JSONObject();
 		Cookie[] cookies = request.getCookies();
 		String nombreSeguidor = FuncionesAuxiliares.obtenerCookie(cookies, "login");

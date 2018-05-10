@@ -1,6 +1,7 @@
 package modelo.servlets;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -28,7 +29,7 @@ public class BuscarCancionArtista extends HttpServlet {
 	public void doPost (HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException{
 		// Definición de variables
-		PrintWriter out = response.getWriter();
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8), true);
 		JSONObject obj = new JSONObject();
 		String artista = request.getParameter("artista");
 		Cookie[] c = request.getCookies();

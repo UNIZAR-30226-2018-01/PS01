@@ -43,14 +43,14 @@ public class reproduccionDAO {
 	 */
 	public JSONObject topSemanal(Connection c) throws SQLException {
 		// Hacemos la consulta
-		String q =  "Select t1.titulo, t1.nombreArtista, t1.nombreAlbum, t1.genero, t1.ruta\n" + 
-					"FROM\n" + 
-					"(Select c.titulo, c.nombreArtista, c.nombreAlbum, c.genero, c.ruta, count(*) as numReproducciones\n" + 
-					"from Reproduccion r JOIN Cancion c ON r.ruta=c.ruta\n" + 
-					"where TIMESTAMPDIFF(DAY,fecha,CURRENT_TIMESTAMP)<7 and nombreUsuario='Admin'\n" + 
-					"GROUP BY c.titulo, c.nombreArtista, c.nombreAlbum, c.genero, c.ruta) t1\n" + 
-					"ORDER BY (numReproducciones) DESC\n" + 
-					"LIMIT 10;";
+		String q =  "Select t1.titulo, t1.nombreArtista, t1.nombreAlbum, t1.genero, t1.ruta  \n" + 
+				"FROM  \n" + 
+				"	(Select c.titulo, c.nombreArtista, c.nombreAlbum, c.genero, c.ruta, count(*) as numReproducciones  \n" + 
+				"	from Reproduccion r JOIN (Select * from Cancion where uploader='Admin') c ON r.ruta=c.ruta  \n" + 
+				"	where TIMESTAMPDIFF(DAY,fecha,CURRENT_TIMESTAMP)<7  \n" + 
+				"	GROUP BY c.titulo, c.nombreArtista, c.nombreAlbum, c.genero, c.ruta) t1  \n" + 
+				"ORDER BY (numReproducciones) DESC  \n" + 
+				"LIMIT 10;";
 		PreparedStatement p = c.prepareStatement(q);
 		ResultSet r = p.executeQuery();
 		

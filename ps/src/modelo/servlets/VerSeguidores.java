@@ -1,6 +1,8 @@
 package modelo.servlets;
 
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 
@@ -31,7 +33,7 @@ public class VerSeguidores extends HttpServlet {
 		
 		// Recuperamos los parámetros y las cookies
 		Cookie[] cookies = request.getCookies();
-		PrintWriter out = response.getWriter();
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8), true);
 		JSONObject obj = new JSONObject();
 		String nombreSeguido = FuncionesAuxiliares.obtenerCookie(cookies, "login");
 		String idSesion = FuncionesAuxiliares.obtenerCookie(cookies, "idSesion");

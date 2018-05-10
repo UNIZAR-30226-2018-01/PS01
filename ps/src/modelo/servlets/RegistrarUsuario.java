@@ -1,10 +1,10 @@
 package modelo.servlets;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import javax.servlet.*;
 import javax.servlet.http.*;
-
 import modelo.FuncionesAuxiliares;
 import modelo.ImplementacionFachada;
 import modelo.excepcion.UsuarioYaRegistrado;
@@ -26,7 +26,7 @@ public class RegistrarUsuario extends HttpServlet {
 	public void doPost (HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException{
 		// Definición de variables
-		PrintWriter out = response.getWriter();
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8), true);
 		JSONObject obj = new JSONObject();
 		String nombre = request.getParameter("nombre");
 		String pass = request.getParameter("contrasenya");

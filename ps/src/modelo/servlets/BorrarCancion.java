@@ -1,6 +1,8 @@
 package modelo.servlets;
 
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 
@@ -36,7 +38,7 @@ public class BorrarCancion extends HttpServlet {
 		String tituloCancion = request.getParameter("tituloCancion");
 		String nombreArtista = request.getParameter("nombreArtista");
 		String nombreAlbum = request.getParameter("nombreAlbum");
-		PrintWriter out = response.getWriter();
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8), true);
 		JSONObject obj = new JSONObject();
 		
 		// Comprobamos que no haya parámetros incorrecto

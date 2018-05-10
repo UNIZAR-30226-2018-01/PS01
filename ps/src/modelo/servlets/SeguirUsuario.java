@@ -1,6 +1,8 @@
 package modelo.servlets;
 
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import javax.servlet.ServletException;
@@ -31,7 +33,7 @@ public class SeguirUsuario extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// Definición de variables
-		PrintWriter out = response.getWriter();
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8), true);
 		JSONObject obj = new JSONObject();
 		String seguido = request.getParameter("seguido");
 		Cookie[] c = request.getCookies();

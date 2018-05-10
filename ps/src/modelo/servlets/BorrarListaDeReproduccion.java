@@ -1,6 +1,8 @@
 package modelo.servlets;
 
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -33,7 +35,7 @@ public class BorrarListaDeReproduccion extends HttpServlet {
 		String nombreUsuario = FuncionesAuxiliares.obtenerCookie(cookies, "login");
 		String idSesion = FuncionesAuxiliares.obtenerCookie(cookies, "idSesion");
 		String nombreLista = request.getParameter("nombreLista");
-		PrintWriter out = response.getWriter();
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8), true);
 		JSONObject obj = new JSONObject();
 		
 		// Comprobamos que no haya parámetros incorrecto

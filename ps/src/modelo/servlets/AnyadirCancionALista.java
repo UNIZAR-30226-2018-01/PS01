@@ -1,6 +1,8 @@
 package modelo.servlets;
 
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 
@@ -42,7 +44,7 @@ public class AnyadirCancionALista extends HttpServlet {
 		String idSesion = FuncionesAuxiliares.obtenerCookie(cookies, "idSesion");
 		String ruta = request.getParameter("ruta");
 		String nombreLista = request.getParameter("nombreLista");
-		PrintWriter out = response.getWriter();
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8), true);
 		JSONObject obj = new JSONObject();
 		
 		if (nombreUsuario == null || idSesion == null){

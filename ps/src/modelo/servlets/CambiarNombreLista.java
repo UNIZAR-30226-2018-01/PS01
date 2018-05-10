@@ -1,6 +1,8 @@
 package modelo.servlets;
 
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
@@ -34,7 +36,7 @@ public class CambiarNombreLista extends HttpServlet {
 		String idSesion = FuncionesAuxiliares.obtenerCookie(cookies, "idSesion");
 		String viejoNombre = request.getParameter("viejoNombre");
 		String nuevoNombre = request.getParameter("nuevoNombre");
-		PrintWriter out = response.getWriter();
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8), true);
 		JSONObject obj = new JSONObject();
 		
 		// Comprobamos que no haya parámetros incorrecto

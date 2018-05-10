@@ -5,6 +5,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -46,7 +48,7 @@ public class CambiarFotoPerfil extends HttpServlet {
 			throws IOException, ServletException {
 		
 		// Recuperamos los parámetros y las cookies
-		PrintWriter out = response.getWriter();
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8), true);
 		JSONObject obj = new JSONObject();
 		Cookie[] cookies = request.getCookies();
 		String nombreUsuario = FuncionesAuxiliares.obtenerCookie(cookies, "login");

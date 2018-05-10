@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
@@ -42,7 +44,7 @@ public class SubirCanciones extends HttpServlet {
 			throws IOException, ServletException {
 		
 		// Recuperamos los parámetros y las cookies
-		PrintWriter out = response.getWriter();
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8), true);
 		JSONObject obj = new JSONObject();
 		Cookie[] cookies = request.getCookies();
 		String nombreUsuario = FuncionesAuxiliares.obtenerCookie(cookies, "login");

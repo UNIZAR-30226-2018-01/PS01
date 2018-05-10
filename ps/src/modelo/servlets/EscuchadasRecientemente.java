@@ -2,9 +2,10 @@ package modelo.servlets;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -40,9 +41,8 @@ public class EscuchadasRecientemente extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// Definición de variables
-		//PrintWriter out = response.getWriter();
-    	PrintWriter out = new PrintWriter(new OutputStreamWriter(
-    		    response.getOutputStream(), StandardCharsets.UTF_8), true);
+		//PrintWriter out = new PrintWriter(new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8), true);
+    	PrintWriter out = new PrintWriter(new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8), true);
 		JSONObject obj = new JSONObject();
 		Cookie[] c = request.getCookies();
 		String nombreUsuario = FuncionesAuxiliares.obtenerCookie(c, "login");
