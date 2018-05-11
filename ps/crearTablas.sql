@@ -22,6 +22,7 @@ CREATE TABLE Cancion(
 	genero varchar(32) default 'Desconocido',
 	uploader varchar(32),
 	ruta varchar(128) UNIQUE NOT NULL DEFAULT 'nada',
+	ruta_imagen varchar(128) NOT NULL DEFAULT 'nada',
 	next_id int unique auto_increment,
 	PRIMARY KEY (titulo, nombreArtista, nombreAlbum, uploader),
 	FOREIGN KEY (uploader) references Usuario(nombre) ON DELETE CASCADE ON UPDATE CASCADE

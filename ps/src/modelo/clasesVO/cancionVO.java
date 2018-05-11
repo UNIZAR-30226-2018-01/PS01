@@ -7,9 +7,10 @@ public class cancionVO {
 	private String genero = "Desconocido";
 	private String uploader;
 	private String ruta;
+	private String ruta_imagen;
 
-	public cancionVO(String tituloCancion, String nombreArtista,
-			String nombreAlbum, String genero, String uploader, String ruta){
+	public cancionVO(String tituloCancion, String nombreArtista, String nombreAlbum,
+					 String genero, String uploader, String ruta, String ruta_imagen){
 		this.tituloCancion = tituloCancion;
 		if (nombreArtista != null){
 			this.nombreArtista = nombreArtista;
@@ -20,6 +21,7 @@ public class cancionVO {
 		this.genero = genero;
 		this.uploader = uploader;
 		this.ruta = ruta;
+		this.ruta_imagen = ruta_imagen;
 	}
 	
 	public cancionVO(String tituloCancion, String nombreArtista,
@@ -58,6 +60,10 @@ public class cancionVO {
 	public String verRuta() {
 		return ruta;
 	}
+	
+	public String verRutaImagen() {
+		return ruta_imagen;
+	}
 
 	public void modificarTitulo(String nuevoTitulo){
 		if (nuevoTitulo != null){
@@ -86,6 +92,12 @@ public class cancionVO {
 	public void modificarRuta(String nuevaRuta) {
 		if (nuevaRuta != null) {
 			ruta = nuevaRuta;
+		}
+	}
+	
+	public void modificarRutaImagen(String nuevaRutaImagen) {
+		if (nuevaRutaImagen != null) {
+			ruta_imagen = nuevaRutaImagen;
 		}
 	}
 }

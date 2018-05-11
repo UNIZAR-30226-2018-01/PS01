@@ -1,5 +1,7 @@
 package modelo.servlets;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -11,6 +13,8 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -25,6 +29,10 @@ import org.apache.tika.parser.Parser;
 import org.apache.tika.parser.mp3.Mp3Parser;
 import org.apache.tika.sax.BodyContentHandler;
 import org.json.simple.JSONObject;
+
+import com.mpatric.mp3agic.ID3v2;
+import com.mpatric.mp3agic.Mp3File;
+
 import modelo.FuncionesAuxiliares;
 import modelo.ImplementacionFachada;
 import modelo.clasesVO.cancionVO;
@@ -119,12 +127,24 @@ public class SubirCanciones extends HttpServlet {
 				        	genero = aux3;
 				        }     
 			        }
-		        
-				
+			        
+			        Mp3File song = new Mp3File(rutaBase + nombreUsuario + "/" + tituloCancion + ".mp3");
+			        if (song.hasId3v2Tag()){
+			             ID3v2 id3v2tag = song.getId3v2Tag();
+			             byte[] imageData = id3v2tag.getAlbumImage();
+			             //converting the bytes to an image
+			             BufferedImage img = ImageIO.read(new ByteArrayInputStream(imageData));
+			             File f = new File(rutaBase + nombreUsuario + "/" + tituloCancion + ".jpg");
+			             ImageIO.write(img, "jpg", f);
+			        }
+			        
 					ImplementacionFachada f = new ImplementacionFachada();
 					f.existeSesionUsuario(nombreUsuario, idSesion);
-					f.anyadirCancionUsuario(new cancionVO(tituloCancion, nombreArtista,
-							nombreAlbum, genero, nombreUsuario, rutaBase + nombreUsuario + "/" + tituloCancion + ".mp3"), lista);
+					f.anyadirCancionUsuario(new cancionVO(
+							tituloCancion, nombreArtista,
+							nombreAlbum, genero, nombreUsuario,
+							rutaBase + nombreUsuario + "/" + tituloCancion + ".mp3",
+							rutaBase + nombreUsuario + "/" + tituloCancion + ".jpg"), lista);
 					out.println(obj.toJSONString());
 				}
 				catch(Exception e) {

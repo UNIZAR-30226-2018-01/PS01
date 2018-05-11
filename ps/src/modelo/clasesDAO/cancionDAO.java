@@ -31,8 +31,8 @@ public class cancionDAO {
 			}
 			else {
 				String queryString = "INSERT INTO Cancion(titulo, nombreArtista,"
-						+ "nombreAlbum, genero, uploader, ruta) "
-						+ "VALUES (?,?,?,?,?,?);";
+						+ "nombreAlbum, genero, uploader, ruta, ruta_imagen) "
+						+ "VALUES (?,?,?,?,?,?,?);";
 				
 				PreparedStatement preparedStatement = 
 		                connection.prepareStatement(queryString);
@@ -43,6 +43,7 @@ public class cancionDAO {
     			preparedStatement.setString(4, cancion.verGenero());
     			preparedStatement.setString(5, cancion.verUploader());
     			preparedStatement.setString(6, cancion.verRuta());
+    			preparedStatement.setString(7, cancion.verRutaImagen());
     			preparedStatement.executeUpdate();
     			
     			if (lista != null) {
@@ -73,7 +74,7 @@ public class cancionDAO {
 			}
 			else {
 				// Recuperamos la ruta del fichero y borramos el fichero físico
-				String s1 = "SELECT ruta "
+				String s1 = "SELECT ruta, ruta_imagen "
 						  + "FROM Cancion "
 						  + "WHERE titulo = ? AND "
 						  + "nombreArtista = ? AND "
@@ -86,6 +87,7 @@ public class cancionDAO {
 				preparedStatement.setString(4, cancion.verUploader());
 				ResultSet resultado = preparedStatement.executeQuery();
 				Files.delete(new File(resultado.getString(1)).toPath());
+				Files.delete(new File(resultado.getString(2)).toPath());
 				
 				// Borramos la entrada en la base de datos
 				s1 = "DELETE FROM Cancion "
@@ -174,6 +176,7 @@ public class cancionDAO {
 				aux.put("nombreAlbum", busquedaComp.getString(3));
 				aux.put("genero", busquedaComp.getString(4));
 				aux.put("ruta", busquedaComp.getString(6));
+				aux.put("ruta_imagen", busquedaComp.getString(7));
 				array.add(aux);
 			}
 			obj.put("canciones", array);
@@ -221,6 +224,7 @@ public class cancionDAO {
 				aux.put("nombreAlbum", busquedaComp.getString(3));
 				aux.put("genero", busquedaComp.getString(4));
 				aux.put("ruta", busquedaComp.getString(6));
+				aux.put("ruta_imagen", busquedaComp.getString(7));
 				array.add(aux);
 			}
 			obj.put("canciones", array);
@@ -268,6 +272,7 @@ public class cancionDAO {
 				aux.put("nombreAlbum", busquedaComp.getString(3));
 				aux.put("genero", busquedaComp.getString(4));
 				aux.put("ruta", busquedaComp.getString(6));
+				aux.put("ruta_imagen", busquedaComp.getString(7));
 				array.add(aux);
 			}
 			obj.put("canciones", array);
@@ -315,6 +320,7 @@ public class cancionDAO {
 				aux.put("nombreAlbum", busquedaComp.getString(3));
 				aux.put("genero", busquedaComp.getString(4));
 				aux.put("ruta", busquedaComp.getString(6));
+				aux.put("ruta_imagen", busquedaComp.getString(7));
 				array.add(aux);
 			}
 			obj.put("canciones", array);
@@ -429,7 +435,7 @@ public class cancionDAO {
 	public JSONObject getAlbums(String user, Connection c) throws SQLException {
 		try {
 			// Hacemos la consulta
-			String q = "SELECT DISTINCT nombreAlbum, nombreArtista FROM Cancion "
+			String q = "SELECT DISTINCT nombreAlbum, nombreArtista, ruta_imagen FROM Cancion "
 					 + "WHERE (uploader='Admin' OR uploader = ?) "
 					 + "ORDER BY(nombreAlbum);";
 			PreparedStatement p = c.prepareStatement(q);
@@ -444,6 +450,7 @@ public class cancionDAO {
 				JSONObject aux = new JSONObject();
 				aux.put("nombre", r.getString(1));
 				aux.put("artista", r.getString(2));
+				aux.put("ruta_imagen", r.getString(3));
 				array.add(aux);
 			}
 			obj.put("albums", array);
@@ -464,7 +471,7 @@ public class cancionDAO {
 			throws SQLException {
 		try {
 			// Hacemos la consulta
-			String q = "SELECT DISTINCT nombreAlbum FROM Cancion "
+			String q = "SELECT DISTINCT nombreAlbum, ruta_imagen FROM Cancion "
 					 + "WHERE (uploader='Admin' OR uploader = ?) AND "
 					 + "nombreArtista = ? "
 					 + "ORDER BY(nombreAlbum);";
@@ -478,7 +485,10 @@ public class cancionDAO {
 			JSONArray array = new JSONArray();
 			r.beforeFirst(); // Movemos el cursor antes del 1er elemento
 			while (r.next()) {
-				array.add(r.getString(1));
+				JSONObject aux = new JSONObject();
+				aux.put("nombre", r.getString(1));
+				aux.put("ruta_imagen", r.getString(2));
+				array.add(aux);
 			}
 			obj.put("albums", array);
 			return obj;
@@ -533,7 +543,7 @@ public class cancionDAO {
 			Connection c) throws SQLException {
 		try {
 			// Hacemos la consulta
-			String q = "SELECT DISTINCT nombreAlbum, nombreArtista "
+			String q = "SELECT DISTINCT nombreAlbum, nombreArtista, ruta_imagen "
 					 + "FROM Cancion "
 					 + "WHERE (uploader='Admin' OR uploader = ?) AND "
 					 + "nombreAlbum LIKE ? "
@@ -551,6 +561,7 @@ public class cancionDAO {
 				JSONObject aux = new JSONObject();
 				aux.put("nombre", r.getString(1));
 				aux.put("artista", r.getString(2));
+				aux.put("ruta_imagen", r.getString(3));
 				array.add(aux);
 			}
 			obj.put("albums", array);
