@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
@@ -128,26 +129,36 @@ public class SubirCanciones extends HttpServlet {
 				        }     
 			        }
 			        
+			        String ruta_imagen = new String();
 			        Mp3File song = new Mp3File(rutaBase + nombreUsuario + "/" + tituloCancion + ".mp3");
 			        if (song.hasId3v2Tag()){
 			             ID3v2 id3v2tag = song.getId3v2Tag();
 			             byte[] imageData = id3v2tag.getAlbumImage();
-			             //converting the bytes to an image
-			             BufferedImage img = ImageIO.read(new ByteArrayInputStream(imageData));
-			             File f = new File(rutaBase + nombreUsuario + "/" + tituloCancion + ".jpg");
-			             ImageIO.write(img, "jpg", f);
+			             if (imageData != null) {
+				             //converting the bytes to an image
+				             BufferedImage img = ImageIO.read(new ByteArrayInputStream(imageData));
+				             File f = new File(rutaBase + nombreUsuario + "/" + tituloCancion + ".jpg");
+				             ImageIO.write(img, "jpg", f);
+				             ruta_imagen = "../ps/music/" + nombreUsuario + "/" + tituloCancion + ".jpg";
+			             }
+			             else {
+			            	 ruta_imagen = "nada";
+			             }
 			        }
 			        
 					ImplementacionFachada f = new ImplementacionFachada();
 					f.existeSesionUsuario(nombreUsuario, idSesion);
 					f.anyadirCancionUsuario(new cancionVO(
-							tituloCancion, nombreArtista,
-							nombreAlbum, genero, nombreUsuario,
+							tituloCancion, nombreArtista, nombreAlbum, genero, nombreUsuario,
 							rutaBase + nombreUsuario + "/" + tituloCancion + ".mp3",
-							rutaBase + nombreUsuario + "/" + tituloCancion + ".jpg"), lista);
+							ruta_imagen), lista);
 					out.println(obj.toJSONString());
 				}
 				catch(Exception e) {
+					StringWriter sw = new StringWriter();
+					PrintWriter pw = new PrintWriter(sw);
+					e.printStackTrace(pw);
+					String sStackTrace = sw.toString();
 					// Metemos el objeto de error en el JSON
 					obj.put("error", e.toString());
 					

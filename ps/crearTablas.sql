@@ -18,7 +18,7 @@ INSERT INTO Usuario values('Admin', 'fd119e3d4ab1344a55ba8567cb33ce9d', NULL);
 CREATE TABLE Cancion(
 	titulo varchar(64),
 	nombreArtista varchar(32),
-	nombreAlbum varchar(32) default 'Desconocido',
+	nombreAlbum varchar(64) default 'Desconocido',
 	genero varchar(32) default 'Desconocido',
 	uploader varchar(32),
 	ruta varchar(128) UNIQUE NOT NULL DEFAULT 'nada',

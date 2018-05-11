@@ -36,7 +36,7 @@ public class cancionDAO {
 				
 				PreparedStatement preparedStatement = 
 		                connection.prepareStatement(queryString);
-	        		
+				
         		preparedStatement.setString(1, cancion.verTitulo());
     			preparedStatement.setString(2, cancion.verNombreArtista());
     			preparedStatement.setString(3, cancion.verNombreAlbum());
@@ -404,7 +404,7 @@ public class cancionDAO {
 	public JSONObject getArtistas(String user, Connection c) throws SQLException {
 		try {
 			// Hacemos la consulta
-			String q = "SELECT DISTINCT nombreArtista FROM Cancion "
+			String q = "SELECT DISTINCT nombreArtista, ruta_imagen FROM Cancion "
 					 + "WHERE (uploader='Admin' OR uploader = ?) "
 					 + "ORDER BY(nombreArtista);";
 			PreparedStatement p = c.prepareStatement(q);
@@ -416,7 +416,10 @@ public class cancionDAO {
 			JSONArray array = new JSONArray();
 			r.beforeFirst(); // Movemos el cursor antes del 1er elemento
 			while (r.next()) {
-				array.add(r.getString(1));
+				JSONObject aux = new JSONObject();
+				aux.put("nombreArtista", r.getString(1));
+				aux.put("ruta_imagen", r.getString(2));
+				array.add(aux);
 			}
 			obj.put("artistas", array);
 			return obj;
