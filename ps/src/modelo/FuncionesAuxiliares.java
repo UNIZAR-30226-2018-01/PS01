@@ -7,12 +7,31 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.http.Cookie;
 import javax.sql.DataSource;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.TextField;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.BooleanClause.Occur;
+import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.util.Version;
+import org.apache.lucene.document.Field;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import java.io.*;
 import java.util.Vector;
 import java.io.BufferedInputStream;
 import java.sql.Connection;
+import modelo.excepcion.SesionInexistente;
 
 public class FuncionesAuxiliares {
 	private FuncionesAuxiliares() {}
@@ -176,5 +195,95 @@ public class FuncionesAuxiliares {
 	    } finally {
 	        ins.close();
 	    }
+	}
+	
+	/*
+	 * Pre:  ---
+	 * Post: Ha indexado la sesión mediante la librería lucene
+	 */
+	public static void indexarSesion(String nombre, String hash) 
+			throws Exception {
+		try {
+			// 1. Abrimos/creamos el índice
+			StandardAnalyzer analyzer = new StandardAnalyzer(Version.LUCENE_40);
+			Directory index = FSDirectory.open(new File("sesions"));
+			IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_40, 
+					analyzer);
+			IndexWriter w = new IndexWriter(index, config);
+			
+			// 2. Insertamos en el índice
+			Document doc = new Document();
+			doc.add(new TextField("nombreUsuario", nombre, Field.Store.YES));
+			doc.add(new TextField("hashSesion", hash, Field.Store.YES));
+			w.close();
+		}
+		catch(Exception e) {
+			throw e;
+		}
+	}
+	
+	/*
+	 * Pre:  nombre != null && hash != null
+	 * Post: Devuelve verdad si existe una sesion de nombre y hash
+	 */ 
+	public static void existeSesion(String nombre, String hash) 
+			throws SesionInexistente {
+		try {
+			// 1. Abrimos el índice
+			StandardAnalyzer analyzer = new StandardAnalyzer(Version.LUCENE_40);
+			DirectoryReader directoryReader = DirectoryReader.open(
+					FSDirectory.open(new File("sesions")));
+			IndexSearcher buscador = new IndexSearcher(directoryReader);
+			
+			// 2. Creamos la consulta
+			QueryParser qp1 = new QueryParser(Version.LUCENE_40,
+					"nombreUsuario", analyzer);
+			Query q1 = qp1.parse(nombre);
+			QueryParser qp2 = new QueryParser(Version.LUCENE_40,
+					"hashSesion", analyzer);
+			Query q2 = qp2.parse(hash);
+			BooleanQuery q = new BooleanQuery();
+			q.add(q1, Occur.MUST);
+			q.add(q2, Occur.MUST);
+			
+			// 3. Ejecutamos la consulta
+			TopDocs res = buscador.search(q,1);
+			ScoreDoc[] hits = res.scoreDocs;
+			
+			// 4. Comprobamos lo devuelto
+			if(hits.length != 0) {
+				throw new Exception();
+			}
+		}
+		catch(Exception e) {
+			throw new SesionInexistente("El usuario no está logeado");
+		}
+	}
+	
+	/*
+	 * Pre:  nombre != null && hash != null
+	 * Post: Devuelve verdad si existe una sesion de nombre y hash
+	 */ 
+	public static void borrarSesion(String nombre, String hash)
+			throws Exception {
+		// 1. Abrimos el índice
+		StandardAnalyzer analyzer = new StandardAnalyzer(Version.LUCENE_40);
+		IndexWriter w = new IndexWriter(FSDirectory.open(new File("sesions")),
+				new IndexWriterConfig(Version.LUCENE_40, analyzer));
+		
+		// 2. Creamos la consulta
+		QueryParser qp1 = new QueryParser(Version.LUCENE_40,
+				"nombreUsuario", analyzer);
+		Query q1 = qp1.parse(nombre);
+		QueryParser qp2 = new QueryParser(Version.LUCENE_40,
+				"hashSesion", analyzer);
+		Query q2 = qp2.parse(hash);
+		BooleanQuery q = new BooleanQuery();
+		q.add(q1, Occur.MUST);
+		q.add(q2, Occur.MUST);
+		
+		// 3. Borramos la sesión
+		w.deleteDocuments(q);
+		w.close();
 	}
 }
