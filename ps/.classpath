@@ -15,5 +15,8 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/tika-core-1.4.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/tika-parsers-1.4.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/mp3agic-0.8.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/lucene-analyzers-common-4.0.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/lucene-core-4.0.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/lucene-queryparser-4.0.0.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
