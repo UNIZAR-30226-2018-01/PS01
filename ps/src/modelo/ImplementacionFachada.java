@@ -135,7 +135,7 @@ public class ImplementacionFachada implements InterfazFachada {
 	 */
 	@Override
 	public void existeSesionUsuario(String nombreUsuario, String idSesion)
-			throws SesionInexistente, SQLException{
+			throws SesionInexistente, SQLException {
 		Connection c = FuncionesAuxiliares.obtenerConexion();
 		try {
 			new sesionDAO().existeSesion(new sesionVO(idSesion, nombreUsuario),

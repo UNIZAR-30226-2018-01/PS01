@@ -11,7 +11,6 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.queryparser.classic.QueryParser;
@@ -27,14 +26,21 @@ import org.apache.lucene.util.Version;
 import org.apache.lucene.document.Field;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import java.io.*;
-import java.util.Vector;
 import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.sql.Connection;
 import modelo.excepcion.SesionInexistente;
+import modelo.excepcion.LoginInexistente;
 
 public class FuncionesAuxiliares {
 	private FuncionesAuxiliares() {}
+	
+	private static final String DIRECTORIO_SESIONES = 
+			"/usr/local/apache-tomcat-9.0.7/webapps/ps/sesions";
+	private static final String DIRECTORIO_USUARIOS = 
+			"/usr/local/apache-tomcat-9.0.7/webapps/ps/users";
 	
 	/*
 	 * Pre:  ---
@@ -206,7 +212,7 @@ public class FuncionesAuxiliares {
 		try {
 			// 1. Abrimos/creamos el índice
 			StandardAnalyzer analyzer = new StandardAnalyzer(Version.LUCENE_40);
-			Directory index = FSDirectory.open(new File("sesions"));
+			Directory index = FSDirectory.open(new File(DIRECTORIO_SESIONES));
 			IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_40, 
 					analyzer);
 			IndexWriter w = new IndexWriter(index, config);
@@ -224,7 +230,7 @@ public class FuncionesAuxiliares {
 	
 	/*
 	 * Pre:  nombre != null && hash != null
-	 * Post: Devuelve verdad si existe una sesion de nombre y hash
+	 * Post: Si no existe la sesión, lanza un error
 	 */ 
 	public static void existeSesion(String nombre, String hash) 
 			throws SesionInexistente {
@@ -232,7 +238,7 @@ public class FuncionesAuxiliares {
 			// 1. Abrimos el índice
 			StandardAnalyzer analyzer = new StandardAnalyzer(Version.LUCENE_40);
 			DirectoryReader directoryReader = DirectoryReader.open(
-					FSDirectory.open(new File("sesions")));
+					FSDirectory.open(new File(DIRECTORIO_SESIONES)));
 			IndexSearcher buscador = new IndexSearcher(directoryReader);
 			
 			// 2. Creamos la consulta
@@ -247,11 +253,11 @@ public class FuncionesAuxiliares {
 			q.add(q2, Occur.MUST);
 			
 			// 3. Ejecutamos la consulta
-			TopDocs res = buscador.search(q,1);
-			ScoreDoc[] hits = res.scoreDocs;
+			TopDocs docs = buscador.search(q,1);
+			ScoreDoc[] hits = docs.scoreDocs;
 			
 			// 4. Comprobamos lo devuelto
-			if(hits.length != 0) {
+			if(hits.length != 1) {
 				throw new Exception();
 			}
 		}
@@ -268,7 +274,7 @@ public class FuncionesAuxiliares {
 			throws Exception {
 		// 1. Abrimos el índice
 		StandardAnalyzer analyzer = new StandardAnalyzer(Version.LUCENE_40);
-		IndexWriter w = new IndexWriter(FSDirectory.open(new File("sesions")),
+		IndexWriter w = new IndexWriter(FSDirectory.open(new File(DIRECTORIO_SESIONES)),
 				new IndexWriterConfig(Version.LUCENE_40, analyzer));
 		
 		// 2. Creamos la consulta
@@ -283,6 +289,100 @@ public class FuncionesAuxiliares {
 		q.add(q2, Occur.MUST);
 		
 		// 3. Borramos la sesión
+		w.deleteDocuments(q);
+		w.close();
+	}
+	
+	/*
+	 * Pre:  ---
+	 * Post: Ha indexado un usuario mediante la libreria lucene
+	 */
+	public static void indexarUsuario(String nombreUsuario, String hashPass) 
+			throws Exception {
+		try {
+			// 1. Abrimos/creamos el índice
+			StandardAnalyzer analyzer = new StandardAnalyzer(Version.LUCENE_40);
+			Directory index = FSDirectory.open(new File(DIRECTORIO_USUARIOS));
+			IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_40, 
+					analyzer);
+			IndexWriter w = new IndexWriter(index, config);
+			
+			// 2. Insertamos en el índice
+			Document doc = new Document();
+			doc.add(new TextField("nombre", nombreUsuario, Field.Store.YES));
+			doc.add(new TextField("hashPass", hashPass, Field.Store.YES));
+			w.close();
+		}
+		catch(Exception e) {
+			throw e;
+		}
+	}
+	
+	/*
+	 * Pre:  ---
+	 * Post: Dada la cadena de caracteres 'nombre' busca usuarios cuyo nombre
+	 * 		 sea igual o empiece por nombre, devolviéndolos en un JSON
+	 * 		 cuya clave es usuarios, cuyo valor asociado es un array de strings
+	 *  	 con los nombres encontrados
+	 */
+	public static JSONObject buscarUsuarios(String nombre, String nombreUsuario) {
+		try {
+			// 1. Abrimos el índice
+			StandardAnalyzer analyzer = new StandardAnalyzer(Version.LUCENE_40);
+			DirectoryReader directoryReader = DirectoryReader.open(
+					FSDirectory.open(new File(DIRECTORIO_USUARIOS)));
+			IndexSearcher buscador = new IndexSearcher(directoryReader);
+			
+			// 2. Creamos la consulta
+			QueryParser qp1 = new QueryParser(Version.LUCENE_40,
+					"nombre", analyzer);
+			Query q1 = qp1.parse(nombre+"*");
+			QueryParser qp2 = new QueryParser(Version.LUCENE_40,
+					"nombre", analyzer);
+			Query q2 = qp2.parse(nombreUsuario);
+			BooleanQuery q = new BooleanQuery();
+			q.add(q1, Occur.MUST);
+			q.add(q2, Occur.MUST_NOT);
+			
+			// 3. Ejecutamos la consulta
+			TopDocs res = buscador.search(q,1);
+			ScoreDoc[] hits = res.scoreDocs;
+			
+			// 4. Construimos el JSON a partir de lo devuelto
+			JSONObject obj = new JSONObject();
+			JSONArray array = new JSONArray();
+			for(ScoreDoc i : hits) {
+				Document doc = buscador.doc(i.doc);
+				array.add(doc.get("nombre"));
+			}
+			obj.put("usuarios", array);
+			return obj;
+		}
+		catch(Exception e) {
+			JSONObject obj = new JSONObject();
+			JSONArray array = new JSONArray();
+			obj.put("usuarios", array);
+			return obj;
+		}
+	}
+	
+	/*
+	 * Pre:  nombre != null && hash != null
+	 * Post: Borra el usuario correspondiente del índice
+	 */ 
+	public static void borrarUsuario(String nombre)
+			throws Exception {
+		// 1. Abrimos el índice
+		StandardAnalyzer analyzer = new StandardAnalyzer(Version.LUCENE_40);
+		IndexWriter w = new IndexWriter(FSDirectory.open(new File(DIRECTORIO_USUARIOS)),
+				new IndexWriterConfig(Version.LUCENE_40, analyzer));
+		
+		// 2. Creamos la consulta
+		QueryParser qp = new QueryParser(Version.LUCENE_40,
+				"nombre", analyzer);
+		Query q = qp.parse(nombre);
+		
+		// 3. Borramos el usuario
 		w.deleteDocuments(q);
 		w.close();
 	}

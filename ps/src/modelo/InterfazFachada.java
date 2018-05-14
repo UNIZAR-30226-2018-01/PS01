@@ -73,7 +73,6 @@ public interface InterfazFachada {
 	public void existeSesionUsuario(String nombreUsuario, String idSesion)
 			throws SesionInexistente, SQLException;
 	
-	
 	/*
 	 * Pre: El usuario 'nombreUsuario' ya existe
 	 * Post: Elimina la sesión identificada por el usuario 'nombreusuario'
