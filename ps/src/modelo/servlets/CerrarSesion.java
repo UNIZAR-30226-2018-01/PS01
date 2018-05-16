@@ -47,8 +47,9 @@ public class CerrarSesion extends HttpServlet {
 		else {
 			try {
 				ImplementacionFachada f = new ImplementacionFachada();
-				f.existeSesionUsuario(nombreUsuario, idSesion);
+				FuncionesAuxiliares.existeSesion(nombreUsuario, idSesion);
 				f.cerrarSesion(nombreUsuario, idSesion);
+				FuncionesAuxiliares.borrarSesion(nombreUsuario, idSesion);
 				out.println(obj.toJSONString());
 			}
 			catch(Exception e) {

@@ -68,7 +68,7 @@ public class BuscarAlbum extends HttpServlet {
 		else {
 			try {
 				ImplementacionFachada f = new ImplementacionFachada();
-				f.existeSesionUsuario(nombreUsuario, idSesion);
+				FuncionesAuxiliares.existeSesion(nombreUsuario, idSesion);
 				obj = f.buscarAlbum(album, nombreUsuario);
 				out.println(obj.toJSONString());
 			}

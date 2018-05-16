@@ -65,7 +65,7 @@ public class BuscarUsuarios extends HttpServlet {
 		else {
 			try {
 				ImplementacionFachada f = new ImplementacionFachada();
-				f.existeSesionUsuario(nombreUsuario, idSesion);
+				FuncionesAuxiliares.existeSesion(nombreUsuario, idSesion);
 				//obj = f.buscarUsuarios(usuario, nombreUsuario);
 				obj = FuncionesAuxiliares.buscarUsuarios(usuario, nombreUsuario);
 				out.println(obj.toJSONString());

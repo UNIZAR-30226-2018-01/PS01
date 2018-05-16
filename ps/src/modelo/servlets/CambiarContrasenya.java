@@ -75,7 +75,7 @@ public class CambiarContrasenya extends HttpServlet {
 		else {
 			try {
 				ImplementacionFachada f = new ImplementacionFachada();
-				f.existeSesionUsuario(nombreUsuario, idSesion);
+				FuncionesAuxiliares.existeSesion(nombreUsuario, idSesion);
 				f.cambiarContrasenyaUsuario(nombreUsuario, viejaPass, nuevaPass);
 				out.println(obj.toJSONString());
 			}

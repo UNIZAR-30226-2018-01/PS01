@@ -66,7 +66,7 @@ public class ObtenerAlbumsArtista extends HttpServlet {
 		}
 		else {
 			try {
-				f.existeSesionUsuario(nombreUsuario, idSesion);
+				FuncionesAuxiliares.existeSesion(nombreUsuario, idSesion);
 				obj = f.getAlbumsArtista(artista, nombreUsuario);
 				out.println(obj.toJSONString());
 			}

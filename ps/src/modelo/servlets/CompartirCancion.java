@@ -59,7 +59,7 @@ public class CompartirCancion extends HttpServlet {
 		else {
 			try {
 				ImplementacionFachada f = new ImplementacionFachada();
-				f.existeSesionUsuario(nombreUsuario, idSesion);
+				FuncionesAuxiliares.existeSesion(nombreUsuario, idSesion);
 				f.compartirCancion(new compartirVO(ruta, nombreUsuario, usuarioDestino));
 				out.println(obj.toJSONString());
 			}

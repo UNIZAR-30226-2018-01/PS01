@@ -64,7 +64,7 @@ public class CambiarNombreLista extends HttpServlet {
 		else {
 			try {
 				ImplementacionFachada f = new ImplementacionFachada();
-				f.existeSesionUsuario(nombreUsuario, idSesion);
+				FuncionesAuxiliares.existeSesion(nombreUsuario, idSesion);
 				f.cambiarNombreLista(new listaReproduccionVO(viejoNombre,nombreUsuario) , nuevoNombre);
 				out.println(obj.toJSONString());
 			}

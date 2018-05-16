@@ -47,7 +47,7 @@ public class BuscarLista extends HttpServlet {
 		else {
 			try {
 				ImplementacionFachada f = new ImplementacionFachada();
-				f.existeSesionUsuario(nombreUsuario, idSesion);
+				FuncionesAuxiliares.existeSesion(nombreUsuario, idSesion);
 				obj = f.buscarLista(lista, nombreUsuario);
 				out.println(obj.toJSONString());
 			}

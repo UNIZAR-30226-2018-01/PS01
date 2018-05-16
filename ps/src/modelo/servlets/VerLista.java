@@ -76,7 +76,7 @@ public class VerLista extends HttpServlet {
 		else{
 			try{
 				ImplementacionFachada f = new ImplementacionFachada();
-				f.existeSesionUsuario(nombreUsuario, idSesion);
+				FuncionesAuxiliares.existeSesion(nombreUsuario, idSesion);
 				obj = f.verLista(new listaReproduccionVO(nombreLista, creadorLista));
 				out.println(obj.toJSONString());
 			}

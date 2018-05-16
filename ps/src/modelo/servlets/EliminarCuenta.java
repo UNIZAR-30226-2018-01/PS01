@@ -67,7 +67,7 @@ public class EliminarCuenta extends HttpServlet {
 		}
 		else {
 			try {
-				f.existeSesionUsuario(nombreUsuario, idSesion);
+				FuncionesAuxiliares.existeSesion(nombreUsuario, idSesion);
 				f.existeUsuario(nombreUsuario,
 						FuncionesAuxiliares.crearHash(pass));
 				f.eliminarCuenta(nombreUsuario);

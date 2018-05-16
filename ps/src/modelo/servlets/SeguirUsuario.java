@@ -57,7 +57,7 @@ public class SeguirUsuario extends HttpServlet {
 		}
 		else {
 			try {
-				new ImplementacionFachada().existeSesionUsuario(nombreUsuario, idSesion);
+				FuncionesAuxiliares.existeSesion(nombreUsuario, idSesion);
 				new ImplementacionFachada().seguir(nombreUsuario, seguido);
 				
 				// Respondemos con el fichero JSON vacío

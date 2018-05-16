@@ -53,6 +53,7 @@ public class IniciarSesion extends HttpServlet {
 				// Comprobamos si existe el usuario con ese nombre y hash
 				new ImplementacionFachada().existeUsuario(nombre, hashPass);
 				new ImplementacionFachada().nuevaSesion(nombre, idSesion);
+				FuncionesAuxiliares.indexarSesion(nombre, idSesion);
 				
 				// Metemos los objetos en un objeto JSON
 				obj.put("login", nombre);
@@ -76,7 +77,7 @@ public class IniciarSesion extends HttpServlet {
 				// Respondemos con el fichero JSON
 				out.println(obj.toJSONString());
 			}
-			catch(SQLException e){
+			catch(Exception e){
 				e.printStackTrace();
 				// Metemos el objeto de error en el JSON
 				obj.put("error", e.toString());

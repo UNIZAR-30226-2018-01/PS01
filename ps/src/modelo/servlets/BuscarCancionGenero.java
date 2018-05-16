@@ -72,7 +72,7 @@ public class BuscarCancionGenero extends HttpServlet {
 		else{
 			try {
 				ImplementacionFachada f = new ImplementacionFachada();
-				f.existeSesionUsuario(nombreUsuario, idSesion);
+				FuncionesAuxiliares.existeSesion(nombreUsuario, idSesion);
 				obj = f.buscarCancionPorGenero(genero, nombreUsuario);
 				out.println(obj.toJSONString());
 			}

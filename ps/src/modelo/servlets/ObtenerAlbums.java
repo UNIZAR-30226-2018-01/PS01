@@ -59,7 +59,7 @@ public class ObtenerAlbums extends HttpServlet {
 		}
 		else {
 			try {
-				f.existeSesionUsuario(nombreUsuario, idSesion);
+				FuncionesAuxiliares.existeSesion(nombreUsuario, idSesion);
 				obj = f.getAlbums(nombreUsuario);
 				out.println(obj.toJSONString());
 			}

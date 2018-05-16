@@ -256,16 +256,20 @@ public class FuncionesAuxiliares {
 			q.add(q2, Occur.MUST);
 			
 			// 3. Ejecutamos la consulta
-			TopDocs docs = buscador.search(q,1);
-			ScoreDoc[] hits = docs.scoreDocs;
+			TopDocs res = buscador.search(q,1);
+			ScoreDoc[] hits = res.scoreDocs;
 			
-			// 4. Comprobamos lo devuelto
-			if(hits.length != 1) {
+			// 4. Comprobamos si ha habido resultado
+			boolean existe = false;
+			for(ScoreDoc i : hits) {
+				existe = true;
+			}
+			if(!existe) {
 				throw new Exception();
 			}
 		}
 		catch(Exception e) {
-			throw new SesionInexistente("El usuario no está logeado");
+			throw new SesionInexistente("Usuario no logeado");
 		}
 	}
 	
@@ -349,7 +353,7 @@ public class FuncionesAuxiliares {
 			q.add(q2, Occur.MUST_NOT);
 			
 			// 3. Ejecutamos la consulta
-			TopDocs res = buscador.search(q,1);
+			TopDocs res = buscador.search(q,100);
 			ScoreDoc[] hits = res.scoreDocs;
 			
 			// 4. Construimos el JSON a partir de lo devuelto

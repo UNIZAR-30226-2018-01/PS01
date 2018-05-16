@@ -59,7 +59,7 @@ public class TopSemanal extends HttpServlet {
 		}
 		else {
 			try {
-				f.existeSesionUsuario(nombreUsuario, idSesion);
+				FuncionesAuxiliares.existeSesion(nombreUsuario, idSesion);
 				obj = f.topSemanal();
 				out.println(obj.toJSONString());
 			}

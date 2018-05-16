@@ -56,7 +56,7 @@ public class BorrarListaDeReproduccion extends HttpServlet {
 		else {
 			try {
 				ImplementacionFachada f = new ImplementacionFachada();
-				f.existeSesionUsuario(nombreUsuario, idSesion);
+				FuncionesAuxiliares.existeSesion(nombreUsuario, idSesion);
 				f.borrarListaDeReproduccion(
 						new listaReproduccionVO(nombreLista, nombreUsuario));
 				out.println(obj.toJSONString());

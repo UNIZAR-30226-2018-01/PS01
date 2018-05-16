@@ -73,7 +73,7 @@ public class BorrarCancion extends HttpServlet {
 		else {
 			try {
 				ImplementacionFachada f = new ImplementacionFachada();
-				f.existeSesionUsuario(uploader, idSesion);
+				FuncionesAuxiliares.existeSesion(uploader, idSesion);
 				f.quitarCancionUsuario(new cancionVO(tituloCancion, nombreArtista, nombreAlbum, "", uploader, "", ""));
 				out.println(obj.toJSONString());
 			}

@@ -147,7 +147,7 @@ public class SubirCanciones extends HttpServlet {
 			        }
 			        
 					ImplementacionFachada f = new ImplementacionFachada();
-					f.existeSesionUsuario(nombreUsuario, idSesion);
+					FuncionesAuxiliares.existeSesion(nombreUsuario, idSesion);
 					f.anyadirCancionUsuario(new cancionVO(
 							tituloCancion, nombreArtista, nombreAlbum, genero, nombreUsuario,
 							rutaBase + nombreUsuario + "/" + tituloCancion + ".mp3",

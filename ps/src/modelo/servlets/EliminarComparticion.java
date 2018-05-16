@@ -57,7 +57,7 @@ public class EliminarComparticion extends HttpServlet {
 		else {
 			try {
 				ImplementacionFachada f = new ImplementacionFachada();
-				f.existeSesionUsuario(nombreUsuario, idSesion);
+				FuncionesAuxiliares.existeSesion(nombreUsuario, idSesion);
 				f.eliminarComparticion(new compartirVO(ruta, "", nombreUsuario));
 				out.println(obj.toJSONString());
 			}

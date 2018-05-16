@@ -76,7 +76,7 @@ public class AnyadirCancionALista extends HttpServlet {
 		else {
 			try {
 				ImplementacionFachada f = new ImplementacionFachada();
-				f.existeSesionUsuario(nombreUsuario, idSesion);
+				FuncionesAuxiliares.existeSesion(nombreUsuario, idSesion);
 				f.anyadirCancionALista(new formarVO(ruta, nombreLista, nombreUsuario));
 				out.println(obj.toJSONString());
 			}

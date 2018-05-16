@@ -61,7 +61,7 @@ public class CrearListaDeReproduccion extends HttpServlet {
 		else {
 			try {
 				ImplementacionFachada f = new ImplementacionFachada();
-				f.existeSesionUsuario(nombreUsuario, idSesion);
+				FuncionesAuxiliares.existeSesion(nombreUsuario, idSesion);
 				f.crearListaDeReproduccion(new listaReproduccionVO(nombreLista, nombreUsuario));
 				out.println(obj.toJSONString());
 			}

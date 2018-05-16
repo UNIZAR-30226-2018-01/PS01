@@ -46,7 +46,7 @@ public class VerSeguidos extends HttpServlet {
 		else {
 			try {
 				ImplementacionFachada f = new ImplementacionFachada();
-				f.existeSesionUsuario(nombreSeguidor, idSesion);
+				FuncionesAuxiliares.existeSesion(nombreSeguidor, idSesion);
 				obj = f.listaDeSeguidos(nombreSeguidor);
 				// Respondemos con el fichero JSON
 				out.println(obj.toJSONString());

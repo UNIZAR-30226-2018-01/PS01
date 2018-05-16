@@ -59,7 +59,7 @@ public class ObtenerArtistas extends HttpServlet {
 		}
 		else {
 			try {
-				f.existeSesionUsuario(nombreUsuario, idSesion);
+				FuncionesAuxiliares.existeSesion(nombreUsuario, idSesion);
 				obj = f.getArtistas(nombreUsuario);
 				out.println(obj.toJSONString());
 			}

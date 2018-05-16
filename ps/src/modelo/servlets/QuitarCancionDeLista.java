@@ -67,7 +67,7 @@ public class QuitarCancionDeLista extends HttpServlet {
 		else {
 			try {
 				ImplementacionFachada f = new ImplementacionFachada();
-				f.existeSesionUsuario(nombreUsuario, idSesion);
+				FuncionesAuxiliares.existeSesion(nombreUsuario, idSesion);
 				f.quitarCancionDeLista(new formarVO(ruta, nombreLista, nombreUsuario));
 				out.println(obj.toJSONString());
 			}

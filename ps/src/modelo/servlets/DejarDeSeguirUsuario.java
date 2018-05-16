@@ -52,7 +52,7 @@ public class DejarDeSeguirUsuario extends HttpServlet {
 		else {
 			try {
 				ImplementacionFachada f = new ImplementacionFachada();
-				f.existeSesionUsuario(nombreSeguidor, idSesion);
+				FuncionesAuxiliares.existeSesion(nombreSeguidor, idSesion);
 				f.dejarDeSeguir(nombreSeguidor, nombreSeguido);
 				out.println(obj.toJSONString());
 			}

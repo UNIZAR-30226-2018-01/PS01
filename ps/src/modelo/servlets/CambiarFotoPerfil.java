@@ -76,7 +76,7 @@ public class CambiarFotoPerfil extends HttpServlet {
 			try {
 				// Comprobamos que el usuario esté logeado
 				ImplementacionFachada f = new ImplementacionFachada();
-				f.existeSesionUsuario(nombreUsuario, idSesion);
+				FuncionesAuxiliares.existeSesion(nombreUsuario, idSesion);
 				
 				// Guardamos la imágen en el servidor
 				File fi = new File(rutaBase + nombreUsuario + ".jpg");

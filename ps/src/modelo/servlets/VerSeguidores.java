@@ -49,7 +49,7 @@ public class VerSeguidores extends HttpServlet {
 		else {
 			try {
 				ImplementacionFachada f = new ImplementacionFachada();
-				f.existeSesionUsuario(nombreSeguido, idSesion);
+				FuncionesAuxiliares.existeSesion(nombreSeguido, idSesion);
 				obj = f.listaDeSeguidores(nombreSeguido);
 				out.println(obj.toJSONString());
 			}
