@@ -175,8 +175,8 @@ public class cancionDAO {
 				aux.put("nombreArtista", busquedaComp.getString(2));
 				aux.put("nombreAlbum", busquedaComp.getString(3));
 				aux.put("genero", busquedaComp.getString(4));
-				aux.put("ruta", busquedaComp.getString(6));
-				aux.put("ruta_imagen", busquedaComp.getString(7));
+				aux.put("ruta", busquedaComp.getString(5));
+				aux.put("ruta_imagen", busquedaComp.getString(6));
 				array.add(aux);
 			}
 			obj.put("canciones", array);
@@ -200,8 +200,9 @@ public class cancionDAO {
 			String nombreUploader, Connection cc)
 			throws SQLException, CancionNoExiste {
 		try {
-			String s = "SELECT * FROM Cancion WHERE "
-					 + "nombreArtista LIKE ? AND "
+			String s = "SELECT titulo, nombreArtista, nombreAlbum, genero, "
+					 + "ruta, ruta_imagen "
+					 + "WHERE nombreArtista LIKE ? AND "
 					 + "(uploader = ? OR uploader = 'Admin');";
 			PreparedStatement preparedStatement = cc.prepareStatement(s);
 			preparedStatement.setString(1, "%"+c.verNombreArtista()+"%");
@@ -223,8 +224,8 @@ public class cancionDAO {
 				aux.put("nombreArtista", busquedaComp.getString(2));
 				aux.put("nombreAlbum", busquedaComp.getString(3));
 				aux.put("genero", busquedaComp.getString(4));
-				aux.put("ruta", busquedaComp.getString(6));
-				aux.put("ruta_imagen", busquedaComp.getString(7));
+				aux.put("ruta", busquedaComp.getString(5));
+				aux.put("ruta_imagen", busquedaComp.getString(6));
 				array.add(aux);
 			}
 			obj.put("canciones", array);
@@ -248,7 +249,9 @@ public class cancionDAO {
 			String nombreUploader, Connection cc)
 			throws SQLException, CancionNoExiste {
 		try {
-			String s = "SELECT * FROM Cancion WHERE "
+			String s = "SELECT titulo, nombreArtista, nombreAlbum, genero, "
+					 + "ruta, ruta_imagen "
+					 + "FROM Cancion WHERE "
 					 + "nombreAlbum LIKE ? AND "
 					 + "(uploader = ? OR uploader = 'Admin');";
 			PreparedStatement preparedStatement = cc.prepareStatement(s);
@@ -271,8 +274,8 @@ public class cancionDAO {
 				aux.put("nombreArtista", busquedaComp.getString(2));
 				aux.put("nombreAlbum", busquedaComp.getString(3));
 				aux.put("genero", busquedaComp.getString(4));
-				aux.put("ruta", busquedaComp.getString(6));
-				aux.put("ruta_imagen", busquedaComp.getString(7));
+				aux.put("ruta", busquedaComp.getString(5));
+				aux.put("ruta_imagen", busquedaComp.getString(6));
 				array.add(aux);
 			}
 			obj.put("canciones", array);
@@ -296,7 +299,9 @@ public class cancionDAO {
 			String nombreUploader, Connection cc)
 			throws SQLException, CancionNoExiste {
 		try {
-			String s = "SELECT * FROM Cancion WHERE "
+			String s = "SELECT titulo, nombreArtista, nombreAlbum, genero, "
+					 + "ruta, ruta_imagen "
+					 + "FROM Cancion WHERE "
 					 + "genero LIKE ? AND "
 					 + "(uploader = ? OR uploader = 'Admin');";
 			PreparedStatement preparedStatement = cc.prepareStatement(s);
@@ -319,8 +324,8 @@ public class cancionDAO {
 				aux.put("nombreArtista", busquedaComp.getString(2));
 				aux.put("nombreAlbum", busquedaComp.getString(3));
 				aux.put("genero", busquedaComp.getString(4));
-				aux.put("ruta", busquedaComp.getString(6));
-				aux.put("ruta_imagen", busquedaComp.getString(7));
+				aux.put("ruta", busquedaComp.getString(5));
+				aux.put("ruta_imagen", busquedaComp.getString(6));
 				array.add(aux);
 			}
 			obj.put("canciones", array);

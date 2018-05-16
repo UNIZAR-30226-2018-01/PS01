@@ -117,7 +117,7 @@ public class formarDAO {
 			throws SQLException, NoHayCanciones {
 		try {
 			// Hacemos la consulta
-			String q = "SELECT titulo, nombreArtista, nombreAlbum, genero, uploader, c.ruta\n" + 
+			String q = "SELECT titulo, nombreArtista, nombreAlbum, genero, uploader, c.ruta, c.ruta_imagen\n" + 
 					"FROM\n" + 
 					"	(SELECT ruta\n" + 
 					"	FROM Formar\n" + 
@@ -147,6 +147,7 @@ public class formarDAO {
 					aux.put("genero", resultado.getString(4));
 					aux.put("uploader", resultado.getString(5));
 					aux.put("ruta", resultado.getString(6));
+					aux.put("ruta_imagen", resultado.getString(7));
 					array.add(aux);
 				}
 				obj.put("canciones", array);
