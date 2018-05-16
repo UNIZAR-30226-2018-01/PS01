@@ -36,6 +36,11 @@ import modelo.excepcion.SesionInexistente;
 public class AnyadirCancionALista extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
+	public void doGet (HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException {
+		doPost(request, response);
+	}
+	
 	public void doPost (HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {		
 		// Recuperamos los parámetros y las cookies

@@ -24,6 +24,11 @@ import org.json.simple.*;
 public class IniciarSesion extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
+	public void doGet (HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException {
+		doPost(request, response);
+	}
+	
 	public void doPost (HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		// Definición de variables

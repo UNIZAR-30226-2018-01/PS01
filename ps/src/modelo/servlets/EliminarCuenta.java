@@ -71,6 +71,7 @@ public class EliminarCuenta extends HttpServlet {
 				f.existeUsuario(nombreUsuario,
 						FuncionesAuxiliares.crearHash(pass));
 				f.eliminarCuenta(nombreUsuario);
+				FuncionesAuxiliares.borrarUsuario(nombreUsuario);
 				
 				// Respondemos con el fichero JSON vacío
 				out.println(obj.toJSONString());

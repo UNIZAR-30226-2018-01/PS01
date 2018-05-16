@@ -43,9 +43,9 @@ public class reproduccionDAO {
 	 */
 	public JSONObject topSemanal(Connection c) throws SQLException {
 		// Hacemos la consulta
-		String q =  "Select t1.titulo, t1.nombreArtista, t1.nombreAlbum, t1.genero, t1.ruta  \n" + 
+		String q =  "Select t1.titulo, t1.nombreArtista, t1.nombreAlbum, t1.genero, t1.ruta, t1.ruta_imagen  \n" + 
 				"FROM  \n" + 
-				"	(Select c.titulo, c.nombreArtista, c.nombreAlbum, c.genero, c.ruta, count(*) as numReproducciones  \n" + 
+				"	(Select c.titulo, c.nombreArtista, c.nombreAlbum, c.genero, c.ruta, count(*) as numReproducciones, c.ruta_imagen  \n" + 
 				"	from Reproduccion r JOIN (Select * from Cancion where uploader='Admin') c ON r.ruta=c.ruta  \n" + 
 				"	where TIMESTAMPDIFF(DAY,fecha,CURRENT_TIMESTAMP)<7  \n" + 
 				"	GROUP BY c.titulo, c.nombreArtista, c.nombreAlbum, c.genero, c.ruta) t1  \n" + 
@@ -65,6 +65,7 @@ public class reproduccionDAO {
 			aux.put("nombreAlbum", r.getString(3));
 			aux.put("genero", r.getString(4));
 			aux.put("ruta", r.getString(5));
+			aux.put("ruta_imagen", r.getString(6));
 			array.add(aux);
 		}
 		obj.put("canciones", array);
@@ -82,11 +83,11 @@ public class reproduccionDAO {
 	public JSONObject escuchadasRecientemente(String usuario, Connection c) 
 			throws SQLException {
 		// Hacmos la consulta
-		String q = "SELECT titulo, nombreArtista, nombreAlbum, genero, ruta "
+		String q = "SELECT titulo, nombreArtista, nombreAlbum, genero, ruta, ruta_imagen "
 				 + "FROM "
-				   + "(SELECT titulo, nombreArtista, nombreAlbum, genero, ruta, max(fecha) as fecha "
+				   + "(SELECT titulo, nombreArtista, nombreAlbum, genero, ruta, max(fecha) as fecha, ruta_imagen "
 				   + "FROM "
-				     + "(SELECT c.titulo, c.nombreArtista, c.nombreAlbum, c.genero, c.ruta, r.fecha "
+				     + "(SELECT c.titulo, c.nombreArtista, c.nombreAlbum, c.genero, c.ruta, r.fecha, c.ruta_imagen "
 				     + "from Reproduccion r JOIN Cancion c ON r.ruta=c.ruta "
 				     + "where r.nombreUsuario = ?) t1 "
 				     + "GROUP BY titulo, nombreArtista, nombreAlbum, genero, ruta "
@@ -108,6 +109,7 @@ public class reproduccionDAO {
 			aux.put("nombreAlbum", r.getString(3));
 			aux.put("genero", r.getString(4));
 			aux.put("ruta", r.getString(5));
+			aux.put("ruta_imagen", r.getString(6));
 			array.add(aux);
 		}
 		obj.put("canciones", array);

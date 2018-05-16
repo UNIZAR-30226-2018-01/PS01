@@ -67,9 +67,11 @@ public class FuncionesAuxiliares {
 	 * En caso contrario, devuelve null.
 	 */
 	public static String obtenerCookie(Cookie[] c, String s) {
-		for(Cookie i : c) {
-			if(i.getName().equals(s)) {
-				return i.getValue();
+		if(c != null) {
+			for(Cookie i : c) {
+				if(i.getName().equals(s)) {
+					return i.getValue();
+				}
 			}
 		}
 		return null;
@@ -221,6 +223,7 @@ public class FuncionesAuxiliares {
 			Document doc = new Document();
 			doc.add(new TextField("nombreUsuario", nombre, Field.Store.YES));
 			doc.add(new TextField("hashSesion", hash, Field.Store.YES));
+			w.addDocument(doc);
 			w.close();
 		}
 		catch(Exception e) {
@@ -311,6 +314,7 @@ public class FuncionesAuxiliares {
 			Document doc = new Document();
 			doc.add(new TextField("nombre", nombreUsuario, Field.Store.YES));
 			doc.add(new TextField("hashPass", hashPass, Field.Store.YES));
+			w.addDocument(doc);
 			w.close();
 		}
 		catch(Exception e) {

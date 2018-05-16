@@ -53,6 +53,8 @@ public class RegistrarUsuario extends HttpServlet {
 			try{
 				new ImplementacionFachada().registrarUsuario(nombre,
 						FuncionesAuxiliares.crearHash(pass));
+				FuncionesAuxiliares.indexarUsuario(nombre,
+						FuncionesAuxiliares.crearHash(pass));
 				
 				// Respondemos con el fichero JSON vacío
 				out.println(obj.toJSONString());
@@ -64,7 +66,7 @@ public class RegistrarUsuario extends HttpServlet {
 				// Respondemos con el fichero JSON
 				out.println(obj.toJSONString());
 			}
-			catch(SQLException e) {
+			catch(Exception e) {
 				e.printStackTrace();
 				// Metemos el objeto de error en el JSON
 				obj.put("error", e.toString());
