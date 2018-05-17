@@ -152,8 +152,10 @@ public class cancionDAO {
 			String nombreUploader, Connection cc)
 			throws SQLException, CancionNoExiste {
 		try {
-			String s = "SELECT * FROM Cancion WHERE "
-					 + "titulo LIKE ? AND "
+			String s = "SELECT titulo, nombreArtista, nombreAlbum, genero, "
+					 + "ruta, ruta_imagen "
+					 + "FROM Cancion "
+					 + "WHERE titulo LIKE ? AND "
 					 + "(uploader = ? OR uploader = 'Admin');";
 			PreparedStatement preparedStatement = cc.prepareStatement(s);
 			preparedStatement.setString(1, "%"+c.verTitulo()+"%");
@@ -202,6 +204,7 @@ public class cancionDAO {
 		try {
 			String s = "SELECT titulo, nombreArtista, nombreAlbum, genero, "
 					 + "ruta, ruta_imagen "
+					 + "FROM Cancion "
 					 + "WHERE nombreArtista LIKE ? AND "
 					 + "(uploader = ? OR uploader = 'Admin');";
 			PreparedStatement preparedStatement = cc.prepareStatement(s);
@@ -409,7 +412,8 @@ public class cancionDAO {
 	public JSONObject getArtistas(String user, Connection c) throws SQLException {
 		try {
 			// Hacemos la consulta
-			String q = "SELECT DISTINCT nombreArtista, ruta_imagen FROM Cancion "
+			String q = "SELECT DISTINCT nombreArtista, ruta_imagen "
+					 + "FROM Cancion "
 					 + "WHERE (uploader='Admin' OR uploader = ?) "
 					 + "ORDER BY(nombreArtista);";
 			PreparedStatement p = c.prepareStatement(q);
@@ -479,7 +483,8 @@ public class cancionDAO {
 			throws SQLException {
 		try {
 			// Hacemos la consulta
-			String q = "SELECT DISTINCT nombreAlbum, ruta_imagen FROM Cancion "
+			String q = "SELECT DISTINCT nombreAlbum, ruta_imagen "
+					 + "FROM Cancion "
 					 + "WHERE (uploader='Admin' OR uploader = ?) AND "
 					 + "nombreArtista = ? "
 					 + "ORDER BY(nombreAlbum);";

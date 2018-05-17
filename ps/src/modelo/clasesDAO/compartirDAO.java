@@ -71,8 +71,8 @@ public class compartirDAO {
 			throws SQLException, SinCompartidas {
 		try {
 			String s =  "SELECT c2.titulo, c2.nombreArtista, c2.nombreAlbum,\n" + 
-						"       c2.genero, c2.uploader, c2.ruta\n" + 
-						"FROM \n" + 
+						"       c2.genero, c2.uploader, c2.ruta, c2.ruta_imagen\n" + 
+						" FROM \n" + 
 						"	(SELECT ruta, max(fecha) as fecha\n" + 
 						"	FROM Compartir\n" + 
 						"	WHERE usuarioDestino = ?\n" + 
@@ -102,6 +102,7 @@ public class compartirDAO {
 					aux.put("genero", resultado.getString(4));
 					aux.put("uploader", resultado.getString(5));
 					aux.put("ruta", resultado.getString(6));
+					aux.put("ruta_imagen", resultado.getString(7));
 					array.add(aux);
 				}
 				obj.put("canciones", array);

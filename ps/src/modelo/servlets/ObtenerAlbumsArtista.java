@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.io.PrintWriter;
+import java.io.StringWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -71,6 +73,10 @@ public class ObtenerAlbumsArtista extends HttpServlet {
 				out.println(obj.toJSONString());
 			}
 			catch(Exception e) {
+				StringWriter sw = new StringWriter();
+				PrintWriter pw = new PrintWriter(sw);
+				e.printStackTrace(pw);
+				String sStackTrace = sw.toString();
 				// Metemos el objeto de error en el JSON
 				obj.put("error", e.toString());
 				
