@@ -17,7 +17,6 @@ import org.json.simple.JSONObject;
 
 import modelo.FuncionesAuxiliares;
 import modelo.ImplementacionFachada;
-import modelo.clasesVO.seguirVO;
 import modelo.excepcion.SesionInexistente;
 import modelo.excepcion.SinSeguidores;
 

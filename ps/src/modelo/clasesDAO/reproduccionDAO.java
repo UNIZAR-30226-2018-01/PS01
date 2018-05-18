@@ -8,9 +8,6 @@ import java.sql.SQLException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import modelo.clasesVO.reproduccionVO;
-import modelo.excepcion.ExcepcionReproduccion;
-
 public class reproduccionDAO {
 	/*
 	 * Pre: ---

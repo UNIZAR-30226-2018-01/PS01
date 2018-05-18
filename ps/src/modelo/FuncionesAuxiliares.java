@@ -32,7 +32,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.sql.Connection;
 import modelo.excepcion.SesionInexistente;
-import modelo.excepcion.LoginInexistente;
 
 public class FuncionesAuxiliares {
 	private FuncionesAuxiliares() {}
@@ -333,6 +332,7 @@ public class FuncionesAuxiliares {
 	 * 		 cuya clave es usuarios, cuyo valor asociado es un array de strings
 	 *  	 con los nombres encontrados
 	 */
+	@SuppressWarnings("unchecked")
 	public static JSONObject buscarUsuarios(String nombre, String nombreUsuario) {
 		try {
 			// 1. Abrimos el índice

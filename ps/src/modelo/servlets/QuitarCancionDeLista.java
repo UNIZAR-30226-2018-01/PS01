@@ -14,7 +14,6 @@ import org.json.simple.JSONObject;
 import modelo.FuncionesAuxiliares;
 import modelo.ImplementacionFachada;
 import modelo.clasesVO.formarVO;
-import modelo.excepcion.CancionExisteEnLista;
 import modelo.excepcion.CancionNoExisteEnLista;
 
 /*

@@ -5,8 +5,6 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.HashMap;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -18,7 +16,6 @@ import modelo.FuncionesAuxiliares;
 import modelo.ImplementacionFachada;
 import modelo.excepcion.NoHayListas;
 import modelo.excepcion.NoSeguido;
-import modelo.excepcion.CancionNoExiste;
 import modelo.excepcion.SesionInexistente;
 
 /**

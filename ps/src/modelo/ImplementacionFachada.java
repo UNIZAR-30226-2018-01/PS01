@@ -7,7 +7,6 @@ import modelo.clasesDAO.*;
 import modelo.clasesVO.*;
 import modelo.FuncionesAuxiliares;
 import org.json.simple.*;
-import java.util.Date;
 import java.sql.Connection;
 
 
