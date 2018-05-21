@@ -412,9 +412,10 @@ public class cancionDAO {
 	public JSONObject getArtistas(String user, Connection c) throws SQLException {
 		try {
 			// Hacemos la consulta
-			String q = "SELECT DISTINCT nombreArtista, ruta_imagen "
+			String q = "SELECT nombreArtista, max(ruta_imagen) as ruta_imagen "
 					 + "FROM Cancion "
 					 + "WHERE (uploader='Admin' OR uploader = ?) "
+					 + "GROUP BY nombreArtista "
 					 + "ORDER BY(nombreArtista);";
 			PreparedStatement p = c.prepareStatement(q);
 			p.setString(1, user);
@@ -447,8 +448,9 @@ public class cancionDAO {
 	public JSONObject getAlbums(String user, Connection c) throws SQLException {
 		try {
 			// Hacemos la consulta
-			String q = "SELECT DISTINCT nombreAlbum, nombreArtista, ruta_imagen FROM Cancion "
+			String q = "SELECT nombreAlbum, nombreArtista, max(ruta_imagen) as ruta_imagen FROM Cancion "
 					 + "WHERE (uploader='Admin' OR uploader = ?) "
+					 + "GROUP BY nombreAlbum, nombreArtista "
 					 + "ORDER BY(nombreAlbum);";
 			PreparedStatement p = c.prepareStatement(q);
 			p.setString(1, user);
@@ -483,10 +485,11 @@ public class cancionDAO {
 			throws SQLException {
 		try {
 			// Hacemos la consulta
-			String q = "SELECT DISTINCT nombreAlbum, ruta_imagen "
+			String q = "SELECT nombreAlbum, max(ruta_imagen) as ruta_imagen "
 					 + "FROM Cancion "
 					 + "WHERE (uploader='Admin' OR uploader = ?) AND "
 					 + "nombreArtista = ? "
+					 + "GROUP BY nombreAlbum "
 					 + "ORDER BY(nombreAlbum);";
 			PreparedStatement p = c.prepareStatement(q);
 			p.setString(1, user);
@@ -556,10 +559,11 @@ public class cancionDAO {
 			Connection c) throws SQLException {
 		try {
 			// Hacemos la consulta
-			String q = "SELECT DISTINCT nombreAlbum, nombreArtista, ruta_imagen "
+			String q = "SELECT DISTINCT nombreAlbum, nombreArtista, max(ruta_imagen) as ruta_imagen "
 					 + "FROM Cancion "
 					 + "WHERE (uploader='Admin' OR uploader = ?) AND "
 					 + "nombreAlbum LIKE ? "
+					 + "GROUP BY nombreAlbum, nombreArtista "
 					 + "ORDER BY(nombreAlbum);";
 			PreparedStatement p = c.prepareStatement(q);
 			p.setString(1, user);

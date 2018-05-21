@@ -11,28 +11,40 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.SortField;
+import org.apache.lucene.search.SortField.Type;
+import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.document.StringField;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import modelo.excepcion.SesionInexistente;
+import modelo.clasesVO.cancionVO;
 import modelo.excepcion.LoginInexistente;
+import org.apache.lucene.search.TopFieldCollector;
 
 public class FuncionesAuxiliares {
 	private FuncionesAuxiliares() {}
@@ -41,6 +53,8 @@ public class FuncionesAuxiliares {
 			"/usr/local/apache-tomcat-9.0.7/webapps/ps/sesions";
 	private static final String DIRECTORIO_USUARIOS = 
 			"/usr/local/apache-tomcat-9.0.7/webapps/ps/users";
+	private static final String DIRECTORIO_CANCIONES = 
+			"/usr/local/apache-tomcat-9.0.7/webapps/ps/songs";
 	
 	/*
 	 * Pre:  ---
@@ -213,10 +227,9 @@ public class FuncionesAuxiliares {
 			throws Exception {
 		try {
 			// 1. Abrimos/creamos el índice
-			StandardAnalyzer analyzer = new StandardAnalyzer(Version.LUCENE_40);
-			Directory index = FSDirectory.open(new File(DIRECTORIO_SESIONES));
-			IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_40, 
-					analyzer);
+			StandardAnalyzer analyzer = new StandardAnalyzer();
+			Directory index = FSDirectory.open(Paths.get(DIRECTORIO_SESIONES));
+			IndexWriterConfig config = new IndexWriterConfig( analyzer);
 			IndexWriter w = new IndexWriter(index, config);
 			
 			// 2. Insertamos en el índice
@@ -239,24 +252,22 @@ public class FuncionesAuxiliares {
 			throws SesionInexistente {
 		try {
 			// 1. Abrimos el índice
-			StandardAnalyzer analyzer = new StandardAnalyzer(Version.LUCENE_40);
+			StandardAnalyzer analyzer = new StandardAnalyzer();
 			DirectoryReader directoryReader = DirectoryReader.open(
-					FSDirectory.open(new File(DIRECTORIO_SESIONES)));
+			FSDirectory.open(Paths.get(DIRECTORIO_SESIONES)));
 			IndexSearcher buscador = new IndexSearcher(directoryReader);
 			
 			// 2. Creamos la consulta
-			QueryParser qp1 = new QueryParser(Version.LUCENE_40,
-					"nombreUsuario", analyzer);
+			QueryParser qp1 = new QueryParser("nombreUsuario", analyzer);
 			Query q1 = qp1.parse(nombre);
-			QueryParser qp2 = new QueryParser(Version.LUCENE_40,
-					"hashSesion", analyzer);
+			QueryParser qp2 = new QueryParser("hashSesion", analyzer);
 			Query q2 = qp2.parse(hash);
-			BooleanQuery q = new BooleanQuery();
+			BooleanQuery.Builder q = new BooleanQuery.Builder();
 			q.add(q1, Occur.MUST);
 			q.add(q2, Occur.MUST);
 			
 			// 3. Ejecutamos la consulta
-			TopDocs res = buscador.search(q,1);
+			TopDocs res = buscador.search(q.build(),1);
 			ScoreDoc[] hits = res.scoreDocs;
 			
 			// 4. Comprobamos si ha habido resultado
@@ -280,23 +291,21 @@ public class FuncionesAuxiliares {
 	public static void borrarSesion(String nombre, String hash)
 			throws Exception {
 		// 1. Abrimos el índice
-		StandardAnalyzer analyzer = new StandardAnalyzer(Version.LUCENE_40);
-		IndexWriter w = new IndexWriter(FSDirectory.open(new File(DIRECTORIO_SESIONES)),
-				new IndexWriterConfig(Version.LUCENE_40, analyzer));
+		StandardAnalyzer analyzer = new StandardAnalyzer();
+		IndexWriter w = new IndexWriter(FSDirectory.open(Paths.get(DIRECTORIO_SESIONES)),
+				new IndexWriterConfig(analyzer));
 		
 		// 2. Creamos la consulta
-		QueryParser qp1 = new QueryParser(Version.LUCENE_40,
-				"nombreUsuario", analyzer);
+		QueryParser qp1 = new QueryParser("nombreUsuario", analyzer);
 		Query q1 = qp1.parse(nombre);
-		QueryParser qp2 = new QueryParser(Version.LUCENE_40,
-				"hashSesion", analyzer);
+		QueryParser qp2 = new QueryParser("hashSesion", analyzer);
 		Query q2 = qp2.parse(hash);
-		BooleanQuery q = new BooleanQuery();
+		BooleanQuery.Builder q = new BooleanQuery.Builder();
 		q.add(q1, Occur.MUST);
 		q.add(q2, Occur.MUST);
 		
 		// 3. Borramos la sesión
-		w.deleteDocuments(q);
+		w.deleteDocuments(q.build());
 		w.close();
 	}
 	
@@ -308,10 +317,9 @@ public class FuncionesAuxiliares {
 			throws Exception {
 		try {
 			// 1. Abrimos/creamos el índice
-			StandardAnalyzer analyzer = new StandardAnalyzer(Version.LUCENE_40);
-			Directory index = FSDirectory.open(new File(DIRECTORIO_USUARIOS));
-			IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_40, 
-					analyzer);
+			StandardAnalyzer analyzer = new StandardAnalyzer();
+			Directory index = FSDirectory.open(Paths.get(DIRECTORIO_USUARIOS));
+			IndexWriterConfig config = new IndexWriterConfig(analyzer);
 			IndexWriter w = new IndexWriter(index, config);
 			
 			// 2. Insertamos en el índice
@@ -336,24 +344,22 @@ public class FuncionesAuxiliares {
 	public static JSONObject buscarUsuarios(String nombre, String nombreUsuario) {
 		try {
 			// 1. Abrimos el índice
-			StandardAnalyzer analyzer = new StandardAnalyzer(Version.LUCENE_40);
+			StandardAnalyzer analyzer = new StandardAnalyzer();
 			DirectoryReader directoryReader = DirectoryReader.open(
-					FSDirectory.open(new File(DIRECTORIO_USUARIOS)));
+					FSDirectory.open(Paths.get(DIRECTORIO_USUARIOS)));
 			IndexSearcher buscador = new IndexSearcher(directoryReader);
 			
 			// 2. Creamos la consulta
-			QueryParser qp1 = new QueryParser(Version.LUCENE_40,
-					"nombre", analyzer);
+			QueryParser qp1 = new QueryParser("nombre", analyzer);
 			Query q1 = qp1.parse(nombre+"*");
-			QueryParser qp2 = new QueryParser(Version.LUCENE_40,
-					"nombre", analyzer);
+			QueryParser qp2 = new QueryParser("nombre", analyzer);
 			Query q2 = qp2.parse(nombreUsuario);
-			BooleanQuery q = new BooleanQuery();
+			BooleanQuery.Builder q = new BooleanQuery.Builder();
 			q.add(q1, Occur.MUST);
 			q.add(q2, Occur.MUST_NOT);
 			
 			// 3. Ejecutamos la consulta
-			TopDocs res = buscador.search(q,100);
+			TopDocs res = buscador.search(q.build(),directoryReader.numDocs());
 			ScoreDoc[] hits = res.scoreDocs;
 			
 			// 4. Construimos el JSON a partir de lo devuelto
@@ -381,17 +387,198 @@ public class FuncionesAuxiliares {
 	public static void borrarUsuario(String nombre)
 			throws Exception {
 		// 1. Abrimos el índice
-		StandardAnalyzer analyzer = new StandardAnalyzer(Version.LUCENE_40);
-		IndexWriter w = new IndexWriter(FSDirectory.open(new File(DIRECTORIO_USUARIOS)),
-				new IndexWriterConfig(Version.LUCENE_40, analyzer));
+		StandardAnalyzer analyzer = new StandardAnalyzer();
+		IndexWriter w = new IndexWriter(FSDirectory.open(Paths.get(DIRECTORIO_USUARIOS)),
+				new IndexWriterConfig(analyzer));
 		
 		// 2. Creamos la consulta
-		QueryParser qp = new QueryParser(Version.LUCENE_40,
-				"nombre", analyzer);
+		QueryParser qp = new QueryParser("nombre", analyzer);
 		Query q = qp.parse(nombre);
 		
 		// 3. Borramos el usuario
 		w.deleteDocuments(q);
 		w.close();
+	}
+	
+	/*
+	 * Pre:  ---
+	 * Post: Ha indexado una canción mediante la libreria lucene
+	 */
+	public static void indexarCancion(cancionVO c) 
+			throws Exception {
+		try {
+			// 1. Abrimos/creamos el índice
+			StandardAnalyzer analyzer = new StandardAnalyzer();
+			Directory index = FSDirectory.open(Paths.get(DIRECTORIO_CANCIONES));
+			IndexWriterConfig config = new IndexWriterConfig(analyzer);
+			IndexWriter w = new IndexWriter(index, config);
+			
+			// 2. Insertamos en el índice
+			Document doc = new Document();
+			doc.add(new TextField("titulo", c.verTitulo(), Field.Store.YES));
+			doc.add(new TextField("artista", c.verNombreArtista(), Field.Store.YES));
+			doc.add(new TextField("album", c.verNombreAlbum(), Field.Store.YES));
+			doc.add(new TextField("genero", c.verGenero(), Field.Store.YES));
+			doc.add(new TextField("ruta", c.verRuta(), Field.Store.YES));
+			doc.add(new TextField("ruta_imagen", c.verRutaImagen(), Field.Store.YES));
+			doc.add(new TextField("uploader", c.verUploader(), Field.Store.YES));
+			w.addDocument(doc);
+			w.close();
+		}
+		catch(Exception e) {
+			throw e;
+		}
+	}
+	
+	/*
+	 * Pre:  buscador != null
+	 * Post: Devuelve un JSON con la clave canciones, cuyo valor asociado es un
+	 * 		 array, en el que cada componente contiene las claves "tituloCancion",
+	 * 		 "nombreArtista", "nombreAlbum", "genero", "ruta" y "ruta_imagen".
+	 */
+	private static JSONObject generarJsonHits(ScoreDoc[] hits, IndexSearcher buscador) {
+		JSONObject obj = new JSONObject();
+		try {
+			if(hits != null) {
+				JSONArray array = new JSONArray();
+				for(ScoreDoc i : hits) {
+					Document doc = buscador.doc(i.doc);
+					JSONObject aux = new JSONObject();
+					aux.put("tituloCancion", doc.get("titulo"));
+					aux.put("nombreArtista", doc.get("artista"));
+					aux.put("nombreAlbum", doc.get("album"));
+					aux.put("genero", doc.get("genero"));
+					aux.put("ruta", doc.get("ruta"));
+					aux.put("ruta_imagen", doc.get("ruta_imagen"));
+					array.add(aux);
+				}
+				obj.put("canciones", array);
+			}
+			return obj;
+		}
+		catch(Exception e) {
+			obj.put("error", e.toString());
+			return obj;
+		}
+	}
+	
+	/*
+	 * Pre:  ---
+	 * Post: Devuelve un JSON con las canciones que coincidad en título
+	 */
+	public static JSONObject buscarCancionTitulo(String titulo, String uploader) {
+		try {
+			// 1. Abrimos el índice
+			StandardAnalyzer analyzer = new StandardAnalyzer();
+			DirectoryReader directoryReader = DirectoryReader.open(
+					FSDirectory.open(Paths.get(DIRECTORIO_CANCIONES)));
+			IndexSearcher buscador = new IndexSearcher(directoryReader);
+			IndexReader lector;
+			
+			// 2. Creamos la consulta
+			QueryParser qp1 = new QueryParser("titulo", analyzer);
+			Query q1 = qp1.parse(titulo+"*");
+			QueryParser qp2 = new QueryParser("uploader", analyzer);
+			Query q2 = qp2.parse(uploader);
+			QueryParser qp3 = new QueryParser("uploader", analyzer);
+			Query q3 = qp3.parse("Admin");
+			BooleanQuery.Builder q4 = new BooleanQuery.Builder();
+			q4.add(q2, Occur.SHOULD);
+			q4.add(q3, Occur.SHOULD);
+			BooleanQuery.Builder q = new BooleanQuery.Builder();
+			q.add(q1, Occur.MUST);
+			q.add(q4.build(), Occur.MUST);
+			
+			// 3. Ejecutamos la consulta
+			TopDocs res = buscador.search(q.build(), directoryReader.numDocs());
+			ScoreDoc[] hits = res.scoreDocs;
+			
+			// 4. Construimos el JSON a partir de lo devuelto
+			return generarJsonHits(hits, buscador);
+		}
+		catch(Exception e) {
+			JSONObject obj = new JSONObject();
+			return obj;
+		}
+	}
+	
+	/*
+	 * Pre:  ---
+	 * Post: Devuelve un JSON con las canciones que coincidad en artista
+	 */
+	public static JSONObject buscarCancionArtista(String artista, String uploader) {
+		try {
+			// 1. Abrimos el índice
+			StandardAnalyzer analyzer = new StandardAnalyzer();
+			DirectoryReader directoryReader = DirectoryReader.open(
+					FSDirectory.open(Paths.get(DIRECTORIO_CANCIONES)));
+			IndexSearcher buscador = new IndexSearcher(directoryReader);
+			IndexReader lector;
+			
+			// 2. Creamos la consulta
+			QueryParser qp1 = new QueryParser("artista", analyzer);
+			Query q1 = qp1.parse(artista+"*");
+			QueryParser qp2 = new QueryParser("uploader", analyzer);
+			Query q2 = qp2.parse(uploader);
+			QueryParser qp3 = new QueryParser("uploader", analyzer);
+			Query q3 = qp3.parse("Admin");
+			BooleanQuery.Builder q4 = new BooleanQuery.Builder();
+			q4.add(q2, Occur.SHOULD);
+			q4.add(q3, Occur.SHOULD);
+			BooleanQuery.Builder q = new BooleanQuery.Builder();
+			q.add(q1, Occur.MUST);
+			q.add(q4.build(), Occur.MUST);
+			
+			// 3. Ejecutamos la consulta
+			TopDocs res = buscador.search(q.build(), directoryReader.numDocs());
+			ScoreDoc[] hits = res.scoreDocs;
+			
+			// 4. Construimos el JSON a partir de lo devuelto
+			return generarJsonHits(hits, buscador);
+		}
+		catch(Exception e) {
+			JSONObject obj = new JSONObject();
+			return obj;
+		}
+	}
+	
+	/*
+	 * Pre:  ---
+	 * Post: Devuelve un JSON con las canciones que coincidad en artista
+	 */
+	public static JSONObject buscarCancionAlbum(String album, String uploader) {
+		try {
+			// 1. Abrimos el índice
+			StandardAnalyzer analyzer = new StandardAnalyzer();
+			DirectoryReader directoryReader = DirectoryReader.open(
+					FSDirectory.open(Paths.get(DIRECTORIO_CANCIONES)));
+			IndexSearcher buscador = new IndexSearcher(directoryReader);
+			IndexReader lector;
+			
+			// 2. Creamos la consulta
+			QueryParser qp1 = new QueryParser("album", analyzer);
+			Query q1 = qp1.parse(album+"*");
+			QueryParser qp2 = new QueryParser("uploader", analyzer);
+			Query q2 = qp2.parse(uploader);
+			QueryParser qp3 = new QueryParser("uploader", analyzer);
+			Query q3 = qp3.parse("Admin");
+			BooleanQuery.Builder q4 = new BooleanQuery.Builder();
+			q4.add(q2, Occur.SHOULD);
+			q4.add(q3, Occur.SHOULD);
+			BooleanQuery.Builder q = new BooleanQuery.Builder();
+			q.add(q1, Occur.MUST);
+			q.add(q4.build(), Occur.MUST);
+			
+			// 3. Ejecutamos la consulta
+			TopDocs res = buscador.search(q.build(), directoryReader.numDocs());
+			ScoreDoc[] hits = res.scoreDocs;
+			
+			// 4. Construimos el JSON a partir de lo devuelto
+			return generarJsonHits(hits, buscador);
+		}
+		catch(Exception e) {
+			JSONObject obj = new JSONObject();
+			return obj;
+		}
 	}
 }

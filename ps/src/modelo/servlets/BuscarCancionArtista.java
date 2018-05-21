@@ -56,7 +56,8 @@ public class BuscarCancionArtista extends HttpServlet {
 			try{
 				ImplementacionFachada f = new ImplementacionFachada();
 				FuncionesAuxiliares.existeSesion(nombreUsuario, idSesion);
-				obj = f.buscarCancionPorArtista(artista, nombreUsuario);
+				//obj = f.buscarCancionPorArtista(artista, nombreUsuario);
+				obj = FuncionesAuxiliares.buscarCancionArtista(artista, nombreUsuario);
 				out.println(obj.toJSONString());
 			}
 			catch(SesionInexistente e) {
@@ -66,14 +67,7 @@ public class BuscarCancionArtista extends HttpServlet {
 				// Respondemos con el fichero JSON
 				out.println(obj.toJSONString());
 			}
-			catch (CancionNoExiste e) {
-				// Metemos un array vacío en el JSON
-				obj.put("CancionInexistente", e.toString());
-				
-				// Respondemos con el fichero JSON
-				out.println(obj.toJSONString());
-			}
-			catch(SQLException e){
+			catch(Exception e){
 				e.printStackTrace();
 				// Metemos el objeto de error en el JSON
 				obj.put("error", e.toString());

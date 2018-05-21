@@ -112,12 +112,3 @@ BEGIN
 	END IF;
 END; //
 DELIMITER ;
-
-DELIMITER //
-CREATE OR REPLACE TRIGGER introducirCancion
-BEFORE INSERT ON Cancion
-FOR EACH ROW
-BEGIN
-	set NEW.titulo = CONCAT('Cancion', (select max(next_id) from Cancion));
-END; //
-DELIMITER ;

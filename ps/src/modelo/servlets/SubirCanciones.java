@@ -152,6 +152,10 @@ public class SubirCanciones extends HttpServlet {
 							tituloCancion, nombreArtista, nombreAlbum, genero, nombreUsuario,
 							rutaBase + nombreUsuario + "/" + tituloCancion + ".mp3",
 							ruta_imagen), lista);
+					FuncionesAuxiliares.indexarCancion(new cancionVO(
+							tituloCancion, nombreArtista, nombreAlbum, genero, nombreUsuario,
+							rutaBase + nombreUsuario + "/" + tituloCancion + ".mp3",
+							ruta_imagen));
 					out.println(obj.toJSONString());
 				}
 				catch(Exception e) {
