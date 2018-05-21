@@ -1,7 +1,6 @@
 package modelo.clasesDAO;
 
 import modelo.clasesVO.compartirVO;
-import modelo.excepcion.NoHayCanciones;
 import modelo.excepcion.SinCompartidas;
 
 import java.sql.Connection;

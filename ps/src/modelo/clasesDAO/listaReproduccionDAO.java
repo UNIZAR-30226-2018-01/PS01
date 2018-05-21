@@ -14,7 +14,6 @@ import modelo.excepcion.ListaNoExiste;
 import modelo.excepcion.ListaYaExiste;
 import modelo.excepcion.NoHayListas;
 import modelo.excepcion.SinCoincidenciasListas;
-import modelo.excepcion.UsuarioInexistente;
 
 public class listaReproduccionDAO {
 	/*
@@ -123,7 +122,6 @@ public class listaReproduccionDAO {
 			if(!r.first()) {
 				throw new NoHayListas("El usuario no tiene ninguna lista asociada");
 			}
-			JSONObject obj = new JSONObject();
 			// Obtenemos y devolvemos el nombre de las listas
 			return FuncionesAuxiliares.
 							obtenerValorColumna(r, "nombre");

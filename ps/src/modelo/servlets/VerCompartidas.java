@@ -16,7 +16,6 @@ import org.json.simple.JSONObject;
 
 import modelo.FuncionesAuxiliares;
 import modelo.ImplementacionFachada;
-import modelo.clasesVO.compartirVO;
 
 /**
 * Servlet que permite ver las canciones que han compartido con el usuario.

@@ -409,6 +409,7 @@ public class cancionDAO {
 	 * 		 es un array de strings con todos los artistas que hay en el
 	 * 		 servidor
 	 */
+	@SuppressWarnings("unchecked")
 	public JSONObject getArtistas(String user, Connection c) throws SQLException {
 		try {
 			// Hacemos la consulta
@@ -524,7 +525,7 @@ public class cancionDAO {
 			String user, Connection c) throws SQLException {
 		try {
 			// Hacemos la consulta
-			String q = "SELECT DISTINCT nombreArtista FROM Cancion "
+			String q = "SELECT DISTINCT nombreArtista, ruta_imagen FROM Cancion "
 					 + "WHERE (uploader='Admin' OR uploader = ?) AND "
 					 + "nombreArtista LIKE ? "
 					 + "ORDER BY(nombreArtista);";
@@ -538,7 +539,10 @@ public class cancionDAO {
 			JSONArray array = new JSONArray();
 			r.beforeFirst(); // Movemos el cursor antes del 1er elemento
 			while (r.next()) {
-				array.add(r.getString(1));
+				JSONObject aux = new JSONObject();
+				aux.put("nombreArtista",r.getString(1));
+				aux.put("ruta_imagen",r.getString(2));
+				array.add(aux);
 			}
 			obj.put("artistas", array);
 			return obj;

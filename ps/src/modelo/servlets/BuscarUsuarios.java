@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONObject;
 import modelo.FuncionesAuxiliares;
-import modelo.ImplementacionFachada;
 
 /**
  * Servlet que implementa la búsqueda de usuarios en el servidor.
@@ -64,9 +63,7 @@ public class BuscarUsuarios extends HttpServlet {
 		}
 		else {
 			try {
-				ImplementacionFachada f = new ImplementacionFachada();
 				FuncionesAuxiliares.existeSesion(nombreUsuario, idSesion);
-				//obj = f.buscarUsuarios(usuario, nombreUsuario);
 				obj = FuncionesAuxiliares.buscarUsuarios(usuario, nombreUsuario);
 				out.println(obj.toJSONString());
 			}

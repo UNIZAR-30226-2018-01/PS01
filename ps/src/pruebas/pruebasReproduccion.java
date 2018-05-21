@@ -2,16 +2,13 @@ package pruebas;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Date;
 
 import modelo.FuncionesAuxiliares;
-import modelo.GestorDeConexionesBD;
 import modelo.clasesDAO.*;
-import modelo.clasesVO.*;
 import modelo.excepcion.*;
 
 public class pruebasReproduccion {
-	private static reproduccionVO rVO = new reproduccionVO("alberto", "cancion_1", "album_1", "artista_1", "Admin", new Date());
+	//private static reproduccionVO rVO = new reproduccionVO("alberto", "cancion_1", "album_1", "artista_1", "Admin", new Date());
 	private static reproduccionDAO rDAO = new reproduccionDAO();
 	private static Connection connection = null;
 	

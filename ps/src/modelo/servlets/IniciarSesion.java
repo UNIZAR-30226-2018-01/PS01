@@ -2,7 +2,6 @@ package modelo.servlets;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.sql.SQLException;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import modelo.FuncionesAuxiliares;

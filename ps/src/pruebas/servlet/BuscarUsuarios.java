@@ -8,7 +8,6 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -51,7 +50,6 @@ public class BuscarUsuarios {
 	        JSONObject jsonObject = (JSONObject)jsonParser.parse(
 	        	      new InputStreamReader(response, "UTF-8"));
 	        String error = (String) jsonObject.get("error");
-	        JSONArray usuarios = (JSONArray) jsonObject.get("usuarios");
 	        
 	        // Comprobamos los parámetros
 	        System.out.print("BuscarUsuarios --> ");

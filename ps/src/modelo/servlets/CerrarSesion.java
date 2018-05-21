@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -14,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONObject;
 import modelo.FuncionesAuxiliares;
 import modelo.ImplementacionFachada;
-import modelo.excepcion.*;
 
 /*
  * Servlet que cierra la sesión del usuario en el servidor.
@@ -29,7 +27,6 @@ public class CerrarSesion extends HttpServlet {
 	public void doPost (HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		
-		Cookie j = null, k = null;
 		Cookie[] c = request.getCookies();
 		String nombreUsuario = FuncionesAuxiliares.obtenerCookie(c, "login");
 		String idSesion = FuncionesAuxiliares.obtenerCookie(c, "idSesion");

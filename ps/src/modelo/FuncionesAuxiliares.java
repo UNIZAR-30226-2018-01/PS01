@@ -341,6 +341,7 @@ public class FuncionesAuxiliares {
 	 * 		 cuya clave es usuarios, cuyo valor asociado es un array de strings
 	 *  	 con los nombres encontrados
 	 */
+	@SuppressWarnings("unchecked")
 	public static JSONObject buscarUsuarios(String nombre, String nombreUsuario) {
 		try {
 			// 1. Abrimos el índice

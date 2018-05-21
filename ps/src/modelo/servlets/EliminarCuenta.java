@@ -16,7 +16,6 @@ import org.json.simple.JSONObject;
 
 import modelo.FuncionesAuxiliares;
 import modelo.ImplementacionFachada;
-import modelo.excepcion.UsuarioExistente;
 
 /**
  * Servlet que elimina una cuenta del servidor
