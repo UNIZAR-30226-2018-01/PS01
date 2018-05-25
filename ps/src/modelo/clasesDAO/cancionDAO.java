@@ -525,10 +525,12 @@ public class cancionDAO {
 			String user, Connection c) throws SQLException {
 		try {
 			// Hacemos la consulta
-			String q = "SELECT DISTINCT nombreArtista, ruta_imagen FROM Cancion "
+			String q = "SELECT nombreArtista, max(ruta_imagen) as ruta_imagen "
+					 + "FROM Cancion "
 					 + "WHERE (uploader='Admin' OR uploader = ?) AND "
 					 + "nombreArtista LIKE ? "
-					 + "ORDER BY(nombreArtista);";
+					 + "GROUP BY nombreArtista "
+					 + "ORDER BY nombreArtista;";
 			PreparedStatement p = c.prepareStatement(q);
 			p.setString(1, user);
 			p.setString(2, "%"+artista+"%");
