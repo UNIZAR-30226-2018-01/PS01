@@ -7,6 +7,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.http.Cookie;
 import javax.sql.DataSource;
+
+import org.apache.lucene.analysis.core.KeywordAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.TextField;
@@ -21,6 +23,7 @@ import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.RegexpQuery;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
@@ -352,7 +355,7 @@ public class FuncionesAuxiliares {
 			
 			// 2. Creamos la consulta
 			QueryParser qp1 = new QueryParser("nombre", analyzer);
-			Query q1 = qp1.parse(nombre+"*");
+			Query q1 = qp1.parse(nombre+".*");
 			QueryParser qp2 = new QueryParser("nombre", analyzer);
 			Query q2 = qp2.parse(nombreUsuario);
 			BooleanQuery.Builder q = new BooleanQuery.Builder();
@@ -409,7 +412,7 @@ public class FuncionesAuxiliares {
 			throws Exception {
 		try {
 			// 1. Abrimos/creamos el índice
-			StandardAnalyzer analyzer = new StandardAnalyzer();
+			KeywordAnalyzer analyzer = new KeywordAnalyzer();
 			Directory index = FSDirectory.open(Paths.get(DIRECTORIO_CANCIONES));
 			IndexWriterConfig config = new IndexWriterConfig(analyzer);
 			IndexWriter w = new IndexWriter(index, config);
@@ -470,15 +473,13 @@ public class FuncionesAuxiliares {
 	public static JSONObject buscarCancionTitulo(String titulo, String uploader) {
 		try {
 			// 1. Abrimos el índice
-			StandardAnalyzer analyzer = new StandardAnalyzer();
+			KeywordAnalyzer analyzer = new KeywordAnalyzer();
 			DirectoryReader directoryReader = DirectoryReader.open(
 					FSDirectory.open(Paths.get(DIRECTORIO_CANCIONES)));
 			IndexSearcher buscador = new IndexSearcher(directoryReader);
-			IndexReader lector;
 			
 			// 2. Creamos la consulta
-			QueryParser qp1 = new QueryParser("titulo", analyzer);
-			Query q1 = qp1.parse(titulo+"*");
+			RegexpQuery q1 = new RegexpQuery(new Term("titulo", titulo+".*"));
 			QueryParser qp2 = new QueryParser("uploader", analyzer);
 			Query q2 = qp2.parse(uploader);
 			QueryParser qp3 = new QueryParser("uploader", analyzer);
@@ -510,15 +511,13 @@ public class FuncionesAuxiliares {
 	public static JSONObject buscarCancionArtista(String artista, String uploader) {
 		try {
 			// 1. Abrimos el índice
-			StandardAnalyzer analyzer = new StandardAnalyzer();
+			KeywordAnalyzer analyzer = new KeywordAnalyzer();
 			DirectoryReader directoryReader = DirectoryReader.open(
 					FSDirectory.open(Paths.get(DIRECTORIO_CANCIONES)));
 			IndexSearcher buscador = new IndexSearcher(directoryReader);
-			IndexReader lector;
 			
 			// 2. Creamos la consulta
-			QueryParser qp1 = new QueryParser("artista", analyzer);
-			Query q1 = qp1.parse(artista+"*");
+			RegexpQuery q1 = new RegexpQuery(new Term("artista", artista+".*"));
 			QueryParser qp2 = new QueryParser("uploader", analyzer);
 			Query q2 = qp2.parse(uploader);
 			QueryParser qp3 = new QueryParser("uploader", analyzer);
@@ -550,15 +549,13 @@ public class FuncionesAuxiliares {
 	public static JSONObject buscarCancionAlbum(String album, String uploader) {
 		try {
 			// 1. Abrimos el índice
-			StandardAnalyzer analyzer = new StandardAnalyzer();
+			KeywordAnalyzer analyzer = new KeywordAnalyzer();
 			DirectoryReader directoryReader = DirectoryReader.open(
 					FSDirectory.open(Paths.get(DIRECTORIO_CANCIONES)));
 			IndexSearcher buscador = new IndexSearcher(directoryReader);
-			IndexReader lector;
 			
 			// 2. Creamos la consulta
-			QueryParser qp1 = new QueryParser("album", analyzer);
-			Query q1 = qp1.parse(album+"*");
+			RegexpQuery q1 = new RegexpQuery(new Term("album", album+".*"));
 			QueryParser qp2 = new QueryParser("uploader", analyzer);
 			Query q2 = qp2.parse(uploader);
 			QueryParser qp3 = new QueryParser("uploader", analyzer);
@@ -581,5 +578,20 @@ public class FuncionesAuxiliares {
 			JSONObject obj = new JSONObject();
 			return obj;
 		}
+	}
+	
+	/*
+	 * Pre:  ---
+	 * Post: Escapa los espacios en blanco del string
+	 */
+	String tratarEspacios(String s) {
+		String aux = new String("");
+		for(int i=0; i<s.length(); i++) {
+			if(s.charAt(i) == ' ') {
+				aux += "\\";
+			}
+			aux += s.charAt(i);
+		}
+		return aux;
 	}
 }
