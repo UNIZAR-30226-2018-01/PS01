@@ -13,41 +13,30 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.QueryParser;
-import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.RegexpQuery;
 import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.Sort;
-import org.apache.lucene.search.SortField;
-import org.apache.lucene.search.SortField.Type;
-import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.util.Version;
 import org.apache.lucene.document.Field;
-import org.apache.lucene.document.StringField;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.nio.file.Paths;
 import java.sql.Connection;
 import modelo.excepcion.SesionInexistente;
 import modelo.clasesVO.cancionVO;
-import modelo.excepcion.LoginInexistente;
-import org.apache.lucene.search.TopFieldCollector;
 
 public class FuncionesAuxiliares {
 	private FuncionesAuxiliares() {}
@@ -347,6 +336,9 @@ public class FuncionesAuxiliares {
 	@SuppressWarnings("unchecked")
 	public static JSONObject buscarUsuarios(String nombre, String nombreUsuario) {
 		try {
+			// 0. Tratamos la variable a buscar
+			String insensible = sensibilidadMayusculas(nombre);
+			
 			// 1. Abrimos el índice
 			StandardAnalyzer analyzer = new StandardAnalyzer();
 			DirectoryReader directoryReader = DirectoryReader.open(
@@ -354,8 +346,7 @@ public class FuncionesAuxiliares {
 			IndexSearcher buscador = new IndexSearcher(directoryReader);
 			
 			// 2. Creamos la consulta
-			QueryParser qp1 = new QueryParser("nombre", analyzer);
-			Query q1 = qp1.parse(nombre+".*");
+			RegexpQuery q1 = new RegexpQuery(new Term("nombre", insensible+".*"));
 			QueryParser qp2 = new QueryParser("nombre", analyzer);
 			Query q2 = qp2.parse(nombreUsuario);
 			BooleanQuery.Builder q = new BooleanQuery.Builder();
@@ -472,6 +463,9 @@ public class FuncionesAuxiliares {
 	 */
 	public static JSONObject buscarCancionTitulo(String titulo, String uploader) {
 		try {
+			// 0. Tratamos la variable a buscar
+			titulo = sensibilidadMayusculas(titulo);
+			
 			// 1. Abrimos el índice
 			KeywordAnalyzer analyzer = new KeywordAnalyzer();
 			DirectoryReader directoryReader = DirectoryReader.open(
@@ -510,6 +504,9 @@ public class FuncionesAuxiliares {
 	 */
 	public static JSONObject buscarCancionArtista(String artista, String uploader) {
 		try {
+			// 0. Tratamos la variable a buscar
+			artista = sensibilidadMayusculas(artista);
+			
 			// 1. Abrimos el índice
 			KeywordAnalyzer analyzer = new KeywordAnalyzer();
 			DirectoryReader directoryReader = DirectoryReader.open(
@@ -548,6 +545,9 @@ public class FuncionesAuxiliares {
 	 */
 	public static JSONObject buscarCancionAlbum(String album, String uploader) {
 		try {
+			// 0. Tratamos la variable a buscar
+			album = sensibilidadMayusculas(album);
+			
 			// 1. Abrimos el índice
 			KeywordAnalyzer analyzer = new KeywordAnalyzer();
 			DirectoryReader directoryReader = DirectoryReader.open(
@@ -582,16 +582,33 @@ public class FuncionesAuxiliares {
 	
 	/*
 	 * Pre:  ---
-	 * Post: Escapa los espacios en blanco del string
+	 * Post: Dado 'sensible', devuelve una expresión regular que no es sensible
+	 * 		 a mayúsculas ni minúsculas
 	 */
-	String tratarEspacios(String s) {
-		String aux = new String("");
-		for(int i=0; i<s.length(); i++) {
-			if(s.charAt(i) == ' ') {
-				aux += "\\";
+	public static String sensibilidadMayusculas(String sensible) {
+		String noSensible = new String("");
+		
+		// Generamos un String ER
+		for(int i=0; i<sensible.length(); i++) {
+			char letra = sensible.charAt(i);
+			
+			// Caso de que sea mayúscula
+			if(Character.isUpperCase(letra)) {
+				noSensible += String.valueOf('[') + String.valueOf(letra) +
+						String.valueOf(Character.toLowerCase(letra)) +
+						String.valueOf(']');
 			}
-			aux += s.charAt(i);
+			// Caso de que sea minúscula
+			else if(Character.isLowerCase(letra)) {
+				noSensible += String.valueOf('[') + String.valueOf(letra) +
+						String.valueOf(Character.toUpperCase(letra)) +
+						String.valueOf(']');
+			}
+			// Caso de que no sea mayúscula ni minúscula
+			else {
+				noSensible += String.valueOf(letra);
+			}
 		}
-		return aux;
+		return noSensible;
 	}
 }
